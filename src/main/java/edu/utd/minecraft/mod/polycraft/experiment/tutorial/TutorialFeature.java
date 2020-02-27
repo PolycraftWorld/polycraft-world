@@ -1,12 +1,18 @@
 package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
@@ -52,6 +58,7 @@ public class TutorialFeature implements ITutorialFeature{
 	
 
 	protected NBTTagCompound nbt = new NBTTagCompound();
+	protected JsonObject jobj = new JsonObject();
 	
 	public enum TutorialFeatureType{
 		START(TutorialFeatureStart.class.getName()),
@@ -361,6 +368,48 @@ public class TutorialFeature implements ITutorialFeature{
 		this.canProceed = nbtFeat.getBoolean("canProceed");
 		this.isDone = nbtFeat.getBoolean("isDone");
 		this.completionTime = nbtFeat.getLong("completionTime");
+	}
+	
+	public JsonObject saveJson()
+	{
+		jobj = new JsonObject();	//erase current jobj so we don't get duplicates?
+
+		jobj.add("pos", blockPosToJsonArray(pos));
+		jobj.addProperty("name", this.name);
+		jobj.addProperty("color", this.color.getRGB());
+		jobj.addProperty("type", featureType.name());
+		jobj.addProperty("canProceed", canProceed);
+		jobj.addProperty("isDone", isDone);
+		jobj.addProperty("completionTime", completionTime);
+		return jobj;
+	}
+	
+	public void loadJson(JsonObject featJson)
+	{
+		this.pos = blockPosFromJsonArray(featJson.get("pos").getAsJsonArray());
+		this.name = featJson.get("name").getAsString();
+		this.color = new Color(featJson.get("color").getAsInt());
+		this.featureType = TutorialFeatureType.valueOf(featJson.get("type").getAsString());
+		this.canProceed = featJson.get("canProceed").getAsBoolean();
+		this.isDone = featJson.get("isDone").getAsBoolean();
+		this.completionTime = featJson.get("completionTime").getAsLong();
+	}
+	
+	public static JsonElement blockPosToJsonArray(BlockPos blockPos) {
+		Gson gson = new Gson();
+		ArrayList<Integer> map = new ArrayList<Integer>();
+		map.add(blockPos.getX());
+		map.add(blockPos.getY());
+		map.add(blockPos.getZ());
+		return gson.toJsonTree(map);
+	}
+	
+	public static BlockPos blockPosFromJsonArray(JsonArray blockPosJson) {
+		if(blockPosJson.size() == 3)	//chekc to make sure we have all the elements
+		{
+			return new BlockPos(blockPosJson.get(0).getAsInt(), blockPosJson.get(1).getAsInt(), blockPosJson.get(2).getAsInt());
+		}else
+			return new BlockPos(0,0,0);	//TODO should probably throw an error here -SG
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
 import java.awt.Color;
 
+import com.google.gson.JsonObject;
+
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonCycle;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
@@ -81,7 +83,7 @@ public class TutorialFeatureGroup extends TutorialFeature{
 	public NBTTagCompound save()
 	{
 		super.save();
-		nbt.setString("groupType", type.toString());
+		nbt.setString("groupType", type.name());
 		return nbt;
 	}
 	
@@ -91,5 +93,21 @@ public class TutorialFeatureGroup extends TutorialFeature{
 		super.load(nbtFeat);
 		GroupType tmp = null;
 		type=tmp.valueOf(nbtFeat.getString("groupType"));
+	}
+	
+
+	@Override
+	public JsonObject saveJson()
+	{
+		super.saveJson();
+		jobj.addProperty("groupType", type.name());
+		return jobj;
+	}
+	
+	@Override
+	public void loadJson(JsonObject featJson)
+	{
+		super.loadJson(featJson);
+		this.type = GroupType.valueOf(featJson.get("groupType").getAsString());
 	}
 }

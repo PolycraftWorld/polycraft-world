@@ -42,6 +42,7 @@ out
 *.iws
 *.iml
 .idea
+/PolycraftAIGym/venv
 
 # gradle
 build

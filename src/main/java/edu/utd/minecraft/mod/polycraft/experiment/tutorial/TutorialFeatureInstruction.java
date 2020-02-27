@@ -8,6 +8,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
+import com.google.gson.JsonObject;
+
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonCycle;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
@@ -1259,7 +1261,7 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 	public NBTTagCompound save()
 	{
 		super.save();
-		nbt.setString("instructionType", type.toString());
+		nbt.setString("instructionType", type.name());	//calling name is preferred over toString - SG
 		nbt.setBoolean("sprintDoorOpen", sprintDoorOpen);
 		nbt.setBoolean("inFail", inFail);
 		nbt.setInteger("failcount", this.failCount);
@@ -1291,5 +1293,33 @@ public class TutorialFeatureInstruction extends TutorialFeature{
 		this.box= new RenderBox(this.getPos().getX(), this.getPos().getZ(), this.getPos2().getX(), this.getPos2().getZ(),
 				Math.min(this.getPos().getY(), this.getPos2().getY()), Math.max(Math.abs(this.getPos().getY()- this.getPos2().getY()), 1), 1, this.getName());
 		box.setColor(this.getColor());
+	}
+	
+
+	@Override
+	public JsonObject saveJson()
+	{
+		super.saveJson();
+		jobj.add("pos1", blockPosToJsonArray(pos1));
+		jobj.add("pos2", blockPosToJsonArray(pos2));
+		jobj.addProperty("instructionType", type.name());
+		jobj.addProperty("sprintDoorOpen", sprintDoorOpen);
+		jobj.addProperty("inFail", inFail);
+		jobj.addProperty("failCount", failCount);
+		jobj.addProperty("setAng", setAng);
+		return jobj;
+	}
+	
+	@Override
+	public void loadJson(JsonObject featJson)
+	{
+		super.loadJson(featJson);
+		this.pos1 = blockPosFromJsonArray(featJson.get("pos1").getAsJsonArray());
+		this.pos2 = blockPosFromJsonArray(featJson.get("pos2").getAsJsonArray());
+		this.type = InstructionType.valueOf(featJson.get("instructionType").getAsString());
+		this.sprintDoorOpen = featJson.get("sprintDoorOpen").getAsBoolean();
+		this.inFail = featJson.get("inFail").getAsBoolean();
+		this.failCount = featJson.get("failCount").getAsInt();
+		this.setAng = featJson.get("setAng").getAsBoolean();
 	}
 }

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.google.gson.JsonObject;
+
 import edu.utd.minecraft.mod.polycraft.aitools.BotAPI;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonCycle;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
@@ -219,6 +221,25 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 			this.genType = GenType.valueOf(nbtFeat.getString("gentype"));
 		else
 			this.genType = GenType.TREES;	//trees is default because that's the only thing we had before adding this field
+	}
+	
+	@Override
+	public JsonObject saveJson()
+	{
+		super.saveJson();
+		jobj.add("pos2", blockPosToJsonArray(pos2));
+		jobj.addProperty("count", count);
+		jobj.addProperty("genType", genType.name());
+		return jobj;
+	}
+	
+	@Override
+	public void loadJson(JsonObject featJson)
+	{
+		super.loadJson(featJson);
+		this.pos2 = blockPosFromJsonArray(featJson.get("pos2").getAsJsonArray());
+		this.count = featJson.get("count").getAsInt();
+		this.genType = GenType.valueOf(featJson.get("genType").getAsString());
 	}
 	
 }

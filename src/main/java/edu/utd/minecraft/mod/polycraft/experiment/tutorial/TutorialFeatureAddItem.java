@@ -2,6 +2,8 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
 import java.awt.Color;
 
+import com.google.gson.JsonObject;
+
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyItemNameField;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
@@ -115,5 +117,22 @@ public class TutorialFeatureAddItem extends TutorialFeature{
 		super.load(nbtFeat);
 		itemName=nbtFeat.getString("itemName");
 		stackSize = nbtFeat.getInteger("stackSize");
+	}
+	
+	@Override
+	public JsonObject saveJson()
+	{
+		super.saveJson();
+		jobj.addProperty("itemName", itemName);
+		jobj.addProperty("stackSize", stackSize);
+		return jobj;
+	}
+	
+	@Override
+	public void loadJson(JsonObject featJson)
+	{
+		super.loadJson(featJson);
+		this.itemName = featJson.get("itemName").getAsString();
+		this.stackSize = featJson.get("stackSize").getAsInt();
 	}
 }

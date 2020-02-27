@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -15,6 +16,13 @@ import java.util.Iterator;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
@@ -141,93 +149,19 @@ public class ItemDevTool extends ItemCustom  {
 			switch(currentState) {
 				case Save:
 					if(world.isRemote) {
-						save();
+						//save();
+						if(outputFileName.endsWith(".psm"))
+							save();
+						else
+							saveJson();
 						player.addChatComponentMessage(new ChatComponentText("Saved"));
 					}
 					break;
 				case Load:
-					boolean oldVersion = true;
-					try {
-			        	features.clear();
-			        	
-			        	File file = new File(this.outputFileDir + this.outputFileName);
-			        	InputStream is = new FileInputStream(file);
-
-			            NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(is);
-			            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("features");
-						for(int i =0;i<nbtFeatList.tagCount();i++) {
-							NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
-							TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className).newInstance();
-							System.out.println(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className);
-							test.load(nbtFeat);
-							features.add(test);
-						}
-						oldVersion = nbtFeats.getCompoundTag("AreaData").getString("version").isEmpty();
-						if(!oldVersion) {
-				        	int chunkXMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkXSize");
-				        	int chunkZMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkZSize");
-				        	
-				        	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
-				        		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
-				            		Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(world, nbtFeats.getCompoundTag("AreaData").getCompoundTag("chunk," + chunkX + "," + chunkZ));
-				            		world.getChunkFromChunkCoords(chunkX, chunkZ).setStorageArrays(chunk.getBlockStorageArray());
-				            		world.getChunkFromChunkCoords(chunkX, chunkZ).setHeightMap(chunk.getHeightMap());
-				            		world.getChunkFromChunkCoords(chunkX, chunkZ).setChunkModified();
-				        		}
-				        	}
-						}else {
-							blocks = nbtFeats.getCompoundTag("AreaData").getIntArray("Blocks");
-				        	data = nbtFeats.getCompoundTag("AreaData").getByteArray("Data");
-						}
-			        	
-						tutOptions.load(nbtFeats.getCompoundTag("options"));
-			            is.close();
-
-			        } catch (Exception e) {
-			        	e.printStackTrace();
-			            System.out.println("I can't load schematic, because " + e.getStackTrace()[0]);
-			        }
-			        if(world.isRemote)
-						updateRenderBoxes();
-			        else if(oldVersion){
-			        	int count = 0;
-			        	BlockPos pos = new BlockPos(Math.min(tutOptions.pos.getX(), tutOptions.pos2.getX()),
-	        					Math.min(tutOptions.pos.getY(), tutOptions.pos2.getY()),
-	        					Math.min(tutOptions.pos.getZ(), tutOptions.pos2.getZ()));
-			        	BlockPos size = new BlockPos(Math.abs(tutOptions.pos.getX() - tutOptions.pos2.getX()),
-		    					Math.abs(tutOptions.pos.getY() - tutOptions.pos2.getY()),
-		    					Math.abs(tutOptions.pos.getZ() - tutOptions.pos2.getZ()));
-			    		for(int x = 0; x < size.getX(); x++){
-			    			for(int y = 0; y<=size.getY(); y++){
-			    				for(int z = 0; z<=size.getZ(); z++){
-		//	    					if(count>=blocks.length) { //in case the array isn't perfectly square (i.e. rectangular area was selected)
-		//	    						return false;
-		//	    					}
-			    					int curblock = (int)blocks[count];
-		
-			    					if(curblock == 0 || curblock == 76) {
-			    						if(!world.isAirBlock(new BlockPos(x + pos.getX(), y + pos.getY() ,z + pos.getZ())))
-			    							world.setBlockToAir(new BlockPos(x + pos.getX(), y + pos.getY() ,z + pos.getZ()));
-			    						count++;
-			    						continue;
-			    					}
-			    					else if(curblock == 759) {
-			    						count++;
-			    						continue; //these are Gas Lamps - we don't care for these.
-		//	    					}else if(curblock == 849) { //Polycrafting Tables (experiments!)
-		//	    						world.setBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord, Block.getBlockById(curblock), data[count], 2);
-		//	    						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord);
-		//	    						ItemStack item = new ItemStack(Block.getBlockById((int)blocks[count]));
-		//	    						pbi.onBlockPlacedBy(world, x + (int)pos.xCoord, y + (int)pos.yCoord, z + (int)pos.zCoord, dummy, new ItemStack(Block.getBlockById((int)blocks[count])));
-		//	    						count++;
-			    					}else {
-			    						world.setBlockState(new BlockPos(x + pos.getX(), y + pos.getY() ,z + pos.getZ()), Block.getBlockById(curblock).getStateFromMeta(data[count]), 3);
-			    						count++;
-			    					}
-			    				}
-			    			}
-			    		}
-			        }
+					if(outputFileName.endsWith(".psm"))
+						load(world);
+					else
+						loadJson(world);
 					break;
 				case AreaSelection:
 					player.addChatMessage(new ChatComponentText("pos2 selected: " + player.getPosition().getX() + "::" + player.getPosition().getY() + "::" + player.getPosition().getZ()));
@@ -438,6 +372,7 @@ public class ItemDevTool extends ItemCustom  {
 		nbtFeatures.setTag("options", tutOptions.save());
 		nbtFeatures.setTag("AreaData", saveArea());
 		FileOutputStream fout = null;
+		
 		try {
 			File dir = new File(this.outputFileDir);
 			if(!dir.exists())
@@ -461,8 +396,108 @@ public class ItemDevTool extends ItemCustom  {
 		}
 	}
 	
-	@SideOnly(Side.CLIENT)
-	private void load() {
+	private void saveJson() {
+		JsonObject experimentJson = new JsonObject();
+		JsonArray featureListJson = new JsonArray();
+		if (tutOptions.pos == null)
+			tutOptions.pos = new BlockPos(0, 0, 0);
+		if (tutOptions.pos2 == null)
+			tutOptions.pos2 = new BlockPos(0, 0, 0);
+		for(int i =0;i<features.size();i++) {
+			featureListJson.add(features.get(i).saveJson());
+		}
+		experimentJson.add("features", featureListJson);
+		experimentJson.add("options", tutOptions.saveJson());
+		FileOutputStream fout = null, foutArea = null;
+		
+		try {
+			File dir = new File(this.outputFileDir);
+			if(!dir.exists())
+				dir.mkdir();
+			File file = new File(this.outputFileDir + this.outputFileName);
+			File fileArea = new File(this.outputFileDir + this.outputFileName + 2);
+			fout = new FileOutputStream(file);
+			foutArea = new FileOutputStream(fileArea);
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			if (!fileArea.exists()) {
+				fileArea.createNewFile();
+			}
+			
+			//format the Json to be readable
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			JsonParser jp = new JsonParser();
+			JsonElement je = jp.parse(experimentJson.toString());
+			String prettyJsonString = gson.toJson(je);
+			//write pretty print json to file
+			fout.write(prettyJsonString.getBytes());
+			fout.flush();
+			fout.close();
+			
+			//output area data to separate file
+			CompressedStreamTools.writeCompressed(saveArea(), foutArea);
+			foutArea.flush();
+			foutArea.close();
+			
+		}catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}catch (IOException e) {
+				e.printStackTrace();
+		}catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	private void loadJson(World world) {
+		boolean oldVersion = true;
+		try {
+        	features.clear();
+
+        	JsonParser parser = new JsonParser();
+            JsonObject expJson = (JsonObject) parser.parse(new FileReader(this.outputFileDir + this.outputFileName));
+            JsonArray featListJson = expJson.get("features").getAsJsonArray();
+			for(int i =0;i<featListJson.size();i++) {
+				JsonObject featJobj=featListJson.get(i).getAsJsonObject();
+				TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(featJobj.get("type").getAsString()).className).newInstance();
+				System.out.println(TutorialFeatureType.valueOf(featJobj.get("type").getAsString()).className);
+				test.loadJson(featJobj);
+				features.add(test);
+			}
+
+			tutOptions.loadJson(expJson.get("options").getAsJsonObject());
+			
+			//load area data from additional file
+			File file = new File(this.outputFileDir + this.outputFileName + 2);
+        	InputStream is = new FileInputStream(file);
+
+            NBTTagCompound nbtArea = CompressedStreamTools.readCompressed(is);
+        	int chunkXMax = nbtArea.getInteger("ChunkXSize");
+        	int chunkZMax = nbtArea.getInteger("ChunkZSize");
+        	
+        	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
+        		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
+            		Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(world, nbtArea.getCompoundTag("chunk," + chunkX + "," + chunkZ));
+            		world.getChunkFromChunkCoords(chunkX, chunkZ).setStorageArrays(chunk.getBlockStorageArray());
+            		world.getChunkFromChunkCoords(chunkX, chunkZ).setHeightMap(chunk.getHeightMap());
+            		world.getChunkFromChunkCoords(chunkX, chunkZ).setChunkModified();
+        		}
+        	}
+			
+        	
+            is.close();
+
+        } catch (Exception e) {
+        	e.printStackTrace();
+            System.out.println("I can't load schematic, because " + e.getStackTrace()[0]);
+        }
+        if(world.isRemote)
+			updateRenderBoxes();
+	}
+	
+	private void load(World world) {
+		boolean oldVersion = true;
 		try {
         	features.clear();
         	
@@ -478,19 +513,22 @@ public class ItemDevTool extends ItemCustom  {
 				test.load(nbtFeat);
 				features.add(test);
 			}
-			
-			if(!nbtFeats.getCompoundTag("AreaData").getString("version").isEmpty()) {
-				int chunkXMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkXSize");
+			oldVersion = nbtFeats.getCompoundTag("AreaData").getString("version").isEmpty();
+			if(!oldVersion) {
+	        	int chunkXMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkXSize");
 	        	int chunkZMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkZSize");
 	        	
 	        	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
 	        		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
-	            		Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(Minecraft.getMinecraft().theWorld, nbtFeats.getCompoundTag("AreaData").getCompoundTag("chunk," + chunkX + "," + chunkZ));
-	            		Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(chunkX, chunkZ).setStorageArrays(chunk.getBlockStorageArray());
-	            		Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(chunkX, chunkZ).setHeightMap(chunk.getHeightMap());
-	            		Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(chunkX, chunkZ).setChunkModified();
-	            	}
+	            		Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(world, nbtFeats.getCompoundTag("AreaData").getCompoundTag("chunk," + chunkX + "," + chunkZ));
+	            		world.getChunkFromChunkCoords(chunkX, chunkZ).setStorageArrays(chunk.getBlockStorageArray());
+	            		world.getChunkFromChunkCoords(chunkX, chunkZ).setHeightMap(chunk.getHeightMap());
+	            		world.getChunkFromChunkCoords(chunkX, chunkZ).setChunkModified();
+	        		}
 	        	}
+			}else {
+				blocks = nbtFeats.getCompoundTag("AreaData").getIntArray("Blocks");
+	        	data = nbtFeats.getCompoundTag("AreaData").getByteArray("Data");
 			}
         	
 			tutOptions.load(nbtFeats.getCompoundTag("options"));
@@ -499,6 +537,47 @@ public class ItemDevTool extends ItemCustom  {
         } catch (Exception e) {
         	e.printStackTrace();
             System.out.println("I can't load schematic, because " + e.getStackTrace()[0]);
+        }
+        if(world.isRemote)
+			updateRenderBoxes();
+        else if(oldVersion){
+        	int count = 0;
+        	BlockPos pos = new BlockPos(Math.min(tutOptions.pos.getX(), tutOptions.pos2.getX()),
+					Math.min(tutOptions.pos.getY(), tutOptions.pos2.getY()),
+					Math.min(tutOptions.pos.getZ(), tutOptions.pos2.getZ()));
+        	BlockPos size = new BlockPos(Math.abs(tutOptions.pos.getX() - tutOptions.pos2.getX()),
+					Math.abs(tutOptions.pos.getY() - tutOptions.pos2.getY()),
+					Math.abs(tutOptions.pos.getZ() - tutOptions.pos2.getZ()));
+    		for(int x = 0; x < size.getX(); x++){
+    			for(int y = 0; y<=size.getY(); y++){
+    				for(int z = 0; z<=size.getZ(); z++){
+//	    					if(count>=blocks.length) { //in case the array isn't perfectly square (i.e. rectangular area was selected)
+//	    						return false;
+//	    					}
+    					int curblock = (int)blocks[count];
+
+    					if(curblock == 0 || curblock == 76) {
+    						if(!world.isAirBlock(new BlockPos(x + pos.getX(), y + pos.getY() ,z + pos.getZ())))
+    							world.setBlockToAir(new BlockPos(x + pos.getX(), y + pos.getY() ,z + pos.getZ()));
+    						count++;
+    						continue;
+    					}
+    					else if(curblock == 759) {
+    						count++;
+    						continue; //these are Gas Lamps - we don't care for these.
+//	    					}else if(curblock == 849) { //Polycrafting Tables (experiments!)
+//	    						world.setBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord, Block.getBlockById(curblock), data[count], 2);
+//	    						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord);
+//	    						ItemStack item = new ItemStack(Block.getBlockById((int)blocks[count]));
+//	    						pbi.onBlockPlacedBy(world, x + (int)pos.xCoord, y + (int)pos.yCoord, z + (int)pos.zCoord, dummy, new ItemStack(Block.getBlockById((int)blocks[count])));
+//	    						count++;
+    					}else {
+    						world.setBlockState(new BlockPos(x + pos.getX(), y + pos.getY() ,z + pos.getZ()), Block.getBlockById(curblock).getStateFromMeta(data[count]), 3);
+    						count++;
+    					}
+    				}
+    			}
+    		}
         }
 	}
 	

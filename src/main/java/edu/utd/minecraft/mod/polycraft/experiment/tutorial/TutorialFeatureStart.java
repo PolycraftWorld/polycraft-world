@@ -3,6 +3,8 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import com.google.gson.JsonObject;
+
 import edu.utd.minecraft.mod.polycraft.aitools.BotAPI;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonCycle;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
@@ -231,6 +233,31 @@ public class TutorialFeatureStart extends TutorialFeature{
 		this.spawnedInServer = nbtFeat.getBoolean("spawnedInServer");
 		this.spawnedInClient = nbtFeat.getBoolean("spawnedInClient");
 		this.spawnRand = nbtFeat.getBoolean("spawnRand");
+	}
+	
+	@Override
+	public JsonObject saveJson()
+	{
+		super.saveJson();
+		jobj.add("pos2", blockPosToJsonArray(pos2));
+		jobj.add("lookDir", blockPosToJsonArray(lookDir));
+		jobj.addProperty("dim", dim);
+		jobj.addProperty("spawnedInServer", spawnedInServer);
+		jobj.addProperty("spawnedInClient", spawnedInClient);
+		jobj.addProperty("spawnRand", spawnRand);
+		return jobj;
+	}
+	
+	@Override
+	public void loadJson(JsonObject featJson)
+	{
+		super.loadJson(featJson);
+		this.pos2 = blockPosFromJsonArray(featJson.get("pos2").getAsJsonArray());
+		this.lookDir = blockPosFromJsonArray(featJson.get("lookDir").getAsJsonArray());
+		this.dim = featJson.get("dim").getAsInt();
+		this.spawnedInServer = featJson.get("spawnedInServer").getAsBoolean();
+		this.spawnedInClient = featJson.get("spawnedInClient").getAsBoolean();
+		this.spawnRand = featJson.get("spawnRand").getAsBoolean();
 	}
 	
 }

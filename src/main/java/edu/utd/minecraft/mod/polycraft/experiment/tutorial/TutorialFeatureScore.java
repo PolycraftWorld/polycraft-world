@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonObject;
+
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpCreator;
@@ -146,5 +148,20 @@ public class TutorialFeatureScore extends TutorialFeature{
 	{
 		super.load(nbtFeat);
 		this.score=nbtFeat.getInteger("score");
+	}
+	
+	@Override
+	public JsonObject saveJson()
+	{
+		super.saveJson();
+		jobj.addProperty("score", score);
+		return jobj;
+	}
+	
+	@Override
+	public void loadJson(JsonObject featJson)
+	{
+		super.loadJson(featJson);
+		this.score = featJson.get("score").getAsInt();
 	}
 }

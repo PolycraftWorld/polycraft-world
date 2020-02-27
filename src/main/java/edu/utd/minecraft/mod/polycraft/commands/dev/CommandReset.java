@@ -2,6 +2,7 @@ package edu.utd.minecraft.mod.polycraft.commands.dev;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -12,8 +13,10 @@ import java.util.Random;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import edu.utd.minecraft.mod.polycraft.aitools.BotAPI;
 import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentManager;
@@ -249,18 +252,23 @@ public class CommandReset extends CommandBase{
 	}
 	
 	public void registerNewExperiment(EntityPlayer player, boolean genInDim8, String path) {
-		NBTTagCompound nbtData = load(path);
+		NBTTagCompound areaNBT;
+		if(path.endsWith("psm"))
+			areaNBT = load(path);
+		else
+			areaNBT = loadJson(path);
+			
 		tutOptions.name = "AI Experiment";
 		tutOptions.numTeams = 1;
 		tutOptions.teamSize = 1;
 		
 		int id = TutorialManager.INSTANCE.addExperiment(tutOptions, features, genInDim8);
-		int chunkXMax = nbtData.getCompoundTag("AreaData").getInteger("ChunkXSize");
-    	int chunkZMax = nbtData.getCompoundTag("AreaData").getInteger("ChunkZSize");
+		int chunkXMax = areaNBT.getInteger("ChunkXSize");
+    	int chunkZMax = areaNBT.getInteger("ChunkZSize");
     	ArrayList<net.minecraft.world.chunk.Chunk> chunks = new ArrayList<net.minecraft.world.chunk.Chunk>();
     	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
     		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
-        		net.minecraft.world.chunk.Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(DimensionManager.getWorld(8), nbtData.getCompoundTag("AreaData").getCompoundTag("chunk," + chunkX + "," + chunkZ),
+        		net.minecraft.world.chunk.Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(DimensionManager.getWorld(8), areaNBT.getCompoundTag("chunk," + chunkX + "," + chunkZ),
         				((int)TutorialManager.INSTANCE.getExperiment(id).pos.xCoord >> 4 ),
         				(int)TutorialManager.INSTANCE.getExperiment(id).pos.zCoord >> 4);
 				chunks.add(chunk);
@@ -293,7 +301,39 @@ public class CommandReset extends CommandBase{
 			
 			tutOptions.load(nbtFeats.getCompoundTag("options"));
             is.close();
-            return nbtFeats;
+            return nbtFeats.getCompoundTag("AreaData");
+
+        } catch (Exception e) {
+            System.out.println("I can't load schematic, because " + e.getStackTrace()[0]);
+        }
+		return null;
+	}
+	
+	private NBTTagCompound loadJson(String path) {
+		try {
+			features.clear();
+
+        	JsonParser parser = new JsonParser();
+            JsonObject expJson = (JsonObject) parser.parse(new FileReader(path));
+            JsonArray featListJson = expJson.get("features").getAsJsonArray();
+			for(int i =0;i<featListJson.size();i++) {
+				JsonObject featJobj=featListJson.get(i).getAsJsonObject();
+				TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(featJobj.get("type").getAsString()).className).newInstance();
+				//System.out.println(TutorialFeatureType.valueOf(featJobj.get("type").getAsString()).className);
+				test.loadJson(featJobj);
+				features.add(test);
+			}
+
+			tutOptions.loadJson(expJson.get("options").getAsJsonObject());
+        	
+        	File file = new File(path + 2);
+        	InputStream is = new FileInputStream(file);
+
+            NBTTagCompound areaNBT = CompressedStreamTools.readCompressed(is);
+            
+			
+            is.close();
+            return areaNBT;
 
         } catch (Exception e) {
             System.out.println("I can't load schematic, because " + e.getStackTrace()[0]);

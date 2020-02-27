@@ -3,6 +3,8 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 import java.awt.Color;
 import java.nio.charset.StandardCharsets;
 
+import com.google.gson.JsonObject;
+
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyButtonCycle;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
@@ -190,6 +192,32 @@ public class TutorialOptions{
 		this.seed = nbtFeat.getLong("seed");
 		this.hideGui = nbtFeat.getBoolean("hideGUI");
 		this.outputScreen = nbtFeat.getBoolean("outputScreen");
+	}
+
+	public JsonObject saveJson()
+	{
+		JsonObject jobj = new JsonObject();
+		jobj.add("pos", TutorialFeature.blockPosToJsonArray(pos));
+		jobj.add("pos2", TutorialFeature.blockPosToJsonArray(pos2));
+		jobj.addProperty("name", name);
+		jobj.addProperty("numTeams", numTeams);
+		jobj.addProperty("teamSize", teamSize);
+		jobj.addProperty("seed", seed);
+		jobj.addProperty("hideGui", hideGui);
+		jobj.addProperty("outputScreen", outputScreen);
+		return jobj;
+	}
+	
+	public void loadJson(JsonObject optJson)
+	{
+		this.pos = TutorialFeature.blockPosFromJsonArray(optJson.get("pos").getAsJsonArray());
+		this.pos2 = TutorialFeature.blockPosFromJsonArray(optJson.get("pos2").getAsJsonArray());
+		this.name = optJson.get("name").getAsString();
+		this.numTeams = optJson.get("numTeams").getAsInt();
+		this.teamSize = optJson.get("teamSize").getAsInt();
+		this.seed = optJson.get("seed").getAsLong();
+		this.hideGui = optJson.get("hideGui").getAsBoolean();
+		this.outputScreen = optJson.get("outputScreen").getAsBoolean();
 	}
 	
     public void fromBytes(ByteBuf buf)
