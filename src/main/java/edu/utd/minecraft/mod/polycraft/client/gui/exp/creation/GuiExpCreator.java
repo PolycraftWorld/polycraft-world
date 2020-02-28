@@ -244,7 +244,7 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
 		if(!this.nameField.getText().equals(devTool.outputFileName)) {
 			devTool.outputFileName = this.nameField.getText();
 		}
-		devTool.tutOptions.updateValues();
+		devTool.expDef.tutOptions.updateValues();
     	this.mc.displayGuiScreen((GuiScreen)null);
         this.mc.setIngameFocus();
 		
@@ -550,7 +550,7 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
     		case DEV_MAIN:
     			this.textFields.clear();
     			this.labels.clear();
-    			devTool.tutOptions.buildGuiParameters(this, x_pos, y_pos);
+    			devTool.expDef.tutOptions.buildGuiParameters(this, x_pos, y_pos);
     			btnBack.displayString = "Close";
     			btnNext.displayString = "Steps";
     			this.buttonList.add(btnToolState);

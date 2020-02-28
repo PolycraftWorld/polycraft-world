@@ -59,7 +59,7 @@ public class ItemDevTool extends ItemCustom  {
 	
 	int[] lastBlock = new int[3]; //used to store last clicked block so we can schedule a block update if it breaks on the client side
 	boolean updateLastBlock = false;
-	ExperimentDefinition expDef = new ExperimentDefinition();
+	public ExperimentDefinition expDef = new ExperimentDefinition();
 	TutorialFeature selectedFeature;
 	int blocks[];
 	byte data[];

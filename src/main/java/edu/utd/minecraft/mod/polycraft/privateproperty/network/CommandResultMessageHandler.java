@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class CommandResultMessageHandler implements IMessageHandler<CommandResultMessage, IMessage>{
 
 	@Override
-    public CollectMessage onMessage(final CommandResultMessage message, final MessageContext ctx)
+    public CommandResultMessage onMessage(final CommandResultMessage message, final MessageContext ctx)
     {
 		final EntityPlayer player = PolycraftMod.proxy.getPlayer();
         IThreadListener mainThread = Minecraft.getMinecraft();
