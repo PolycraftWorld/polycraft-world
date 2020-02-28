@@ -447,6 +447,7 @@ public class BotAPI {
 	
 	public static void setResult(APICommandResult result) {
 		commandResult.set(result);
+		serverResult = null;
 		printResult();
 		waitOnResult = false;
 	}
@@ -1555,7 +1556,7 @@ public class BotAPI {
 		                        try {
 		                        	IThreadListener mainThread;
 		                        	
-		                        	if(fromClient.contains("START")) {
+		                        	if(fromClient.startsWith("START")) {
 		                        		mainThread = Minecraft.getMinecraft();
 			                            mainThread.addScheduledTask(new Runnable()
 			                            {
@@ -1576,7 +1577,7 @@ public class BotAPI {
 		                        		while(!stepEnd.get()) {
 			                        		//do nothing until the step is complete
 			                        	}
-		                        		if(fromClient.contains("RESET")) {
+		                        		if(fromClient.startsWith("RESET")) {
 		                        			
 		                        			JsonObject jobj = new JsonObject();
 		                        			jobj.add("recipes", PolycraftMod.recipeManagerRuntime.getRecipesJsonByContainerType(PolycraftContainerType.POLYCRAFTING_TABLE));
