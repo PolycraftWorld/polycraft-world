@@ -2,8 +2,12 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import edu.utd.minecraft.mod.polycraft.aitools.BotAPI;
@@ -14,6 +18,7 @@ import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpCreator;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockOldLeaf;
 import net.minecraft.block.BlockOldLog;
@@ -27,6 +32,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
@@ -41,17 +47,20 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 	
 	//working parameters
 	private int count = 30;
+	private Map<BlockPos, String> blockListByPos;
 	
 	//Gui Parameters
 	@SideOnly(Side.CLIENT)
 	protected GuiPolyNumField pitchField, yawField, xPos2Field, yPos2Field, zPos2Field, countField;
 	@SideOnly(Side.CLIENT)
 	protected GuiPolyButtonCycle<GenType> cycleGenType;
-	
+	@SideOnly(Side.CLIENT)
+	protected GuiTextField dataField;
 	
 	public enum GenType{
 		TREES,
 		STUMPS,
+		BLOCK_LIST,
 		HILLS
 	}
 	
@@ -65,6 +74,7 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 		this.spawnRand = false;
 		this.featureType = TutorialFeatureType.WORLDGEN;
 		this.genType = gentype;
+		blockListByPos = new HashMap<BlockPos, String>();	// initialize blockList to prevent errors 
 	}
 	
 	@Override
@@ -112,6 +122,12 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 				}
 			}
 			break;
+		case BLOCK_LIST:
+			for(BlockPos blockPos: blockListByPos.keySet()){
+				if(exp.world.isAirBlock(blockPos.add(exp.pos.xCoord, exp.pos.yCoord, exp.pos.zCoord))) {	//If the position is clear, set to block
+						exp.world.setBlockState(blockPos.add(exp.pos.xCoord, exp.pos.yCoord, exp.pos.zCoord), Block.getBlockFromName(blockListByPos.get(blockPos)).getDefaultState(), 2);
+				}
+			}
 		default:
 			break;
 		}
@@ -184,6 +200,19 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
         countField.setFocused(false);
         guiDevTool.textFields.add(countField);
         
+        y_pos += 15;
+		
+		guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
+        		"Data: "));
+        dataField = new GuiTextField(420, fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .6), 10);
+        dataField.setMaxStringLength(9999); //don't really want a max length here
+        dataField.setText("");
+        dataField.setTextColor(16777215);
+        dataField.setVisible(true);
+        dataField.setCanLoseFocus(true);
+        dataField.setFocused(false);
+        guiDevTool.textFields.add(dataField);
+        
 	}
 	
 	@Override
@@ -193,7 +222,24 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 				,Integer.parseInt(zPos2Field.getText()));
 		this.count = Integer.parseInt(countField.getText());
 		this.genType = cycleGenType.getCurrentOption();
+		if(!dataField.getText().isEmpty()) {
+			String[] blockAndPosArray = dataField.getText().split(";");
+			for(String blockAndPos: blockAndPosArray) {
+				String[] blockAndPosSplit = blockAndPos.split(",");
+				if(blockAndPosSplit.length == 4) {
+					blockListByPos.put(new BlockPos(Integer.parseInt(blockAndPosSplit[1]), 
+							Integer.parseInt(blockAndPosSplit[2]), 
+							Integer.parseInt(blockAndPosSplit[3])), blockAndPosSplit[0]);
+				}else {
+					System.out.println("Invalid Data input for World Builder Element");
+				}
+			}
+		}
 		super.updateValues();
+	}
+	
+	public Map<BlockPos, String> getBlockList(){
+		return blockListByPos;
 	}
 	
 	@Override
@@ -204,6 +250,17 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 		nbt.setIntArray("pos2",pos2);
 		nbt.setInteger("count", count);
 		nbt.setString("gentype", genType.name());
+		if(blockListByPos.size() > 0) {
+			NBTTagList nbtList = new NBTTagList();
+			for(BlockPos blockPos: blockListByPos.keySet()) {
+				NBTTagCompound blockEntry = new NBTTagCompound();
+				int posArray[] = {blockPos.getX(), blockPos.getY(), blockPos.getZ()};
+				blockEntry.setIntArray("blockPos",posArray);
+				blockEntry.setString("blockName", blockListByPos.get(blockPos));
+				nbtList.appendTag(blockEntry);
+			}
+			nbt.setTag("blockList", nbtList);
+		}
 		return nbt;
 	}
 	
@@ -221,6 +278,15 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 			this.genType = GenType.valueOf(nbtFeat.getString("gentype"));
 		else
 			this.genType = GenType.TREES;	//trees is default because that's the only thing we had before adding this field
+		NBTTagList blockList = (NBTTagList) nbtFeat.getTag("blockList");
+		blockListByPos = new HashMap<BlockPos, String>();
+		if(blockList != null) {
+			for(int i = 0; i < blockList.tagCount(); i++) {
+				NBTTagCompound blockEntry = blockList.getCompoundTagAt(i);
+				int posArray[]=blockEntry.getIntArray("blockPos");
+				blockListByPos.put(new BlockPos(posArray[0], posArray[1], posArray[2]), blockEntry.getString("blockName"));
+			}
+		}
 	}
 	
 	@Override
@@ -230,6 +296,16 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 		jobj.add("pos2", blockPosToJsonArray(pos2));
 		jobj.addProperty("count", count);
 		jobj.addProperty("genType", genType.name());
+		if(blockListByPos.size() > 0) {
+			JsonArray jarray = new JsonArray();
+			for(BlockPos blockPos: blockListByPos.keySet()) {
+				JsonObject blockEntry = new JsonObject();
+				blockEntry.add("blockPos", blockPosToJsonArray(blockPos));
+				blockEntry.addProperty("blockName", blockListByPos.get(blockPos));
+				jarray.add(blockEntry);
+			}
+			jobj.add("blockList", jarray);
+		}
 		return jobj;
 	}
 	
@@ -240,6 +316,16 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 		this.pos2 = blockPosFromJsonArray(featJson.get("pos2").getAsJsonArray());
 		this.count = featJson.get("count").getAsInt();
 		this.genType = GenType.valueOf(featJson.get("genType").getAsString());
+		blockListByPos = new HashMap<BlockPos, String>();	// initialize blockList to prevent errors 
+		JsonElement blockList = featJson.get("blockList");
+		if(blockList != null)
+			for(JsonElement blockEntry: blockList.getAsJsonArray()) {
+				JsonObject blockObj = blockEntry.getAsJsonObject();
+				if(blockObj.has("blockName") && blockObj.has("blockPos"))
+					blockListByPos.put(blockPosFromJsonArray(blockObj.get("blockPos").getAsJsonArray()), blockObj.get("blockName").getAsString());
+				else
+					System.out.println("Block entry missing expected elements. Skipping block entry");
+			}
 	}
 	
 }

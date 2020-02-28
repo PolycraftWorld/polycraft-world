@@ -50,8 +50,10 @@ import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftCraftingContainer;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentDefinition;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.novelty.NoveltyParser;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationScreen;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
@@ -215,6 +217,7 @@ public class BotAPI {
     	SENSE_INVENTORY,
     	SENSE_SCREEN,
     	SENSE_RECIPE,
+    	GEN_NOVELTY,
     	RESET,	// used to reset the task. Parameters: String params.  Ex usage: "RESET domain pogo" (this will start up the pogostick task)
     	START,	// used to setup a single player flat world and join that world.  This command should be run first to initialize the client
     	TREES,	// Dev command. Add trees to pogo stick task.  
@@ -1230,6 +1233,16 @@ public class BotAPI {
 		Minecraft.getMinecraft().setIngameFocus();
 	}
 	
+	public static void GenNovelty(String args[]) {
+		if(args.length == 3) {
+			NoveltyParser parser = new NoveltyParser();
+			ExperimentDefinition expDef = new ExperimentDefinition();
+			expDef.loadJson(Minecraft.getMinecraft().theWorld, args[2]);
+			expDef = parser.transform(expDef, args[1]);
+			expDef.saveJson(args[2], "novel");
+		}
+	}
+
 	public static void toggleAPIThread() {
 		if(apiRunning.get()) {
 			apiRunning.set(false);
@@ -1460,6 +1473,10 @@ public class BotAPI {
 	            	break;
 	            case PLACE_TREE_TAP:
 	            	BotAPI.placeTreeTap(args);
+	            	break;
+	            case GEN_NOVELTY:
+	            	BotAPI.GenNovelty(args);
+	            	break;
 	            case RESET:
 	            	BotAPI.reset(args);
 	            	break;
@@ -1522,6 +1539,7 @@ public class BotAPI {
 	                        PrintWriter out = new PrintWriter(client.getOutputStream(),true);
 	                        while(!client.isClosed()) {
 	                        	String  fromClient = in.readLine();
+	                        	System.out.println(fromClient);
 	                        	try {
 		                        	if(fromClient.startsWith("{")) {
 		                        		JsonParser parser = new JsonParser();
@@ -1529,7 +1547,6 @@ public class BotAPI {
 		                        		fromClient = new String(json.get("command").getAsString() + " " + json.get("argument").getAsString());
 		                        	}
 	                        	}catch(Exception e) {
-	                        		fromClient = in.readLine();
 	                        		System.out.println("Error trying to parse JSON API call: " + fromClient);
 	                        		e.printStackTrace();
 	                        	}
@@ -1566,6 +1583,7 @@ public class BotAPI {
 		                        			toClient = jobj.toString();
 		                        			out.println(toClient);
 		                        	        client.getOutputStream().flush();
+		                        	        in.close();
 		                        		}else {
 		                        			// print command result instead of observations
 		                        			//toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations().toString();

@@ -26,6 +26,7 @@ import com.google.gson.JsonParser;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.config.CustomObject;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentDefinition;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.RenderBox;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
@@ -58,8 +59,7 @@ public class ItemDevTool extends ItemCustom  {
 	
 	int[] lastBlock = new int[3]; //used to store last clicked block so we can schedule a block update if it breaks on the client side
 	boolean updateLastBlock = false;
-	ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
-	public TutorialOptions tutOptions = new TutorialOptions();
+	ExperimentDefinition expDef = new ExperimentDefinition();
 	TutorialFeature selectedFeature;
 	int blocks[];
 	byte data[];
@@ -151,21 +151,23 @@ public class ItemDevTool extends ItemCustom  {
 					if(world.isRemote) {
 						//save();
 						if(outputFileName.endsWith(".psm"))
-							save();
+							expDef.save(this.outputFileDir, this.outputFileName);
 						else
-							saveJson();
+							expDef.saveJson(this.outputFileDir, this.outputFileName);
 						player.addChatComponentMessage(new ChatComponentText("Saved"));
 					}
 					break;
 				case Load:
 					if(outputFileName.endsWith(".psm"))
-						load(world);
+						expDef.load(world, this.outputFileDir, this.outputFileName);
 					else
-						loadJson(world);
+						expDef.loadJson(world, this.outputFileDir + this.outputFileName);
+			        if(world.isRemote)
+						updateRenderBoxes();
 					break;
 				case AreaSelection:
 					player.addChatMessage(new ChatComponentText("pos2 selected: " + player.getPosition().getX() + "::" + player.getPosition().getY() + "::" + player.getPosition().getZ()));
-					tutOptions.pos2 = player.getPosition();
+					expDef.getOptions().pos2 = player.getPosition();
 					if(player.worldObj.isRemote)
 						updateRenderBoxes();
 					break;
@@ -197,22 +199,22 @@ public class ItemDevTool extends ItemCustom  {
 			switch(currentState) {
 				case AreaSelection:
 					player.addChatMessage(new ChatComponentText("pos2 selected: " + pos.getX() + "::" + pos.getY() + "::" + pos.getZ()));
-					tutOptions.pos2 = pos;
+					expDef.getOptions().pos2 = pos;
 					if(player.worldObj.isRemote)
 						updateRenderBoxes();
 					break;
 				case FeatureTool:
 					if(Keyboard.isKeyDown(56)) {	//if holding alt, remove feature at location
-						for(int i =0;i<features.size();i++) {
+						for(int i =0;i<expDef.getFeatures().size();i++) {
 							
-							if(features.get(i).getPos().distanceSq(new Vec3i(blockPos.xCoord, blockPos.yCoord, blockPos.zCoord)) < 0.05) {
-								features.remove(i);
+							if(expDef.getFeatures().get(i).getPos().distanceSq(new Vec3i(blockPos.xCoord, blockPos.yCoord, blockPos.zCoord)) < 0.05) {
+								expDef.getFeatures().remove(i);
 								player.addChatMessage(new ChatComponentText("removed feature at: " + pos.getX() + "::" + pos.getY() + "::" + pos.getZ()));
 								updateRenderBoxes();
 							}
 						}
 					}else{
-						features.add(new TutorialFeature("Feature " + features.size(), pos, Color.green));
+						expDef.getFeatures().add(new TutorialFeature("Feature " + expDef.getFeatures().size(), pos, Color.green));
 						
 						player.addChatMessage(new ChatComponentText("Added feature at: " + blockPos.xCoord + "::" + blockPos.yCoord + "::" + blockPos.zCoord));
 						updateRenderBoxes();
@@ -238,7 +240,7 @@ public class ItemDevTool extends ItemCustom  {
 			case AreaSelection:
 				player.addChatMessage(new ChatComponentText("pos1 selected: " + blockPos.getX() + "::" + blockPos.getY() + "::" + blockPos.getZ()));
 				updateLastBlock = true;
-				tutOptions.pos = blockPos;
+				expDef.getOptions().pos = blockPos;
 				lastBlock[0] = blockPos.getX();
 				lastBlock[1] = blockPos.getY();
 				lastBlock[2] = blockPos.getZ();
@@ -255,19 +257,19 @@ public class ItemDevTool extends ItemCustom  {
 	}
 	
 	public ArrayList<TutorialFeature> getFeatures(){
-		return features;
+		return expDef.getFeatures();
 	}
 	
 	public void addFeature(TutorialFeature feature){
-		features.add(feature);
+		expDef.getFeatures().add(feature);
 	}
 	
 	public void swapFeatures(int i, int j){
-		Collections.swap(features, i, j);
+		Collections.swap(expDef.getFeatures(), i, j);
 	}
 	
 	public void removeFeatures(int i){
-		features.remove(i);
+		expDef.getFeatures().remove(i);
 		updateRenderBoxes();
 	}
 	
@@ -275,9 +277,9 @@ public class ItemDevTool extends ItemCustom  {
 		try {
 			renderboxes.clear();
 			
-			if(!features.isEmpty()) {
+			if(!expDef.getFeatures().isEmpty()) {
 				int counter = 0;
-				for(TutorialFeature v: features) {
+				for(TutorialFeature v: expDef.getFeatures()) {
 					counter++;
 					RenderBox box = new RenderBox(v.getPos().getX(), v.getPos().getZ(), v.getPos2().getX(), v.getPos2().getZ(),
 							Math.min(v.getPos().getY(), v.getPos2().getY()), Math.max(Math.abs(v.getPos().getY()- v.getPos2().getY()), 1), 1, v.getName());
@@ -285,8 +287,8 @@ public class ItemDevTool extends ItemCustom  {
 					renderboxes.add(box);
 				}
 			}
-			if(tutOptions.pos.getY() != 0 || tutOptions.pos2.getY() != 0) {
-				renderboxes.add(new RenderBox(new Vec3(tutOptions.pos), new Vec3(tutOptions.pos2), 1));
+			if(expDef.getOptions().pos.getY() != 0 || expDef.getOptions().pos2.getY() != 0) {
+				renderboxes.add(new RenderBox(new Vec3(expDef.getOptions().pos), new Vec3(expDef.getOptions().pos2), 1));
 			}
 		}catch(ConcurrentModificationException e) {
 			
@@ -352,291 +354,6 @@ public class ItemDevTool extends ItemCustom  {
 		 				,(int) (blockPos.zCoord + (hitPos.zCoord==0.0?-1:hitPos.zCoord==1.0?1:0)));
 		
 		return blockPos;
-	}
-	
-	private void save() {
-		NBTTagCompound nbtFeatures = new NBTTagCompound();
-		NBTTagList nbtList = new NBTTagList();
-		if (tutOptions.pos == null)
-			tutOptions.pos = new BlockPos(0, 0, 0);
-		if (tutOptions.pos2 == null)
-			tutOptions.pos2 = new BlockPos(0, 0, 0);
-		for(int i =0;i<features.size();i++) {
-//				NBTTagCompound nbt = new NBTTagCompound();
-//				int pos[] = {(int)features.get(i).getPos().xCoord, (int)features.get(i).getPos().yCoord, (int)features.get(i).getPos().zCoord};
-//				nbt.setIntArray("Pos",pos);
-//				nbt.setString("name", features.get(i).getName());
-			nbtList.appendTag(features.get(i).save());
-		}
-		nbtFeatures.setTag("features", nbtList);
-		nbtFeatures.setTag("options", tutOptions.save());
-		nbtFeatures.setTag("AreaData", saveArea());
-		FileOutputStream fout = null;
-		
-		try {
-			File dir = new File(this.outputFileDir);
-			if(!dir.exists())
-				dir.mkdir();
-			File file = new File(this.outputFileDir + this.outputFileName);
-			fout = new FileOutputStream(file);
-			
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-			CompressedStreamTools.writeCompressed(nbtFeatures, fout);
-			fout.flush();
-			fout.close();
-			
-		}catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}catch (IOException e) {
-				e.printStackTrace();
-		}catch (NullPointerException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private void saveJson() {
-		JsonObject experimentJson = new JsonObject();
-		JsonArray featureListJson = new JsonArray();
-		if (tutOptions.pos == null)
-			tutOptions.pos = new BlockPos(0, 0, 0);
-		if (tutOptions.pos2 == null)
-			tutOptions.pos2 = new BlockPos(0, 0, 0);
-		for(int i =0;i<features.size();i++) {
-			featureListJson.add(features.get(i).saveJson());
-		}
-		experimentJson.add("features", featureListJson);
-		experimentJson.add("options", tutOptions.saveJson());
-		FileOutputStream fout = null, foutArea = null;
-		
-		try {
-			File dir = new File(this.outputFileDir);
-			if(!dir.exists())
-				dir.mkdir();
-			File file = new File(this.outputFileDir + this.outputFileName);
-			File fileArea = new File(this.outputFileDir + this.outputFileName + 2);
-			fout = new FileOutputStream(file);
-			foutArea = new FileOutputStream(fileArea);
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-			if (!fileArea.exists()) {
-				fileArea.createNewFile();
-			}
-			
-			//format the Json to be readable
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			JsonParser jp = new JsonParser();
-			JsonElement je = jp.parse(experimentJson.toString());
-			String prettyJsonString = gson.toJson(je);
-			//write pretty print json to file
-			fout.write(prettyJsonString.getBytes());
-			fout.flush();
-			fout.close();
-			
-			//output area data to separate file
-			CompressedStreamTools.writeCompressed(saveArea(), foutArea);
-			foutArea.flush();
-			foutArea.close();
-			
-		}catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}catch (IOException e) {
-				e.printStackTrace();
-		}catch (NullPointerException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	private void loadJson(World world) {
-		boolean oldVersion = true;
-		try {
-        	features.clear();
-
-        	JsonParser parser = new JsonParser();
-            JsonObject expJson = (JsonObject) parser.parse(new FileReader(this.outputFileDir + this.outputFileName));
-            JsonArray featListJson = expJson.get("features").getAsJsonArray();
-			for(int i =0;i<featListJson.size();i++) {
-				JsonObject featJobj=featListJson.get(i).getAsJsonObject();
-				TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(featJobj.get("type").getAsString()).className).newInstance();
-				System.out.println(TutorialFeatureType.valueOf(featJobj.get("type").getAsString()).className);
-				test.loadJson(featJobj);
-				features.add(test);
-			}
-
-			tutOptions.loadJson(expJson.get("options").getAsJsonObject());
-			
-			//load area data from additional file
-			File file = new File(this.outputFileDir + this.outputFileName + 2);
-        	InputStream is = new FileInputStream(file);
-
-            NBTTagCompound nbtArea = CompressedStreamTools.readCompressed(is);
-        	int chunkXMax = nbtArea.getInteger("ChunkXSize");
-        	int chunkZMax = nbtArea.getInteger("ChunkZSize");
-        	
-        	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
-        		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
-            		Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(world, nbtArea.getCompoundTag("chunk," + chunkX + "," + chunkZ));
-            		world.getChunkFromChunkCoords(chunkX, chunkZ).setStorageArrays(chunk.getBlockStorageArray());
-            		world.getChunkFromChunkCoords(chunkX, chunkZ).setHeightMap(chunk.getHeightMap());
-            		world.getChunkFromChunkCoords(chunkX, chunkZ).setChunkModified();
-        		}
-        	}
-			
-        	
-            is.close();
-
-        } catch (Exception e) {
-        	e.printStackTrace();
-            System.out.println("I can't load schematic, because " + e.getStackTrace()[0]);
-        }
-        if(world.isRemote)
-			updateRenderBoxes();
-	}
-	
-	private void load(World world) {
-		boolean oldVersion = true;
-		try {
-        	features.clear();
-        	
-        	File file = new File(this.outputFileDir + this.outputFileName);
-        	InputStream is = new FileInputStream(file);
-
-            NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(is);
-            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("features");
-			for(int i =0;i<nbtFeatList.tagCount();i++) {
-				NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
-				TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className).newInstance();
-				System.out.println(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className);
-				test.load(nbtFeat);
-				features.add(test);
-			}
-			oldVersion = nbtFeats.getCompoundTag("AreaData").getString("version").isEmpty();
-			if(!oldVersion) {
-	        	int chunkXMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkXSize");
-	        	int chunkZMax = nbtFeats.getCompoundTag("AreaData").getInteger("ChunkZSize");
-	        	
-	        	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
-	        		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
-	            		Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(world, nbtFeats.getCompoundTag("AreaData").getCompoundTag("chunk," + chunkX + "," + chunkZ));
-	            		world.getChunkFromChunkCoords(chunkX, chunkZ).setStorageArrays(chunk.getBlockStorageArray());
-	            		world.getChunkFromChunkCoords(chunkX, chunkZ).setHeightMap(chunk.getHeightMap());
-	            		world.getChunkFromChunkCoords(chunkX, chunkZ).setChunkModified();
-	        		}
-	        	}
-			}else {
-				blocks = nbtFeats.getCompoundTag("AreaData").getIntArray("Blocks");
-	        	data = nbtFeats.getCompoundTag("AreaData").getByteArray("Data");
-			}
-        	
-			tutOptions.load(nbtFeats.getCompoundTag("options"));
-            is.close();
-
-        } catch (Exception e) {
-        	e.printStackTrace();
-            System.out.println("I can't load schematic, because " + e.getStackTrace()[0]);
-        }
-        if(world.isRemote)
-			updateRenderBoxes();
-        else if(oldVersion){
-        	int count = 0;
-        	BlockPos pos = new BlockPos(Math.min(tutOptions.pos.getX(), tutOptions.pos2.getX()),
-					Math.min(tutOptions.pos.getY(), tutOptions.pos2.getY()),
-					Math.min(tutOptions.pos.getZ(), tutOptions.pos2.getZ()));
-        	BlockPos size = new BlockPos(Math.abs(tutOptions.pos.getX() - tutOptions.pos2.getX()),
-					Math.abs(tutOptions.pos.getY() - tutOptions.pos2.getY()),
-					Math.abs(tutOptions.pos.getZ() - tutOptions.pos2.getZ()));
-    		for(int x = 0; x < size.getX(); x++){
-    			for(int y = 0; y<=size.getY(); y++){
-    				for(int z = 0; z<=size.getZ(); z++){
-//	    					if(count>=blocks.length) { //in case the array isn't perfectly square (i.e. rectangular area was selected)
-//	    						return false;
-//	    					}
-    					int curblock = (int)blocks[count];
-
-    					if(curblock == 0 || curblock == 76) {
-    						if(!world.isAirBlock(new BlockPos(x + pos.getX(), y + pos.getY() ,z + pos.getZ())))
-    							world.setBlockToAir(new BlockPos(x + pos.getX(), y + pos.getY() ,z + pos.getZ()));
-    						count++;
-    						continue;
-    					}
-    					else if(curblock == 759) {
-    						count++;
-    						continue; //these are Gas Lamps - we don't care for these.
-//	    					}else if(curblock == 849) { //Polycrafting Tables (experiments!)
-//	    						world.setBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord, Block.getBlockById(curblock), data[count], 2);
-//	    						PolycraftInventoryBlock pbi = (PolycraftInventoryBlock) world.getBlock(x + (int)pos.xCoord, y + (int)pos.yCoord , z + (int)pos.zCoord);
-//	    						ItemStack item = new ItemStack(Block.getBlockById((int)blocks[count]));
-//	    						pbi.onBlockPlacedBy(world, x + (int)pos.xCoord, y + (int)pos.yCoord, z + (int)pos.zCoord, dummy, new ItemStack(Block.getBlockById((int)blocks[count])));
-//	    						count++;
-    					}else {
-    						world.setBlockState(new BlockPos(x + pos.getX(), y + pos.getY() ,z + pos.getZ()), Block.getBlockById(curblock).getStateFromMeta(data[count]), 3);
-    						count++;
-    					}
-    				}
-    			}
-    		}
-        }
-	}
-	
-//	@SideOnly(Side.SERVER)
-//	private void load() {
-//		return;
-//	}
-	
-	@SideOnly(Side.CLIENT)
-	private NBTTagCompound saveArea() {
-		if(tutOptions.pos.getY() != 0 || tutOptions.pos2.getY() != 0)
-		{
-			int minX = Math.min(tutOptions.pos.getX(), tutOptions.pos2.getX());
-			int maxX = Math.max(tutOptions.pos.getX(), tutOptions.pos2.getX());
-			int minY = Math.min(tutOptions.pos.getY(), tutOptions.pos2.getY());
-			int maxY = Math.max(tutOptions.pos.getY(), tutOptions.pos2.getY());
-			int minZ = Math.min(tutOptions.pos.getZ(), tutOptions.pos2.getZ());
-			int maxZ = Math.max(tutOptions.pos.getZ(), tutOptions.pos2.getZ());
-			int[] intArray;
-			short height;
-			short length;
-			short width;
-			
-			length=(short)(maxX-minX+1);
-			height=(short)(maxY-minY+1);
-			width=(short)(maxZ-minZ+1);
-			int[] blocks = new int[length*height*width];
-			byte[] data = new byte[length*height*width];
-			int count=0;
-			NBTTagCompound nbt = new NBTTagCompound();
-			NBTTagList tiles = new NBTTagList();
-
-			int chunkXMin = minX >> 4;
-			int chunkZMin = minZ >> 4;
-            int chunkXMax = maxX >> 4;
-			int chunkZMax = maxZ >> 4;	
-			nbt.setString("version", "1.01");
-			nbt.setInteger("ChunkXSize", chunkXMax - chunkXMin);
-			nbt.setInteger("ChunkZSize", chunkZMax - chunkZMin);
-			TileEntity tile;
-			
-			for(int chunkX = chunkXMin; chunkX <= chunkXMax; chunkX++) {
-				for(int chunkZ = chunkZMin; chunkZ <= chunkZMax; chunkZ++) {
-					NBTTagCompound nbtChunk = new NBTTagCompound();
-					Chunk chunk = Minecraft.getMinecraft().theWorld.getChunkFromChunkCoords(chunkX, chunkZ);
-					PolycraftChunkProvider.writeChunkToNBT(chunk, Minecraft.getMinecraft().theWorld, nbtChunk);
-					nbtChunk.setInteger("xPos", chunkX - chunkXMin);
-					nbtChunk.setInteger("zPos", chunkZ - chunkZMin);
-					nbt.setTag("chunk," + (chunkX - chunkXMin) + "," + (chunkZ - chunkZMin), nbtChunk);
-				}
-			}
-			
-			//nbt.setTag("TileEntity", tiles);
-//			nbt.setIntArray("Blocks", blocks);
-//			nbt.setByteArray("Data", data);
-			return nbt;
-		}else {
-			return null;
-		}
 	}
 	
 //	@SideOnly(Side.SERVER)
