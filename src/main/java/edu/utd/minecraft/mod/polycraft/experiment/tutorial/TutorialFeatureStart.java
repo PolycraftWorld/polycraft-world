@@ -230,7 +230,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 		int featPos2[]=nbtFeat.getIntArray("pos2");
 		this.pos2=new BlockPos(featPos2[0], featPos2[1], featPos2[2]);
 		this.dim = nbtFeat.getInteger("dim");
-		this.spawnedInServer = nbtFeat.getBoolean("spawnedInServer");
+		this.spawnedInServer = spawnedInServer? spawnedInServer : nbtFeat.getBoolean("spawnedInServer");
 		this.spawnedInClient = nbtFeat.getBoolean("spawnedInClient");
 		this.spawnRand = nbtFeat.getBoolean("spawnRand");
 	}
