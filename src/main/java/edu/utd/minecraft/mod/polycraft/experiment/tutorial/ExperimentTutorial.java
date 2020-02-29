@@ -319,15 +319,19 @@ public class ExperimentTutorial{
 				}
 			}
 			for(int x = 0; x < activeFeatures.size(); x++){	//cycle through active features
+				if(activeFeatures.get(x).isDone)
+					continue;	// don't run features that have ended
 				activeFeatures.get(x).onServerTickUpdate(this);
 				if(activeFeatures.get(x).isDirty) {	//check if feature need to be updated on client side
 					System.out.println("[Server] Sending Feature update");
 					activeFeatures.get(x).isDirty = false;
 					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x), false);
 				}
-				if(activeFeatures.get(x).isDone()) {	//if the feature is complete, remove it from active features
-					activeFeatures.remove(activeFeatures.get(x));
-					TutorialManager.INSTANCE.sendTutorialActiveFeatures(this.id);
+				if(activeFeatures.get(x).isDone()) {	//if the feature is complete, update on client end
+					// this should only happen once (when a feature becomes done on the last tickUpdate call) as we are skipping features that are already done
+					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x), false);
+					//activeFeatures.remove(activeFeatures.get(x));
+					//TutorialManager.INSTANCE.sendTutorialActiveFeatures(this.id);
 				}
 			}
 			if(activeFeatures.isEmpty() && featureIndex == features.size())
@@ -413,6 +417,8 @@ public class ExperimentTutorial{
 			TutorialManager.INSTANCE.clientCurrentExperiment = this.id;
 			this.currentState = State.Running;
 			for(int x = 0; x < activeFeatures.size(); x++){	//cycle through active features
+				if(activeFeatures.get(x).isDone)
+					continue;	// don't run features that have ended
 				activeFeatures.get(x).onClientTickUpdate(this);
 				if(activeFeatures.get(x).isDirty) {	//check if feature need to be updated on client side
 					System.out.println("[Server] Sending Feature update");
@@ -490,7 +496,8 @@ public class ExperimentTutorial{
 			return;
 		try {
 			for(TutorialFeature feature: activeFeatures){
-				feature.render(entity);
+				if(!feature.isDone)	// don't render for features that have ended
+					feature.render(entity);
 			}
 		}catch(ConcurrentModificationException e) {
 			//TODO: This needs to be avoided altogether somehow
@@ -502,7 +509,8 @@ public class ExperimentTutorial{
 		if(activeFeatures == null)
 			return;
 		for(TutorialFeature feature: activeFeatures){
-			feature.renderScreen(entity);
+			if(!feature.isDone)	// don't render for features that have ended
+				feature.renderScreen(entity);
 		}
 	}
 	
