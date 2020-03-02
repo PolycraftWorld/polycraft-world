@@ -1526,12 +1526,12 @@ public class BotAPI {
             		}
         			try {
 						server = new ServerSocket(port);
+		                System.out.println("API STARTED");
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
+		                System.out.println("API FAILED TO START");
 						e1.printStackTrace();
+						return;
 					}
-            		//Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("API Started"));
-	                System.out.println("API STARTED");
         			while(BotAPI.apiRunning.get()) {
 	                	try {
 	                		int x = pos.get(0), y = pos.get(1), z = pos.get(2);
