@@ -487,8 +487,9 @@ public class BotAPI {
 	
 	public static void teleport(String args[]) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-		if(args.length == 3) {
-    		player.setLocationAndAngles(Integer.parseInt(args[1]) + 0.5, pos.get(1), Integer.parseInt(args[2]) + 0.5, player.rotationYaw, player.rotationPitch);
+		if(args.length == 6) {	// expected command "TELEPORT [x] [y] [z] [pitch] [yaw]
+			PolycraftMod.SChannel.sendToServer(new TeleportMessage(new BlockPos(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3])), 
+					String.join(" ", args), Float.parseFloat(args[4]), Float.parseFloat(args[5])));
     	}else {
     		setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Syntax"));
     	}
