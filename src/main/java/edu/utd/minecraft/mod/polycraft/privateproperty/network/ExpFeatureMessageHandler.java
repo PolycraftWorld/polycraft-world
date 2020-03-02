@@ -35,7 +35,9 @@ public class ExpFeatureMessageHandler implements IMessageHandler<ExpFeatureMessa
             		case SINGLE:
             			for(ExperimentTutorial exp : TutorialManager.INSTANCE.experiments.values()) {
          					if(exp.isPlayerInExperiment(ctx.getServerHandler().playerEntity.getDisplayNameString())) {
-         						exp.activeFeatures.set(message.featureIndex, message.featureList.get(0));
+         						//Instead of inserting a new feature, lets update the old feature using the save output of the new one
+         						exp.activeFeatures.get(message.featureIndex).load(message.featureList.get(0).save());
+         						//exp.activeFeatures.set(message.featureIndex, message.featureList.get(0));
          						break; 	// Once we find the match, exit the for loop.  
          					}
          				}
@@ -61,9 +63,9 @@ public class ExpFeatureMessageHandler implements IMessageHandler<ExpFeatureMessa
 						}
 						TutorialManager.INSTANCE.experiments.get(message.expID).updateActiveFeatures(message.featureList);
 						break;
-					case All:
+					case All:	// This is for starting a new experiment.  Add all exp features to client side
 						for(ExperimentTutorial exp: TutorialManager.INSTANCE.experiments.values()) {
-							if(exp.id != message.expID)
+							if(exp.id != message.expID)	// first clear any experiments this update packet doesn't relate to
 								exp.activeFeatures.clear();
 						}
 						if(!TutorialManager.INSTANCE.experiments.containsKey(message.expID))
