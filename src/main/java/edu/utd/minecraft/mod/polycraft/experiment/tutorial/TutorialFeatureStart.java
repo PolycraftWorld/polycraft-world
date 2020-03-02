@@ -97,16 +97,12 @@ public class TutorialFeatureStart extends TutorialFeature{
 	 * param y height they should be dropped at.
 	 */
 	private void spawnPlayer(EntityPlayerMP player, ExperimentTutorial exp){
-		if(player.dimension != dim) {
-			player.setPositionAndRotation(((int)this.pos.getX()) + 0.5, ((int)this.pos.getY()) + 0.5, ((int)this.pos.getZ()) + 0.5,
-					(float) this.lookDir.getY(), (float) this.lookDir.getX());
-			player.mcServer.getConfigurationManager().transferPlayerToDimension(player, dim,	
-				new PolycraftTeleporter(player.mcServer.worldServerForDimension(dim), (int) this.pos.getX(), (int) this.pos.getY(), (int) this.pos.getZ(),
-						(float) this.lookDir.getY(), (float) this.lookDir.getX()));
-		}
-		else
-			player.setPositionAndRotation(((int)this.pos.getX()) + 0.5, ((int)this.pos.getY()) + 0.5, ((int)this.pos.getZ()) + 0.5,
-						(float) this.lookDir.getY(), (float) this.lookDir.getX());
+		// must teleport player to dim every time.  If we don't, chunks don't update
+		player.setPositionAndRotation(((int)this.pos.getX()) + 0.5, ((int)this.pos.getY()) + 0.5, ((int)this.pos.getZ()) + 0.5,
+				(float) this.lookDir.getY(), (float) this.lookDir.getX());
+		player.mcServer.getConfigurationManager().transferPlayerToDimension(player, dim,	
+			new PolycraftTeleporter(player.mcServer.worldServerForDimension(dim), (int) this.pos.getX(), (int) this.pos.getY(), (int) this.pos.getZ(),
+					(float) this.lookDir.getY(), (float) this.lookDir.getX()));
 	}
 
 	public BlockPos getLookDir() {
