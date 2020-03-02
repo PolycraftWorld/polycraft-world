@@ -414,14 +414,14 @@ public class ExperimentTutorial{
 					}
 				}
 			}
-			TutorialManager.INSTANCE.clientCurrentExperiment = this.id;
-			this.currentState = State.Running;
+			TutorialManager.INSTANCE.clientCurrentExperiment = this.id;	// should we really be setting this inside the experiment?? -SG
+			this.currentState = State.Running;	// TODO: this should be controlled by the server with some error checking
 			for(int x = 0; x < activeFeatures.size(); x++){	//cycle through active features
 				if(activeFeatures.get(x).isDone)
 					continue;	// don't run features that have ended
 				activeFeatures.get(x).onClientTickUpdate(this);
-				if(activeFeatures.get(x).isDirty) {	//check if feature need to be updated on client side
-					System.out.println("[Server] Sending Feature update");
+				if(activeFeatures.get(x).isDirty) {	//check if client needs to update server side feature
+					System.out.println("[Client to Server] Sending Feature update");
 					activeFeatures.get(x).isDirty = false;
 					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x), true);
 				}

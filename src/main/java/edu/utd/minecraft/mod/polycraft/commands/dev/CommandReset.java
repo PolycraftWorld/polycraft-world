@@ -200,7 +200,7 @@ public class CommandReset extends CommandBase{
 					break;
 				case chatCommandDomain:
 					//player.setPositionAndUpdate(1, 4, 1);
-					if(TutorialManager.INSTANCE.clientCurrentExperiment != -1)
+					if(TutorialManager.INSTANCE.clientCurrentExperiment != -1)	// Why is this here. This is a client only variable
 						ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(player.getDisplayNameString());
 					registerNewExperiment(player, true, args[1]);
 //					buildArea(player);
