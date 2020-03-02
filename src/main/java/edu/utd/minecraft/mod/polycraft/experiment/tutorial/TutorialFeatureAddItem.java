@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import com.google.gson.JsonObject;
 
+import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyItemNameField;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
@@ -53,7 +54,7 @@ public class TutorialFeatureAddItem extends TutorialFeature{
 			for(String playerName : exp.getPlayersInExperiment()) {
 				EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(playerName);
 				player.inventory.addItemStackToInventory(new ItemStack(Item.itemRegistry.getObject(new ResourceLocation(itemName)), stackSize));
-				System.out.println("Attempting to add item to inventory: " + new ItemStack(Item.itemRegistry.getObject(new ResourceLocation(itemName)), stackSize).toString());
+				PolycraftMod.logger.info("Attempting to add item to inventory: " + new ItemStack(Item.itemRegistry.getObject(new ResourceLocation(itemName)), stackSize).toString());
 			}
 		}
 		canProceed = true;
