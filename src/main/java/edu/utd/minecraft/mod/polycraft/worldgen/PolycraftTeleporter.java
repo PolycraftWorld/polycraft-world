@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.LongHashMap;
 import net.minecraft.util.MathHelper;
@@ -28,7 +29,7 @@ public class PolycraftTeleporter extends Teleporter {
 	public PolycraftTeleporter(WorldServer server) {
 		super(server);
 		this.xPos = 2;
-		this.yPos = 90;
+		this.yPos = server.getTopSolidOrLiquidBlock(new BlockPos(2,90,2)).getY();
 		this.zPos = 2;
 		this.rotationYaw = 90;
 		this.rotationPitch = 0;
