@@ -36,7 +36,6 @@ public class ExpFeatureMessage implements IMessage{
 	
 	public enum PacketType{
 		All,
-		ACTIVE,
 		SINGLE
 	}
 
@@ -44,16 +43,20 @@ public class ExpFeatureMessage implements IMessage{
     {
     }
 
+    public ExpFeatureMessage(PacketType type, int expID, ArrayList<TutorialFeature> features)
+    {
+        this.type = type;
+		this.expID = expID;
+		this.featureList = new ArrayList<TutorialFeature>(features);
+    }
+    
     public ExpFeatureMessage(List<Object> params)
     {
         this.type = (PacketType)params.get(0);
 		this.expID = (int)params.get(1);
         switch(type) {
-		case ACTIVE:
-			this.featureList = TutorialManager.getExperiment(expID).getActiveFeatures();
-	        break;
 		case All:
-			this.featureList = TutorialManager.getExperiment(expID).getFeatures();
+			this.featureList = new ArrayList<TutorialFeature>(TutorialManager.getExperiment(expID).getFeatures());
 			break;
 		case SINGLE:
 			this.featureIndex = (int)params.get(2);

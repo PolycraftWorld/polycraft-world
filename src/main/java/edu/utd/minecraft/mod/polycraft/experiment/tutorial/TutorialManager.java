@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -59,9 +60,10 @@ public class TutorialManager {
 
 	public static TutorialManager INSTANCE = new TutorialManager();
 	private static int nextAvailableExperimentID = 1; 	//one indexed
-	public static Hashtable<Integer, ExperimentTutorial> experiments = new Hashtable<Integer, ExperimentTutorial>();
+	// TODO: Change experiment id to UUID 
+	public static ConcurrentHashMap<Integer, ExperimentTutorial> experiments = new ConcurrentHashMap<Integer, ExperimentTutorial>();
 	
-	static ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
+//	static ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();	
 	static TutorialOptions tutOptions = new TutorialOptions();
 	static String outputFileName = "output";
 	static String outputFileExt = ".psm";
@@ -123,14 +125,15 @@ public class TutorialManager {
 	}
 	
 	//@SideOnly(Side.SERVER)
+	@Deprecated
 	public static void sendTutorialFeatures(int id) {
 		//update to new packet system
-		for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
-			List<Object> params = new ArrayList<Object>();
-			params.add(ExpFeatureMessage.PacketType.All);
-			params.add(id);
-			PolycraftMod.SChannel.sendTo(new ExpFeatureMessage(params), (EntityPlayerMP)player);
-		}
+//		for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
+//			List<Object> params = new ArrayList<Object>();
+//			params.add(ExpFeatureMessage.PacketType.All);
+//			params.add(id);
+//			PolycraftMod.SChannel.sendTo(new ExpFeatureMessage(params), (EntityPlayerMP)player);
+//		}
 		//Code for 1.7.10
 //		try {
 //			NBTTagCompound nbtFeatures = new NBTTagCompound();
@@ -158,14 +161,15 @@ public class TutorialManager {
 	}
 	
 	//@SideOnly(Side.SERVER)
+	@Deprecated
 	public static void sendTutorialActiveFeatures(int id) {
 		//update to new packet system
-		for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
-			List<Object> params = new ArrayList<Object>();
-			params.add(ExpFeatureMessage.PacketType.ACTIVE);
-			params.add(id);
-			PolycraftMod.SChannel.sendTo(new ExpFeatureMessage(params), (EntityPlayerMP)player);
-		}
+//		for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
+//			List<Object> params = new ArrayList<Object>();
+//			params.add(ExpFeatureMessage.PacketType.ACTIVE);
+//			params.add(id);
+//			PolycraftMod.SChannel.sendTo(new ExpFeatureMessage(params), (EntityPlayerMP)player);
+//		}
 		//Code for 1.7.10
 //		try {
 //			NBTTagCompound nbtFeatures = new NBTTagCompound();
@@ -192,21 +196,21 @@ public class TutorialManager {
 //		}
 	}
 	
-	
+	@Deprecated
 	public void sendFeatureUpdate(int id, int index, TutorialFeature feature, boolean isClient) {
 		//update to new packet system
-		List<Object> params = new ArrayList<Object>();
-		params.add(ExpFeatureMessage.PacketType.SINGLE);
-		params.add(id);
-		params.add(index);
-		params.add(feature);
-		if(isClient) {
-			PolycraftMod.SChannel.sendToServer(new ExpFeatureMessage(params));
-		}else {
-			for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
-				PolycraftMod.SChannel.sendTo(new ExpFeatureMessage(params), (EntityPlayerMP)player);
-			}
-		}
+//		List<Object> params = new ArrayList<Object>();
+//		params.add(ExpFeatureMessage.PacketType.SINGLE);
+//		params.add(id);
+//		params.add(index);
+//		params.add(feature);
+//		if(isClient) {
+//			PolycraftMod.SChannel.sendToServer(new ExpFeatureMessage(params));
+//		}else {
+//			for(EntityPlayer player: getExperiment(id).scoreboard.getPlayersAsEntity()) {
+//				PolycraftMod.SChannel.sendTo(new ExpFeatureMessage(params), (EntityPlayerMP)player);
+//			}
+//		}
 		
 		//Code for 1.7.10
 //		try {
@@ -242,54 +246,55 @@ public class TutorialManager {
 		//clientCurrentExperiment = -1;
 	}
 	
-	private NBTTagCompound load() {
-		try {
-        	features.clear();
-        	
-        	File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
-        	InputStream is = new FileInputStream(file);
-
-            NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(is);
-            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("features");
-			for(int i =0;i<nbtFeatList.tagCount();i++) {
-				NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
-				TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className).newInstance();
-				test.load(nbtFeat);
-				features.add(test);
-			}
-			
-			tutOptions.load(nbtFeats.getCompoundTag("options"));
-            is.close();
-            return nbtFeats;
-
-        } catch (Exception e) {
-            System.out.println("I can't load schematic, because " + e.getStackTrace()[0]);
-        }
-		return null;
-	}
+//	private NBTTagCompound load() {
+//		try {
+//        	features.clear();
+//        	
+//        	File file = new File(this.outputFileName + this.outputFileExt);//TODO CHANGE THIS FILE LOCATION
+//        	InputStream is = new FileInputStream(file);
+//
+//            NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(is);
+//            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("features");
+//			for(int i =0;i<nbtFeatList.tagCount();i++) {
+//				NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
+//				TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className).newInstance();
+//				test.load(nbtFeat);
+//				features.add(test);
+//			}
+//			
+//			tutOptions.load(nbtFeats.getCompoundTag("options"));
+//            is.close();
+//            return nbtFeats;
+//
+//        } catch (Exception e) {
+//            System.out.println("I can't load schematic, because " + e.getStackTrace()[0]);
+//        }
+//		return null;
+//	}
 	
-	public int createExperiment() {
-		NBTTagCompound nbtData = load();
-		tutOptions.name = "test name";
-		tutOptions.numTeams = 1;
-		tutOptions.teamSize = 1;
-		
-		int id = this.INSTANCE.addExperiment(tutOptions, features, true);
-		int chunkXMax = nbtData.getCompoundTag("AreaData").getInteger("ChunkXSize");
-    	int chunkZMax = nbtData.getCompoundTag("AreaData").getInteger("ChunkZSize");
-    	ArrayList<Chunk> chunks = new ArrayList<Chunk>();
-    	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
-    		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
-        		Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(DimensionManager.getWorld(8), nbtData.getCompoundTag("AreaData").getCompoundTag("chunk," + chunkX + "," + chunkZ),
-        				(int)this.INSTANCE.getExperiment(id).pos.xCoord >> 4,
-        				(int)this.INSTANCE.getExperiment(id).pos.zCoord >> 4);
-				chunks.add(chunk);
-        	}
-    	}
-		this.INSTANCE.getExperiment(id).setAreaData(chunks);
-
-		return id;
-	}
+	
+//	public int createExperiment() {
+//		NBTTagCompound nbtData = load();
+//		tutOptions.name = "test name";
+//		tutOptions.numTeams = 1;
+//		tutOptions.teamSize = 1;
+//		
+//		int id = this.INSTANCE.addExperiment(tutOptions, features, true);
+//		int chunkXMax = nbtData.getCompoundTag("AreaData").getInteger("ChunkXSize");
+//    	int chunkZMax = nbtData.getCompoundTag("AreaData").getInteger("ChunkZSize");
+//    	ArrayList<Chunk> chunks = new ArrayList<Chunk>();
+//    	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
+//    		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
+//        		Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(DimensionManager.getWorld(8), nbtData.getCompoundTag("AreaData").getCompoundTag("chunk," + chunkX + "," + chunkZ),
+//        				(int)this.INSTANCE.getExperiment(id).pos.xCoord >> 4,
+//        				(int)this.INSTANCE.getExperiment(id).pos.zCoord >> 4);
+//				chunks.add(chunk);
+//        	}
+//    	}
+//		this.INSTANCE.getExperiment(id).setAreaData(chunks);
+//
+//		return id;
+//	}
 	
 	public int addExperiment(TutorialOptions options, ArrayList<TutorialFeature> features, boolean genInDim8) {
 		ExperimentTutorial experiment = new ExperimentTutorial(TutorialManager.INSTANCE.getNextID(), options, features, genInDim8);
@@ -340,74 +345,76 @@ public class TutorialManager {
 		return experiments.get(id);
 	}
 	
+	@Deprecated
 	public void updateExperimentFeature(int experimentID, ByteArrayOutputStream featuresStream, boolean isRemote) {
-		try {
-			
-			NBTTagCompound featureNBT = CompressedStreamTools.readCompressed(new ByteArrayInputStream(featuresStream.toByteArray()));
-			
-			int index = featureNBT.getInteger("index");
-			String playerName = featureNBT.getString("player");
-			TutorialFeature test;
-		
-			test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(featureNBT.getString("type")).className).newInstance();
-		
-			test.load(featureNBT);
-			if(isRemote) {	//client side
-				this.INSTANCE.experiments.get(experimentID).activeFeatures.set(index, test);
-			}else {
-				for(ExperimentTutorial exp : this.INSTANCE.experiments.values()) {
-					if(exp.isPlayerInExperiment(playerName))
-						exp.activeFeatures.set(index, test);
-				}
-			}
-		} catch (Exception e) {
-			System.out.println("Cannot load Feature: " + e.getMessage());
-		}
+//		try {
+//			
+//			NBTTagCompound featureNBT = CompressedStreamTools.readCompressed(new ByteArrayInputStream(featuresStream.toByteArray()));
+//			
+//			int index = featureNBT.getInteger("index");
+//			String playerName = featureNBT.getString("player");
+//			TutorialFeature test;
+//		
+//			test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(featureNBT.getString("type")).className).newInstance();
+//		
+//			test.load(featureNBT);
+//			if(isRemote) {	//client side
+//				this.INSTANCE.experiments.get(experimentID).activeFeatures.set(index, test);
+//			}else {
+//				for(ExperimentTutorial exp : this.INSTANCE.experiments.values()) {
+//					if(exp.isPlayerInExperiment(playerName))
+//						exp.activeFeatures.set(index, test);
+//				}
+//			}
+//		} catch (Exception e) {
+//			System.out.println("Cannot load Feature: " + e.getMessage());
+//		}
 	}
 
-
+	@Deprecated
 	@SideOnly(Side.CLIENT)
 	public void updateExperimentFeatures(int experimentID, ByteArrayOutputStream featuresStream) {
-		//This should only be sent once
-		try {
-			NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(new ByteArrayInputStream(featuresStream.toByteArray()));
-            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("features");
-			ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
-			
-			for(int i =0;i<nbtFeatList.tagCount();i++) {
-				NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
-				TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className).newInstance();
-				test.load(nbtFeat);
-				features.add(test);
-			}
-			
-			this.INSTANCE.experiments.put(experimentID, new ExperimentTutorial(experimentID, Minecraft.getMinecraft().theWorld, features));
-			this.INSTANCE.clientCurrentExperiment = experimentID;
-		} catch (Exception e) {
-            System.out.println("I can't load initial Experiment Features, because: " + e.getStackTrace()[0]);
-        }
+//		//This should only be sent once
+//		try {
+//			NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(new ByteArrayInputStream(featuresStream.toByteArray()));
+//            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("features");
+//			ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
+//			
+//			for(int i =0;i<nbtFeatList.tagCount();i++) {
+//				NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
+//				TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className).newInstance();
+//				test.load(nbtFeat);
+//				features.add(test);
+//			}
+//			
+//			this.INSTANCE.experiments.put(experimentID, new ExperimentTutorial(experimentID, Minecraft.getMinecraft().theWorld, features));
+//			this.INSTANCE.clientCurrentExperiment = experimentID;
+//		} catch (Exception e) {
+//            System.out.println("I can't load initial Experiment Features, because: " + e.getStackTrace()[0]);
+//        }
 	}
 	
+	@Deprecated
 	public void updateExperimentActiveFeatures(int experimentID, ByteArrayOutputStream activeFeaturesStream) {
-		//This should be sent whenever active features change
-		try {
-			NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(new ByteArrayInputStream(activeFeaturesStream.toByteArray()));
-            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("activeFeatures");
-			ArrayList<TutorialFeature> activeFeatures = new ArrayList<TutorialFeature>();
-			
-			for(int i =0;i<nbtFeatList.tagCount();i++) {
-				NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
-				TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className).newInstance();
-				test.load(nbtFeat);
-				activeFeatures.add(test);
-			}
-			
-			//TODO: NEED TO VERIFY THAT ALL EXPERIMENT IDs ARE consistant on client side
-			this.INSTANCE.experiments.get(experimentID).updateActiveFeatures(activeFeatures);
-		} catch (Exception e) {
-            System.out.println("Active Features update failed. Requesting new packet because: " + e.getMessage());
-            ClientEnforcer.INSTANCE.sendActiveFeaturesRequest();	//TODO: This shouldn't happen every tick, might overload server
-        }
+//		//This should be sent whenever active features change
+//		try {
+//			NBTTagCompound nbtFeats = CompressedStreamTools.readCompressed(new ByteArrayInputStream(activeFeaturesStream.toByteArray()));
+//            NBTTagList nbtFeatList = (NBTTagList) nbtFeats.getTag("activeFeatures");
+//			ArrayList<TutorialFeature> activeFeatures = new ArrayList<TutorialFeature>();
+//			
+//			for(int i =0;i<nbtFeatList.tagCount();i++) {
+//				NBTTagCompound nbtFeat=nbtFeatList.getCompoundTagAt(i);
+//				TutorialFeature test = (TutorialFeature)Class.forName(TutorialFeatureType.valueOf(nbtFeat.getString("type")).className).newInstance();
+//				test.load(nbtFeat);
+//				activeFeatures.add(test);
+//			}
+//			
+//			//TODO: NEED TO VERIFY THAT ALL EXPERIMENT IDs ARE consistant on client side
+//			this.INSTANCE.experiments.get(experimentID).updateActiveFeatures(activeFeatures);
+//		} catch (Exception e) {
+//            System.out.println("Active Features update failed. Requesting new packet because: " + e.getMessage());
+//            ClientEnforcer.INSTANCE.sendActiveFeaturesRequest();	//TODO: This shouldn't happen every tick, might overload server
+//        }
 	}
 	
 	

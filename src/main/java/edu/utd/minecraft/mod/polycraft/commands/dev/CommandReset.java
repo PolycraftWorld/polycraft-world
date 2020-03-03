@@ -20,6 +20,7 @@ import com.google.gson.JsonParser;
 
 import edu.utd.minecraft.mod.polycraft.aitools.BotAPI;
 import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialOptions;
@@ -202,6 +203,9 @@ public class CommandReset extends CommandBase{
 					//player.setPositionAndUpdate(1, 4, 1);
 					if(TutorialManager.INSTANCE.clientCurrentExperiment != -1)	// Why is this here. This is a client only variable
 						ExperimentManager.INSTANCE.checkAndRemovePlayerFromExperimentLists(player.getDisplayNameString());
+					for(ExperimentTutorial exp: TutorialManager.experiments.values()) {
+						exp.stop();	// stop all running experiments
+					}
 					registerNewExperiment(player, true, args[1]);
 //					buildArea(player);
 //					addTrees(player);
@@ -269,13 +273,13 @@ public class CommandReset extends CommandBase{
     	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
     		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
         		net.minecraft.world.chunk.Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(DimensionManager.getWorld(8), areaNBT.getCompoundTag("chunk," + chunkX + "," + chunkZ),
-        				((int)TutorialManager.INSTANCE.getExperiment(id).pos.xCoord >> 4 ),
-        				(int)TutorialManager.INSTANCE.getExperiment(id).pos.zCoord >> 4);
+        				chunkX,
+        				chunkZ);
 				chunks.add(chunk);
         	}
     	}
     	TutorialManager.INSTANCE.getExperiment(id).setAreaData(chunks);
-    	
+
 		player.addChatMessage(new ChatComponentText("Added New Experiment, ID = " + id));
 		
 		TutorialManager.INSTANCE.addPlayerToExperiment(id, (EntityPlayerMP)player);

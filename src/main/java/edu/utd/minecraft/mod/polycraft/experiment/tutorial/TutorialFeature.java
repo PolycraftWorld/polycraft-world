@@ -3,6 +3,7 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.UUID;
 
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
@@ -34,6 +35,7 @@ import net.minecraft.util.ChatComponentText;
  */
 public class TutorialFeature implements ITutorialFeature{
 	protected String name;
+	protected UUID uuid = UUID.randomUUID();	// generate random uuid in case we don't have one saved
 	protected BlockPos pos;
 	protected Color color;
 	protected TutorialFeatureType featureType;	//used when loading/saving
@@ -141,11 +143,14 @@ public class TutorialFeature implements ITutorialFeature{
 	{
 		completionTime=exp.world.getTotalWorldTime();
 		isDone = true;
+		isDirty = true;
 //		for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
 //			player.addChatMessage(new ChatComponentText("Time: "+exp.world.getTotalWorldTime()));
 //		}
 	}
 	
+	
+	// Why does this function exist?? - SG
 	public void complete(Entity entity)
 	{
 		completionTime=entity.worldObj.getTotalWorldTime();
@@ -259,6 +264,10 @@ public class TutorialFeature implements ITutorialFeature{
 		this.name = name;
 	}
 
+	public UUID getUUID() {
+		return uuid;
+	}
+	
 	public BlockPos getPos() {
 		return pos;
 	}
@@ -355,6 +364,7 @@ public class TutorialFeature implements ITutorialFeature{
 		nbt.setBoolean("canProceed", canProceed);
 		nbt.setBoolean("isDone", isDone);
 		nbt.setLong("completionTime", completionTime);
+		nbt.setString("uuid", uuid.toString());
 		return nbt;
 	}
 	
@@ -368,6 +378,8 @@ public class TutorialFeature implements ITutorialFeature{
 		this.canProceed = nbtFeat.getBoolean("canProceed");
 		this.isDone = nbtFeat.getBoolean("isDone");
 		this.completionTime = nbtFeat.getLong("completionTime");
+		if(!nbtFeat.getString("uuid").isEmpty())
+			this.uuid = UUID.fromString(nbtFeat.getString("uuid"));
 	}
 	
 	public JsonObject saveJson()
@@ -381,6 +393,7 @@ public class TutorialFeature implements ITutorialFeature{
 		jobj.addProperty("canProceed", canProceed);
 		jobj.addProperty("isDone", isDone);
 		jobj.addProperty("completionTime", completionTime);
+		jobj.addProperty("uuid", uuid.toString());
 		return jobj;
 	}
 	
@@ -393,6 +406,8 @@ public class TutorialFeature implements ITutorialFeature{
 		this.canProceed = featJson.get("canProceed").getAsBoolean();
 		this.isDone = featJson.get("isDone").getAsBoolean();
 		this.completionTime = featJson.get("completionTime").getAsLong();
+		if(featJson.get("uuid") != null)
+			this.uuid = uuid.fromString(featJson.get("uuid").getAsString());
 	}
 	
 	public static JsonElement blockPosToJsonArray(BlockPos blockPos) {

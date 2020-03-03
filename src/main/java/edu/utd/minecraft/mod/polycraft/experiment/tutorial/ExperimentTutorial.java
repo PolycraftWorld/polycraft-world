@@ -1,38 +1,23 @@
 package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
-import java.awt.Color;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.ConcurrentModificationException;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-
-import javax.annotation.OverridingMethodsMustInvokeSuper;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.block.BlockMacGuffin;
-import edu.utd.minecraft.mod.polycraft.entity.ai.EntityAICaptureBases;
-import edu.utd.minecraft.mod.polycraft.entity.entityliving.EntityAndroid;
 import edu.utd.minecraft.mod.polycraft.entity.entityliving.ResearchAssistantEntity;
-import edu.utd.minecraft.mod.polycraft.experiment.feature.ExperimentFeature;
-import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
-import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentFlatCTB;
 import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentManager;
-import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentOld;
-import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentParameters;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.IObservation;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationBlockInFront;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationDestinationPos;
@@ -43,47 +28,22 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.Observati
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationPlayerPos;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationScreen;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.rewards.ExperimentReward;
-import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentOld.State;
-import edu.utd.minecraft.mod.polycraft.inventory.InventoryHelper;
-import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;
-import edu.utd.minecraft.mod.polycraft.inventory.fueledlamp.FueledLampInventory;
-import edu.utd.minecraft.mod.polycraft.minigame.BoundingBox;
-import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
-import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
-import edu.utd.minecraft.mod.polycraft.schematic.Schematic;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.ExpFeatureMessage;
 import edu.utd.minecraft.mod.polycraft.scoreboards.CustomScoreboard;
-import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ServerScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.Team;
-import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftChunkProvider;
-import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
-import edu.utd.minecraft.mod.polycraft.worldgen.ResearchAssistantLabGenerator;
-import net.minecraft.block.Block;
+import io.netty.util.internal.ConcurrentSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.settings.GameSettings.Options;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.passive.EntityCow;
-import net.minecraft.entity.passive.EntitySheep;
-import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.*;
-import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -105,7 +65,8 @@ public class ExperimentTutorial{
 	public int dim;
 	public CustomScoreboard scoreboard;
 	private ResearchAssistantEntity dummy;
-	public int genTick = 0;
+	//public int genTick = 0;	No longer used
+	private boolean areaGenDone= false;
 	//TODO: move these values into the ExperimentCTB class and also move their setter functions
 	protected int teamsNeeded = 2;
 	protected int teamSize = 2;
@@ -116,8 +77,7 @@ public class ExperimentTutorial{
 	protected ArrayList<ExperimentReward> rewards = new ArrayList<ExperimentReward>();
 	protected ArrayList<IObservation> observations = new ArrayList<IObservation>();
 	protected float rewardValue = 0;
-	protected ArrayList<TutorialFeature> features= new ArrayList<TutorialFeature>();
-	public ArrayList<TutorialFeature> activeFeatures = new ArrayList<TutorialFeature>();
+	protected ConcurrentLinkedQueue<TutorialFeature> features= new ConcurrentLinkedQueue<TutorialFeature>();
 	
 	public ArrayList<Chunk> chunks = new ArrayList<Chunk>();
 	
@@ -214,12 +174,6 @@ public class ExperimentTutorial{
 	public void setAreaData(List<Chunk> chunks) {
 		this.chunks.clear();
 		this.chunks.addAll(chunks);
-		
-		for(Chunk chunk: chunks) {
-    		world.getChunkFromChunkCoords(chunk.xPosition, chunk.zPosition).setStorageArrays(chunk.getBlockStorageArray());
-    		world.getChunkFromChunkCoords(chunk.xPosition, chunk.zPosition).setHeightMap(chunk.getHeightMap());
-    		world.getChunkFromChunkCoords(chunk.xPosition, chunk.zPosition).setChunkModified();
-    	}
 	}
 	
 	/**
@@ -268,47 +222,15 @@ public class ExperimentTutorial{
 			}
 			break;
 		case Starting:
-			//generateArea();
-			if(dim == 0) {
-				if(genTick % 20 == 0) {
-					for(Team team: scoreboard.getTeams()) {
-						for(String player: team.getPlayers()) {
-							EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
-							playerEntity.addChatMessage(new ChatComponentText("\u00A7aGenerating..."));
-						}
-					}
-				}
-				if(this.generateArea()) {
-					currentState = State.PreInit;
-				}
-				genTick++;
-//				for(Team team: scoreboard.getTeams()) {
-//					for(String player: team.getPlayers()) {
-//						EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
-//						playerEntity.addChatMessage(new ChatComponentText("\u00A7aRunning in Dev mode, not generating"));
-//					}
-//				}
-//				currentState = State.PreInit;
-			}else {
-				if(genTick % 20 == 0) {
-					for(Team team: scoreboard.getTeams()) {
-						for(String player: team.getPlayers()) {
-							EntityPlayer playerEntity = ExperimentManager.INSTANCE.getPlayerEntity(player);
-							playerEntity.addChatMessage(new ChatComponentText("\u00A7aGenerating..."));
-						}
-					}
-				}
-				if(this.generateArea()) {
-					currentState = State.PreInit;
-				}
-				genTick++;
+			if(generateArea()) {	// wait for area generation to complete
+				currentState = State.PreInit;
 			}
 			break;
 		case PreInit:
 			for(TutorialFeature feature: features){
 				feature.preInit(this);
 			}
-			TutorialManager.INSTANCE.sendTutorialFeatures(this.id);
+			sendFeatures();	// send features to clients
 			currentState = State.Running;
 			break;
 		case Running:
@@ -318,34 +240,28 @@ public class ExperimentTutorial{
 					playerEntity.getFoodStats().addStats(20, 5);	//constantly fill hunger so players don't starve
 				}
 			}
-			for(int x = 0; x < activeFeatures.size(); x++){	//cycle through active features
-				if(activeFeatures.get(x).isDone)
+			int count = 0; 	//debug var
+			for(TutorialFeature feature: features) {	//cycle through active features
+				if(feature.isDone)
 					continue;	// don't run features that have ended
-				activeFeatures.get(x).onServerTickUpdate(this);
-				if(activeFeatures.get(x).isDirty) {	//check if feature need to be updated on client side
-					System.out.println("[Server] Sending Feature update");
-					activeFeatures.get(x).isDirty = false;
-					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x), false);
+				feature.onServerTickUpdate(this);
+				//System.out.println(this.id + "::featureTick:" + count++ + "," + feature.getFeatureType().toString() + "::" + feature.pos.toString());
+				if(feature.isDirty) {	//check if feature need to be updated on client side
+					System.out.println("[Server] Sending Feature update: " + feature.getName());
+					feature.isDirty = false;
+					sendFeatureToClient(feature);	// update this feature on the client side
 				}
-				if(activeFeatures.get(x).isDone()) {	//if the feature is complete, update on client end
+				if(feature.isDone()) {	//if the feature is complete, update on client end
 					// this should only happen once (when a feature becomes done on the last tickUpdate call) as we are skipping features that are already done
-					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x), false);
-					//activeFeatures.remove(activeFeatures.get(x));
-					//TutorialManager.INSTANCE.sendTutorialActiveFeatures(this.id);
+					sendFeatureToClient(feature);	// update this feature on the client side
 				}
-			}
-			if(activeFeatures.isEmpty() && featureIndex == features.size())
-				currentState = State.Ending;	//if active features is empty, and we've gone through all features, the experiment is over
-			else if (featureIndex < features.size()) {	//if we've added the last feature, we don't need to run this anymore
-				boolean addNext = true;
-				for(TutorialFeature feature: activeFeatures) {
-					if(!feature.canProceed)
-						addNext = false;
-				}
-				if(addNext) {
-					features.get(featureIndex).init();
-					activeFeatures.add(features.get(featureIndex++));
-					TutorialManager.INSTANCE.sendTutorialActiveFeatures(this.id);
+				// if this feature is blocking, exit the loop
+				if(!feature.canProceed)
+					break;
+				// if we reach the end feature, end the experiment
+				if(feature.getFeatureType() == TutorialFeatureType.END) {
+					currentState = State.Ending;
+					break;
 				}
 			}
 			break;
@@ -365,8 +281,8 @@ public class ExperimentTutorial{
 	
 
 	public void onClientTickUpdate(){
-		//We shouldn't have to check experiment state on client side, Just need to run all active features
-		if(activeFeatures.isEmpty()) {	//active features is empty, so experiment must be over.
+		//We shouldn't have to check experiment state on client side, Just need to run all features loaded on client side
+		if(features.isEmpty()) {	// features is empty, so experiment must be over.
 //			this.currentState = State.Done;
 //			TutorialManager.INSTANCE.clientCurrentExperiment = -1;
 		}else {
@@ -414,17 +330,21 @@ public class ExperimentTutorial{
 					}
 				}
 			}
-			TutorialManager.INSTANCE.clientCurrentExperiment = this.id;	// should we really be setting this inside the experiment?? -SG
-			this.currentState = State.Running;	// TODO: this should be controlled by the server with some error checking
-			for(int x = 0; x < activeFeatures.size(); x++){	//cycle through active features
-				if(activeFeatures.get(x).isDone)
+			//TutorialManager.INSTANCE.clientCurrentExperiment = this.id;	// should we really be setting this inside the experiment?? -SG
+			//this.currentState = State.Running;	// TODO: this should be controlled by the server with some error checking
+			for(TutorialFeature feature: features){	//cycle through active features
+				if(feature.isDone)
 					continue;	// don't run features that have ended
-				activeFeatures.get(x).onClientTickUpdate(this);
-				if(activeFeatures.get(x).isDirty) {	//check if client needs to update server side feature
+				feature.onClientTickUpdate(this);
+				//System.out.println("Client:" + this.id + "::featureTick:" + feature.uuid.toString().substring(0, 5) + "," + feature.getFeatureType().toString() + "::" + feature.pos.toString());
+				if(feature.isDirty) {	//check if client needs to update server side feature
 					System.out.println("[Client to Server] Sending Feature update");
-					activeFeatures.get(x).isDirty = false;
-					TutorialManager.INSTANCE.sendFeatureUpdate(this.id, x, activeFeatures.get(x), true);
+					feature.isDirty = false;
+					sendFeatureToServer(feature);	// update this feature on the server side
 				}
+				//if feature is blocking, exit loop
+				if(!feature.canProceed)
+					break;
 			}
 		}
 	}
@@ -492,34 +412,49 @@ public class ExperimentTutorial{
 	
 	
 	public void render(Entity entity){
-		if(activeFeatures == null)
-			return;
-		try {
-			for(TutorialFeature feature: activeFeatures){
-				if(!feature.isDone)	// don't render for features that have ended
-					feature.render(entity);
-			}
-		}catch(ConcurrentModificationException e) {
-			//TODO: This needs to be avoided altogether somehow
+		for(TutorialFeature feature: features){
+			if(!feature.isDone)	// don't render for features that have ended
+				feature.render(entity);
+			if(!feature.canProceed)
+				return;	// if we have a blocking feature, exit the function
 		}
-		
 	}
 	
 	public void renderScreen(Entity entity){
-		if(activeFeatures == null)
-			return;
-		for(TutorialFeature feature: activeFeatures){
+		for(TutorialFeature feature: features){
 			if(!feature.isDone)	// don't render for features that have ended
 				feature.renderScreen(entity);
+			if(!feature.canProceed)
+				return;	// if we have a blocking feature, exit the function
 		}
 	}
 	
-	public void updateFeatures(ArrayList<TutorialFeature> features) {
-		this.features = features;
+	public void updateFeatures(ConcurrentSet<TutorialFeature> features) {
+		this.features.clear();
+		this.features.addAll(features);
 	}
 	
-	public void updateActiveFeatures(ArrayList<TutorialFeature> activefeatures) {
-		this.activeFeatures = activefeatures;
+	private void sendFeatures() {
+		for(EntityPlayer player: scoreboard.getPlayersAsEntity()) {
+			PolycraftMod.SChannel.sendTo(new ExpFeatureMessage(ExpFeatureMessage.PacketType.All,
+					this.id, new ArrayList<TutorialFeature>(this.features)), (EntityPlayerMP)player);
+		}
+	}
+	
+	private void sendFeatureToServer(TutorialFeature feature) {
+		ArrayList features = new ArrayList<TutorialFeature>();
+		features.add(feature);
+		PolycraftMod.SChannel.sendToServer(new ExpFeatureMessage(ExpFeatureMessage.PacketType.SINGLE,
+				this.id, features));
+	}
+	
+	private void sendFeatureToClient(TutorialFeature feature) {
+		ArrayList features = new ArrayList<TutorialFeature>();
+		features.add(feature);
+		for(EntityPlayer player: scoreboard.getPlayersAsEntity()) {
+			PolycraftMod.SChannel.sendTo(new ExpFeatureMessage(ExpFeatureMessage.PacketType.SINGLE,
+					this.id, features), (EntityPlayerMP)player);
+		}
 	}
 	
 	public boolean isPlayerInExperiment(String playerName){
@@ -555,14 +490,22 @@ public class ExperimentTutorial{
 	 * @return True if its done generating, False if it's still in progress
 	 */
 	protected boolean generateArea() {
-		final int maxBlocksPerTick = 65536 * 2;
+		// Generate world chunks from chunk list
+		for(Chunk chunk: chunks) {
+    		world.getChunkFromChunkCoords(chunk.xPosition, chunk.zPosition).setStorageArrays(chunk.getBlockStorageArray());
+    		world.getChunkFromChunkCoords(chunk.xPosition, chunk.zPosition).setHeightMap(chunk.getHeightMap());
+    		world.getChunkFromChunkCoords(chunk.xPosition, chunk.zPosition).setChunkModified();
+    	}
+		this.areaGenDone = true;
+		
+//		final int maxBlocksPerTick = 65536 * 2;
 				
 		//number of "lengths" to generate per tick (max X blocks), iterating through at least 1 X per tick, in case the height and width are really big.
 		//we don't want the game to lag too much.
-		final int maxXPerTick = (int)(Math.max(Math.floor((float)maxBlocksPerTick/(pos2.yCoord*pos2.zCoord)),1.0));
+//		final int maxXPerTick = (int)(Math.max(Math.floor((float)maxBlocksPerTick/(pos2.yCoord*pos2.zCoord)),1.0));
 		
 		//the position to begin counting in the blocks[] array.
-		int count=(genTick*maxXPerTick)*((int)pos2.yCoord+1)*((int)pos2.zCoord+1);
+//		int count=(genTick*maxXPerTick)*((int)pos2.yCoord+1)*((int)pos2.zCoord+1);
 		
 //		if(count >= blocks.length) { //Check if we've written all of the blocks
 //			return true; 
@@ -640,24 +583,12 @@ public class ExperimentTutorial{
 		return scoreboard.getPlayers();
 	}
 	
-	public ArrayList<TutorialFeature> getFeatures() {
+	public ConcurrentLinkedQueue<TutorialFeature> getFeatures() {
 		return features;
 	}
 	
 	public World getWorld() {
 		return this.world;
-	}
-
-	public void setFeatures(ArrayList<TutorialFeature> features) {
-		this.features = features;
-	}
-	
-	public ArrayList<TutorialFeature> getActiveFeatures() {
-		return activeFeatures;
-	}
-
-	public void setActiveFeatures(ArrayList<TutorialFeature> activeFeatures) {
-		this.activeFeatures = activeFeatures;
 	}
 	
 	private void createPrivateProperties() {

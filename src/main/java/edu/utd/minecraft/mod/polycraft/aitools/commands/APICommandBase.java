@@ -30,18 +30,4 @@ public abstract class APICommandBase {
 	 */
 	public abstract String getName();
 	
-	/**
-	 * Aliases of this command
-	 * @return
-	 *  Enum values
-	 */
-	public abstract Enum<?>[] getAliases();
-	
-	/**
-	 * Checks if a String is recognized as this command
-	 * @return
-	 * 	<b>True</b> if the command matches<br>
-	 * 	<b>False</b> if the command doesn't match
-	 */
-	public abstract boolean checkCommand(String command);
 }

@@ -187,131 +187,133 @@ public class ServerEnforcer extends Enforcer {
 		// message;
 
 	}
+	
 	@SubscribeEvent
 	public void onServerPacket(final FMLNetworkEvent.ServerCustomPacketEvent event) {
-		try {
-			final ByteBuffer payload = ByteBuffer.wrap(event.packet.payload().array());
-			if (pendingDataPacketType == DataPacketType.Unknown) {
-				pendingDataPacketType = DataPacketType.values()[payload.getInt()];
-				pendingDataPacketTypeMetadata = payload.getInt();
-				pendingDataPacketsBytes = payload.getInt();
-				pendingDataPacketsBuffer = ByteBuffer.allocate(pendingDataPacketsBytes);
-			}
-			else {
-				String playerDisplayName;
-				pendingDataPacketsBytes -= payload.array().length;
-				pendingDataPacketsBuffer.put(payload);
-				if (pendingDataPacketsBytes == 0 && !isByteArrayEmpty(pendingDataPacketsBuffer.array())) {
-					switch (pendingDataPacketType) {
-					case Experiment:
-						switch(ExperimentsPacketType.values()[pendingDataPacketTypeMetadata]) {
-							case BoundingBoxUpdate:
-								break;
-							case PlayerLeftDimension:
-								break;
-							case ReceiveExperimentsList:
-								break;
-							case RequestJoinExperiment:
-								onClientExperimentSelection(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-								break;
-							case SendParameterUpdates:
-								onClientUpdateExperimentParameters(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-								break;
-							case ExpDefGet:
-								playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
-										new TypeToken<String>() {}.getType());
-								ExperimentManager.INSTANCE.sendExperimentDefs(playerDisplayName);
-								break;
-							case ExpDefUpdate:
-								updateExpDef(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-								break;
-							case ExpDefRemove:
-								removeExpDef(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-								break;
-							default:
-								break;
-							}
-						break;
-					case Consent:
-						playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
-								new TypeToken<String>() {}.getType());
-						switch(pendingDataPacketTypeMetadata) {
-						case 0: //player gives consent
-							ServerEnforcer.INSTANCE.IRBTest(playerDisplayName.toLowerCase(), "set", true);
-							break;
-						case 1:
-							//Player withdraws consent
-							ServerEnforcer.INSTANCE.IRBTest(playerDisplayName.toLowerCase(), "set", false);
-							break;
-						default:
-							break;
-						}
-						break;
-					case Halftime: // decompress json array with halftime answers
-						final String[] halftimeAnswers = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()), String[].class);
-						//Experiment.inputAnswers(halftimeAnswers);
-						ExperimentOld.halftimeAnswers.inputAnswers(halftimeAnswers);
-						String[] half_time_Answers1 = Arrays.copyOfRange(halftimeAnswers, 1, halftimeAnswers.length);	//Removing player name from answers (the first element in array)
-						String half_time_Answers = String.join(",", half_time_Answers1);
-						PlayerHalfTimeGUIEvent event1 = new PlayerHalfTimeGUIEvent(halftimeAnswers[0],half_time_Answers);
-						Analytics.onHalfTimeGUIEvent(event1);
-						break;
-					case Tutorial:
-						switch(TutorialManager.PacketMeta.values()[pendingDataPacketTypeMetadata]) {
-							case Features:	//Experiment Features update
-								PolycraftMod.logger.debug("Why is client sending Features List?");
-								break;
-							case ActiveFeatures:	//Experiment Active Features update
-								PolycraftMod.logger.debug("Receiving client Active Features update request");
-								playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
-										new TypeToken<String>() {}.getType());
-								int expID = TutorialManager.isPlayerinExperiment(playerDisplayName.toLowerCase());
-								if(expID > -1)
-									TutorialManager.INSTANCE.sendTutorialActiveFeatures(expID);
-								break;
-							case Feature:	//Experiment single featuer update
-								PolycraftMod.logger.debug("Receiving experiment feature...");
-								this.updateTutorialFeature(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-								break;
-							case JoinNew:	//Client requesting to join new tutorial
-								PolycraftMod.logger.debug("Receiving experiment feature...");
-								playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
-										new TypeToken<String>() {}.getType());
-								TutorialManager.INSTANCE.addPlayerToExperiment(TutorialManager.INSTANCE.createExperiment(),
-										MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(playerDisplayName));	// func_152612_a: get EntityPlayerMP by username
-								break;
-							default:
-								break;
-						}
-						break;
-					case PlaceBlock:
-						this.updatePlaceBlock(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-						break;
-					case AIAPI:
-						this.AIAPICollect(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
-						break;
-					default:
-						break;
-					}
-				
-				//Flush the buffer. and reset for the next message coming from the client.
-				pendingDataPacketType = DataPacketType.Unknown;
-				pendingDataPacketTypeMetadata = 0; 
-				pendingDataPacketsBuffer = null;
-					
-				}
-				
-			}
-			
-			
-			
-		}catch (Exception e) {
-			PolycraftMod.logger.error("Unable to decompress data packetes", e);
-			//Flush the buffer. and reset for the next message coming from the client.
-			pendingDataPacketType = DataPacketType.Unknown;
-			pendingDataPacketTypeMetadata = 0; 
-			pendingDataPacketsBuffer = null;
-		}
+		// THIS CODE SHOULD NOT RUN IN 1.8.9
+//		try {
+//			final ByteBuffer payload = ByteBuffer.wrap(event.packet.payload().array());
+//			if (pendingDataPacketType == DataPacketType.Unknown) {
+//				pendingDataPacketType = DataPacketType.values()[payload.getInt()];
+//				pendingDataPacketTypeMetadata = payload.getInt();
+//				pendingDataPacketsBytes = payload.getInt();
+//				pendingDataPacketsBuffer = ByteBuffer.allocate(pendingDataPacketsBytes);
+//			}
+//			else {
+//				String playerDisplayName;
+//				pendingDataPacketsBytes -= payload.array().length;
+//				pendingDataPacketsBuffer.put(payload);
+//				if (pendingDataPacketsBytes == 0 && !isByteArrayEmpty(pendingDataPacketsBuffer.array())) {
+//					switch (pendingDataPacketType) {
+//					case Experiment:
+//						switch(ExperimentsPacketType.values()[pendingDataPacketTypeMetadata]) {
+//							case BoundingBoxUpdate:
+//								break;
+//							case PlayerLeftDimension:
+//								break;
+//							case ReceiveExperimentsList:
+//								break;
+//							case RequestJoinExperiment:
+//								onClientExperimentSelection(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+//								break;
+//							case SendParameterUpdates:
+//								onClientUpdateExperimentParameters(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+//								break;
+//							case ExpDefGet:
+//								playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
+//										new TypeToken<String>() {}.getType());
+//								ExperimentManager.INSTANCE.sendExperimentDefs(playerDisplayName);
+//								break;
+//							case ExpDefUpdate:
+//								updateExpDef(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+//								break;
+//							case ExpDefRemove:
+//								removeExpDef(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+//								break;
+//							default:
+//								break;
+//							}
+//						break;
+//					case Consent:
+//						playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
+//								new TypeToken<String>() {}.getType());
+//						switch(pendingDataPacketTypeMetadata) {
+//						case 0: //player gives consent
+//							ServerEnforcer.INSTANCE.IRBTest(playerDisplayName.toLowerCase(), "set", true);
+//							break;
+//						case 1:
+//							//Player withdraws consent
+//							ServerEnforcer.INSTANCE.IRBTest(playerDisplayName.toLowerCase(), "set", false);
+//							break;
+//						default:
+//							break;
+//						}
+//						break;
+//					case Halftime: // decompress json array with halftime answers
+//						final String[] halftimeAnswers = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()), String[].class);
+//						//Experiment.inputAnswers(halftimeAnswers);
+//						ExperimentOld.halftimeAnswers.inputAnswers(halftimeAnswers);
+//						String[] half_time_Answers1 = Arrays.copyOfRange(halftimeAnswers, 1, halftimeAnswers.length);	//Removing player name from answers (the first element in array)
+//						String half_time_Answers = String.join(",", half_time_Answers1);
+//						PlayerHalfTimeGUIEvent event1 = new PlayerHalfTimeGUIEvent(halftimeAnswers[0],half_time_Answers);
+//						Analytics.onHalfTimeGUIEvent(event1);
+//						break;
+//					case Tutorial:
+//						switch(TutorialManager.PacketMeta.values()[pendingDataPacketTypeMetadata]) {
+//							case Features:	//Experiment Features update
+//								PolycraftMod.logger.debug("Why is client sending Features List?");
+//								break;
+//							case ActiveFeatures:	//Experiment Active Features update
+//								PolycraftMod.logger.debug("Receiving client Active Features update request");
+//								playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
+//										new TypeToken<String>() {}.getType());
+//								int expID = TutorialManager.isPlayerinExperiment(playerDisplayName.toLowerCase());
+//								if(expID > -1)
+//									TutorialManager.INSTANCE.sendTutorialActiveFeatures(expID);
+//								break;
+//							case Feature:	//Experiment single featuer update
+//								PolycraftMod.logger.debug("Receiving experiment feature...");
+//								this.updateTutorialFeature(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+//								break;
+//							case JoinNew:	//Client requesting to join new tutorial
+//								PolycraftMod.logger.debug("Receiving experiment feature...");
+//								playerDisplayName = gsonGeneric.fromJson(CompressUtil.decompress(pendingDataPacketsBuffer.array()),
+//										new TypeToken<String>() {}.getType());
+//								TutorialManager.INSTANCE.addPlayerToExperiment(TutorialManager.INSTANCE.createExperiment(),
+//										MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(playerDisplayName));	// func_152612_a: get EntityPlayerMP by username
+//								break;
+//							default:
+//								break;
+//						}
+//						break;
+//					case PlaceBlock:
+//						this.updatePlaceBlock(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+//						break;
+//					case AIAPI:
+//						this.AIAPICollect(CompressUtil.decompress(pendingDataPacketsBuffer.array()));
+//						break;
+//					default:
+//						break;
+//					}
+//				
+//				//Flush the buffer. and reset for the next message coming from the client.
+//				pendingDataPacketType = DataPacketType.Unknown;
+//				pendingDataPacketTypeMetadata = 0; 
+//				pendingDataPacketsBuffer = null;
+//					
+//				}
+//				
+//			}
+//			
+//			
+//			
+//		}catch (Exception e) {
+//			PolycraftMod.logger.error("Unable to decompress data packetes", e);
+//			//Flush the buffer. and reset for the next message coming from the client.
+//			pendingDataPacketType = DataPacketType.Unknown;
+//			pendingDataPacketTypeMetadata = 0; 
+//			pendingDataPacketsBuffer = null;
+//		}
 	}
 	
 	

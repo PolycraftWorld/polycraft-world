@@ -294,6 +294,7 @@ public class ClientEnforcer extends Enforcer {
 		GuiConsent.consent = false;
 	}
 	
+	@Deprecated	// Use Minecraft packet system instead in privateproperty -> network
 	@SubscribeEvent
 	public void onClientPacket(final ClientCustomPacketEvent event) {
 		try {
