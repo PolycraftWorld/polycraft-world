@@ -50,7 +50,9 @@ build
 
 # other
 eclipse
-run
+run/*
+!run/options.txt
+!run/resourcepacks
 =======
 /build
 /gradle

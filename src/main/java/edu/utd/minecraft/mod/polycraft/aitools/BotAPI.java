@@ -884,7 +884,7 @@ public class BotAPI {
 		if(String.join(" ", args).toLowerCase().contains("macguffin")) {
 			if(commandResult.get().getResult() == Result.SUCCESS) {
 				if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
-        			for(TutorialFeature feat: TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getActiveFeatures()) {
+        			for(TutorialFeature feat: TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getFeatures()) {
         				if(feat.getName().contains("dest")) {
         					double x = -Math.round(Math.sin(Math.toRadians(player.rotationYaw)));
         					double z = Math.round(Math.cos(Math.toRadians(player.rotationYaw)));

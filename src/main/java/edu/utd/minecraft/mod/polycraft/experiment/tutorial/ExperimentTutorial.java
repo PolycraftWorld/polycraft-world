@@ -240,19 +240,15 @@ public class ExperimentTutorial{
 					playerEntity.getFoodStats().addStats(20, 5);	//constantly fill hunger so players don't starve
 				}
 			}
-			int count = 0; 	//debug var
-			for(TutorialFeature feature: features) {	//cycle through active features
+			// MAIN Feature loop
+			for(TutorialFeature feature: features) {	
 				if(feature.isDone)
 					continue;	// don't run features that have ended
 				feature.onServerTickUpdate(this);
 				//System.out.println(this.id + "::featureTick:" + count++ + "," + feature.getFeatureType().toString() + "::" + feature.pos.toString());
-				if(feature.isDirty) {	//check if feature need to be updated on client side
+				if(feature.isDirty || feature.isDone()) {	//check if feature need to be updated on client side
 					System.out.println("[Server] Sending Feature update: " + feature.getName());
 					feature.isDirty = false;
-					sendFeatureToClient(feature);	// update this feature on the client side
-				}
-				if(feature.isDone()) {	//if the feature is complete, update on client end
-					// this should only happen once (when a feature becomes done on the last tickUpdate call) as we are skipping features that are already done
 					sendFeatureToClient(feature);	// update this feature on the client side
 				}
 				// if this feature is blocking, exit the loop

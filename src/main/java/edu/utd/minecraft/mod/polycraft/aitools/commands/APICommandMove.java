@@ -77,18 +77,4 @@ public class APICommandMove extends APICommandBase{
 		return "Move";
 	}
 
-	@Override
-	public boolean checkCommand(String command) {
-		for(Aliases alias: Aliases.values()) {
-			if(alias.name().equals(command))
-				return true;
-		}
-		return false;
-	}
-
-	@Override
-	public Enum<?>[] getAliases() {
-		return Aliases.values();
-	}
-
 }
