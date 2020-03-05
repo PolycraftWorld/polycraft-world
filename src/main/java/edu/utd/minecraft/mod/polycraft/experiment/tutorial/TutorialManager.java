@@ -111,7 +111,8 @@ public class TutorialManager {
 	public void onPlayerTick(final TickEvent.PlayerTickEvent tick) {
 		if(tick.side == Side.CLIENT && tick.phase == TickEvent.Phase.END){ //I think these are always true?
 			for(ExperimentTutorial ex: experiments.values()){
-				ex.onClientTickUpdate();
+				if(clientCurrentExperiment == ex.id)
+					ex.onClientTickUpdate();
 			}
 		}
 	}
