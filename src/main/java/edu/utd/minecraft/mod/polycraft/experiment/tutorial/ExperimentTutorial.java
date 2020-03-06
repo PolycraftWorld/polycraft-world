@@ -63,6 +63,7 @@ public class ExperimentTutorial{
 	public Random rand = new Random();
 	World world;
 	public int dim;
+	private int genTick = 0;
 	public CustomScoreboard scoreboard;
 	private ResearchAssistantEntity dummy;
 	//public int genTick = 0;	No longer used
@@ -251,6 +252,9 @@ public class ExperimentTutorial{
 			}
 			break;
 		case PreInit:
+			// wait a few ticks for the chunk generation to go through
+			if(genTick++ < 5)
+				return;
 			for(TutorialFeature feature: features){
 				feature.preInit(this);
 			}
