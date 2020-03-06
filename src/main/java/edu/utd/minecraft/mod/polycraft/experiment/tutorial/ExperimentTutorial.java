@@ -208,7 +208,31 @@ public class ExperimentTutorial{
 		return false;
 	}
 	
+	
+	/**
+	 * Removes a player from team in an experiment
+	 * This can be needed if a player disconnects, quits the experiment or other reasons.
+	 * @param playerName name to be removed
+	 * @return <b>True</b> if player found and removed, <b>False</b> if player not in this experiment
+	 */
+	public boolean removePlayer(String playerName) {
+		for(Team team: this.scoreboard.getTeams()) {
+			if(team.getPlayers().contains(playerName)) { //check to see if the player's name 
+				team.getPlayers().remove(playerName);
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void onServerTickUpdate() {
+		//First check to make sure all players are still connected
+		for(Team team: scoreboard.getTeams()) {
+			for(String player: team.getPlayers()) {
+				if(ExperimentManager.INSTANCE.getPlayerEntity(player) == null)
+					removePlayer(player);
+			}
+		}
 //		if(!isServer)
 //			return;
 		switch(currentState) {
