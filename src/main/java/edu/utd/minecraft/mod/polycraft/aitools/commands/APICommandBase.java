@@ -6,6 +6,8 @@ import edu.utd.minecraft.mod.polycraft.aitools.APIHelper;
 
 public abstract class APICommandBase {
 	
+	private float stepCost;
+	
 	/**
 	 * Server side actions to perform when this command is issued/called
 	 * @return
