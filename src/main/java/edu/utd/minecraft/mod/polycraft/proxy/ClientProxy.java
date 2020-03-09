@@ -558,6 +558,9 @@ public class ClientProxy extends CommonProxy {
 			if(event.type == ElementType.CROSSHAIRS) {
 				event.setCanceled(true);
 			}
+			if(event.type == ElementType.CHAT) {
+				event.setCanceled(true);
+			}
 		}
 	}
 	

@@ -15,6 +15,8 @@ import java.net.Socket;
 import java.net.SocketImpl;
 import java.net.UnknownHostException;
 import java.nio.IntBuffer;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
@@ -30,6 +32,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import javax.print.attribute.standard.NumberUpSupported;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -45,6 +48,10 @@ import com.google.gson.reflect.TypeToken;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.aitools.APICommandResult.Result;
+import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandBase;
+import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandChat;
+import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandMove;
+import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandTeleport;
 import edu.utd.minecraft.mod.polycraft.block.BlockMacGuffin;
 import edu.utd.minecraft.mod.polycraft.crafting.ContainerSlot;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
@@ -57,6 +64,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.novelty.NoveltyParser
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation.ObservationScreen;
 import edu.utd.minecraft.mod.polycraft.inventory.treetap.TreeTapInventory;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.APICommandMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.BreakBlockMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CollectMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CraftMessage;
@@ -149,6 +157,7 @@ public class BotAPI {
     public static AtomicReference<APICommandResult> commandResult= new AtomicReference<APICommandResult>();
     private static APICommandResult serverResult = null;
     public static BlockingQueue<String> commandQ = new LinkedBlockingQueue<String>();
+    private static HashMap<String, APICommandBase> availableCommands = new HashMap<String, APICommandBase>();
     public static AtomicIntegerArray pos = new AtomicIntegerArray(6);
     public static ArrayList<Vec3> breakList = new ArrayList<Vec3>();
     private static boolean breakingBlocks = false;
@@ -1301,6 +1310,16 @@ public class BotAPI {
 				tempQ = null;
 				usingTempQ = true;
 			}
+			
+			if(availableCommands.size() == 0) {
+				availableCommands.put("MOVE_NORTH", new APICommandMove(25, 1, EnumFacing.NORTH));
+				availableCommands.put("MOVE_SOUTH", new APICommandMove(25, 1, EnumFacing.SOUTH));
+				availableCommands.put("MOVE_EAST", new APICommandMove(25, 1, EnumFacing.EAST));
+				availableCommands.put("MOVE_WEST", new APICommandMove(25, 1, EnumFacing.WEST));
+				availableCommands.put("TELEPORT", new APICommandTeleport(50));
+				availableCommands.put("CHAT", new APICommandChat(10));
+			}
+			
 				
 			if(fromClient != null) {
 
@@ -1308,204 +1327,203 @@ public class BotAPI {
 				Minecraft.getMinecraft().setIngameFocus();
 	        	System.out.println(fromClient);
 	        	String args[] =  fromClient.split("\\s+");
-	        	Method func = null; 
-	        	// TODO: Switch to more generic function calling
-//	        	try {
-//					BotAPI.class.getMethod(Enums.getIfPresent(APICommand.class, args[0]).or(APICommand.DEFAULT).name(), args.getClass());
-//				} catch (NoSuchMethodException | SecurityException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//	        	try {
-//					func.invoke(null, new Object[] {args});
-//				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+	        	
 	        	boolean stepEndValue = true; //true for everything except multi-tick functions. ex. breakblock
 	        	if(!usingTempQ)	//don't set this when using a tempQ command.  We want to report the original command result
 	        		commandResult.set(new APICommandResult(args, APICommandResult.Result.SUCCESS, ""));
-	            switch(Enums.getIfPresent(APICommand.class, args[0].toUpperCase()).or(APICommand.DEFAULT)) {
-	            case LL:
-	            	lowLevel(args);
-	            	break;
-	            case CHAT:
-	            	player.addChatComponentMessage(new ChatComponentText(fromClient));
-	            	break;
-	            case JUMP:
-	            	player.jump();
-	            	break;
-	            case MOVE_FORWARD:
-	            	BotAPI.moveForward(args);
-	            	break;
-	            case MOVE_NORTH:
-	            	BotAPI.moveNorth(args);
-	            	break;
-	            case MOVE_SOUTH:
-	            	BotAPI.moveSouth(args);
-	            	break;
-	            case MOVE_EAST:
-	            	BotAPI.moveEast(args);
-	            	break;
-	            case MOVE_WEST:
-	            	BotAPI.moveWest(args);
-	            	break;
-	            case MOVE_NORTH_EAST:
-	            	BotAPI.moveNorth(args);
-	            	BotAPI.moveEast(args);
-	            	break;
-	            case MOVE_NORTH_WEST:
-	            	BotAPI.moveNorth(args);
-	            	BotAPI.moveWest(args);
-	            	break;
-	            case MOVE_SOUTH_EAST:
-	            	BotAPI.moveSouth(args);
-	            	BotAPI.moveEast(args);
-	            	break;
-	            case MOVE_SOUTH_WEST:
-	            	BotAPI.moveSouth(args);
-	            	BotAPI.moveWest(args);
-	            	break;
-            	case LOOK_NORTH:
-	            	BotAPI.lookNorth(args);
-	            	break;
-	            case LOOK_SOUTH:
-	            	BotAPI.lookSouth(args);
-	            	break;
-	            case LOOK_EAST:
-	            	BotAPI.lookEast(args);
-	            	break;
-	            case LOOK_WEST:
-	            	BotAPI.lookWest(args);
-	            	break;
-	            case SMOOTH_MOVE:
-	            	BotAPI.smoothMove(args);
-	            	break;
-	            case SMOOTH_TURN:
-	            	BotAPI.smoothTurn(args);
-	            	break;
-	            case SMOOTH_TILT:
-	            	BotAPI.smoothTilt(args);
-	            	break;
-	            case TURN_RIGHT:
-	            	BotAPI.turnRight(args);
-	            	break;
-	            case TURN_LEFT:
-	            	BotAPI.turnLeft(args);
-	            	break;
-	            case BREAK_BLOCK:
-	            	BotAPI.breakBlock(args);
-	            	stepEndValue = false;	//action happens on server
-	            	break;
-	            case TELEPORT:
-	            	BotAPI.teleport(args);
-	            	break;
-	            case TP_TO:
-	            	BotAPI.tpto(args);
-	            	break;
-	            case DATA:
-	            case SENSE_ALL:
-	            	senseAll(args);
-	            	break;
-	            case DATA_INV:
-	            case SENSE_INVENTORY:
-	            	senseInventory(args);
-	            	break;
-	            case DATA_BOT_POS:
-	            case SENSE_LOCATIONS:
-	            	senseLocations(args);
-	            	break;
-	            case DATA_SCREEN:
-	            case SENSE_SCREEN:
-	            	senseScreen(args);
-	            	break;
-	            case SENSE_RECIPE:
-	            	senseRecipe(args);
-	            	break;
-	            case COLLECT_FROM_BLOCK:
-	            	BotAPI.INSTANCE.collectFrom(args);
-	            	stepEndValue = false;	// action happens on server
-	            	break;
-	            case CRAFT_CRAFTING_TABLE:
-	            	BotAPI.craftCraftingTable(args);
-	            	stepEndValue = false;	// action happens on server
-	            	break;
-	            case CRAFT_PLANKS:
-	            	BotAPI.craftPlanks(args);
-	            	stepEndValue = false;	// action happens on server
-	            	break;
-	            case CRAFT_AXE:
-	            	BotAPI.craftAxe(args);
-	            	stepEndValue = false;	// action happens on server
-	            	break;
-	            case CRAFT_STICKS:
-	            	BotAPI.craftSticks(args);
-	            	stepEndValue = false;	// action happens on server
-	            	break;
-	            case CRAFT_TREE_TAP:
-	            	BotAPI.craftTreeTap(args);
-	            	stepEndValue = false;	// action happens on server
-	            	break;
-	            case CRAFT_POGO_STICK:
-	            	BotAPI.craftPogoStick(args);
-	            	stepEndValue = false;	// action happens on server
-	            	break;
-	            case CRAFT:
-	            case INV_CRAFT_ITEM:
-	            	BotAPI.craft(args);
-	            	stepEndValue = false;	// action happens on server
-	            	break;
-	            case INV_SELECT_ITEM:
-	            	BotAPI.selectItem(args);
-	            	break;
-	            case USE:
-	            	BotAPI.useItem(args);
-	            	break;
-	            case PLACE_BLOCK:
-	            	BotAPI.placeBlock(args);
-	            	stepEndValue = false;	// must wait for USE delay to complete
-	            	break;
-	            case PLACE_MACGUFFIN:
-	            	BotAPI.placeMacGuffin(args);
-	            	stepEndValue = false;	//action happens on server
-	            	break;
-	            case PLACE_STONE:
-	            	BotAPI.placeStoneBlock(args);
-	            	break;
-	            case PLACE_CRAFTING_TABLE:
-	            	BotAPI.placeCraftingTable(args);
-	            	break;
-	            case PLACE_TREE_TAP:
-	            	BotAPI.placeTreeTap(args);
-	            	break;
-	            case GEN_NOVELTY:
-	            	BotAPI.GenNovelty(args);
-	            	break;
-	            case RESET:
-	            	BotAPI.reset(args);
-	            	break;
-	            case START:
-	            	BotAPI.start(args);
-	            	break;
-	            case TREES:
-	            	BotAPI.trees(args);
-	            	break;
-	            case SPEED:
-	            	BotAPI.setMinecraftClientClockSpeed(args);
-	            	break;
-	            case DEFAULT:	//break fall through is intentional for default
-	            	BotAPI.defaultAction(args);
-	            default:
-	            	setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Command"));
-	        		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
-	        		for(String argument: args) {
-	        			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
+	        	
+	        	if(availableCommands.containsKey(args[0].toUpperCase())){
+	        		APICommandBase command = availableCommands.get(args[0].toUpperCase());
+	        		if(command.getSide() == Side.CLIENT) {
+	        			PolycraftMod.logger.info("Running Command on Client side: " + command.getClass().getName());
+	        			setResult(command.clientExecute(args));
+	        		}else {
+	        			PolycraftMod.logger.info("Sending Command to SERVER side: " + command.getClass().getName());
+	        			PolycraftMod.SChannel.sendToServer(new APICommandMessage(command, fromClient));
+	        			stepEndValue = false;	// TODO: we should only need one of these - SG
+	        			waitOnResult = true;
 	        		}
-	        		break;
-	            }
+	        	}else	        	
+		            switch(Enums.getIfPresent(APICommand.class, args[0].toUpperCase()).or(APICommand.DEFAULT)) {
+		            case LL:
+		            	lowLevel(args);
+		            	break;
+		            case CHAT:
+		            	player.addChatComponentMessage(new ChatComponentText(fromClient));
+		            	break;
+		            case JUMP:
+		            	player.jump();
+		            	break;
+		            case MOVE_FORWARD:
+		            	BotAPI.moveForward(args);
+		            	break;
+		            case MOVE_NORTH:
+		            	BotAPI.moveNorth(args);
+		            	break;
+		            case MOVE_SOUTH:
+		            	BotAPI.moveSouth(args);
+		            	break;
+		            case MOVE_EAST:
+		            	BotAPI.moveEast(args);
+		            	break;
+		            case MOVE_WEST:
+		            	BotAPI.moveWest(args);
+		            	break;
+		            case MOVE_NORTH_EAST:
+		            	BotAPI.moveNorth(args);
+		            	BotAPI.moveEast(args);
+		            	break;
+		            case MOVE_NORTH_WEST:
+		            	BotAPI.moveNorth(args);
+		            	BotAPI.moveWest(args);
+		            	break;
+		            case MOVE_SOUTH_EAST:
+		            	BotAPI.moveSouth(args);
+		            	BotAPI.moveEast(args);
+		            	break;
+		            case MOVE_SOUTH_WEST:
+		            	BotAPI.moveSouth(args);
+		            	BotAPI.moveWest(args);
+		            	break;
+	            	case LOOK_NORTH:
+		            	BotAPI.lookNorth(args);
+		            	break;
+		            case LOOK_SOUTH:
+		            	BotAPI.lookSouth(args);
+		            	break;
+		            case LOOK_EAST:
+		            	BotAPI.lookEast(args);
+		            	break;
+		            case LOOK_WEST:
+		            	BotAPI.lookWest(args);
+		            	break;
+		            case SMOOTH_MOVE:
+		            	BotAPI.smoothMove(args);
+		            	break;
+		            case SMOOTH_TURN:
+		            	BotAPI.smoothTurn(args);
+		            	break;
+		            case SMOOTH_TILT:
+		            	BotAPI.smoothTilt(args);
+		            	break;
+		            case TURN_RIGHT:
+		            	BotAPI.turnRight(args);
+		            	break;
+		            case TURN_LEFT:
+		            	BotAPI.turnLeft(args);
+		            	break;
+		            case BREAK_BLOCK:
+		            	BotAPI.breakBlock(args);
+		            	stepEndValue = false;	//action happens on server
+		            	break;
+		            case TELEPORT:
+		            	BotAPI.teleport(args);
+		            	break;
+		            case TP_TO:
+		            	BotAPI.tpto(args);
+		            	break;
+		            case DATA:
+		            case SENSE_ALL:
+		            	senseAll(args);
+		            	break;
+		            case DATA_INV:
+		            case SENSE_INVENTORY:
+		            	senseInventory(args);
+		            	break;
+		            case DATA_BOT_POS:
+		            case SENSE_LOCATIONS:
+		            	senseLocations(args);
+		            	break;
+		            case DATA_SCREEN:
+		            case SENSE_SCREEN:
+		            	senseScreen(args);
+		            	break;
+		            case SENSE_RECIPE:
+		            	senseRecipe(args);
+		            	break;
+		            case COLLECT_FROM_BLOCK:
+		            	BotAPI.INSTANCE.collectFrom(args);
+		            	stepEndValue = false;	// action happens on server
+		            	break;
+		            case CRAFT_CRAFTING_TABLE:
+		            	BotAPI.craftCraftingTable(args);
+		            	stepEndValue = false;	// action happens on server
+		            	break;
+		            case CRAFT_PLANKS:
+		            	BotAPI.craftPlanks(args);
+		            	stepEndValue = false;	// action happens on server
+		            	break;
+		            case CRAFT_AXE:
+		            	BotAPI.craftAxe(args);
+		            	stepEndValue = false;	// action happens on server
+		            	break;
+		            case CRAFT_STICKS:
+		            	BotAPI.craftSticks(args);
+		            	stepEndValue = false;	// action happens on server
+		            	break;
+		            case CRAFT_TREE_TAP:
+		            	BotAPI.craftTreeTap(args);
+		            	stepEndValue = false;	// action happens on server
+		            	break;
+		            case CRAFT_POGO_STICK:
+		            	BotAPI.craftPogoStick(args);
+		            	stepEndValue = false;	// action happens on server
+		            	break;
+		            case CRAFT:
+		            case INV_CRAFT_ITEM:
+		            	BotAPI.craft(args);
+		            	stepEndValue = false;	// action happens on server
+		            	break;
+		            case INV_SELECT_ITEM:
+		            	BotAPI.selectItem(args);
+		            	break;
+		            case USE:
+		            	BotAPI.useItem(args);
+		            	break;
+		            case PLACE_BLOCK:
+		            	BotAPI.placeBlock(args);
+		            	stepEndValue = false;	// must wait for USE delay to complete
+		            	break;
+		            case PLACE_MACGUFFIN:
+		            	BotAPI.placeMacGuffin(args);
+		            	stepEndValue = false;	//action happens on server
+		            	break;
+		            case PLACE_STONE:
+		            	BotAPI.placeStoneBlock(args);
+		            	break;
+		            case PLACE_CRAFTING_TABLE:
+		            	BotAPI.placeCraftingTable(args);
+		            	break;
+		            case PLACE_TREE_TAP:
+		            	BotAPI.placeTreeTap(args);
+		            	break;
+		            case GEN_NOVELTY:
+		            	BotAPI.GenNovelty(args);
+		            	break;
+		            case RESET:
+		            	BotAPI.reset(args);
+		            	break;
+		            case START:
+		            	BotAPI.start(args);
+		            	break;
+		            case TREES:
+		            	BotAPI.trees(args);
+		            	break;
+		            case SPEED:
+		            	BotAPI.setMinecraftClientClockSpeed(args);
+		            	break;
+		            case DEFAULT:	//break fall through is intentional for default
+		            	BotAPI.defaultAction(args);
+		            default:
+		            	setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Command"));
+		        		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
+		        		for(String argument: args) {
+		        			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
+		        		}
+		        		break;
+		            }
 	            stepEnd.set(stepEndValue);	//set stepEnd value to update python wrapper with current observations
 	        }
-			//TODO: return DATA and rewards
 		}
 	}
 	
@@ -1542,7 +1560,7 @@ public class BotAPI {
 	                        BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 	                        PrintWriter out = new PrintWriter(client.getOutputStream(),true);
 	                        while(!client.isClosed()) {
-	                        	String  fromClient = in.readLine();
+	                        	String  fromClient = StringUtils.chomp(in.readLine());
 	                        	System.out.println(fromClient);
 	                        	try {
 		                        	if(fromClient.startsWith("{")) {
@@ -1577,9 +1595,13 @@ public class BotAPI {
 		                        	else {
 		                        		commandQ.put(fromClient);
 		                        		stepEnd.set(false);
-		                        		while(!stepEnd.get()) {
+		                        		Instant time = Instant.now();
+		                        		
+		                        		while(!stepEnd.get() && Duration.between(time, Instant.now()).getSeconds() < 3) {
 			                        		//do nothing until the step is complete
 			                        	}
+		                        		if(!stepEnd.get() && Duration.between(time, Instant.now()).getSeconds() >= 3)
+		                        			setResult(new APICommandResult(fromClientSplit, Result.ACTION_TIMEOUT, "Action timed out on server side", -1337));
 		                        		if(fromClient.startsWith("RESET")) {
 		                        			
 		                        			JsonObject jobj = new JsonObject();

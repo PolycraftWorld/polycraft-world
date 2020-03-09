@@ -35,7 +35,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class CraftMessageHandler implements IMessageHandler<CraftMessage, IMessage>{
 
 	@Override
-    public CollectMessage onMessage(final CraftMessage message, final MessageContext ctx)
+    public CraftMessage onMessage(final CraftMessage message, final MessageContext ctx)
     {
         final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
         IThreadListener mainThread = (WorldServer)ctx.getServerHandler().playerEntity.worldObj;

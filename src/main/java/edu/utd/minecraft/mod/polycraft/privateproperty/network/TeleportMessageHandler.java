@@ -51,10 +51,8 @@ public class TeleportMessageHandler implements IMessageHandler<TeleportMessage, 
             	player.setPosition(message.targetPos.getX() + 0.5, message.targetPos.getY() + 0.5, message.targetPos.getZ() + 0.5);
             	player.playerNetServerHandler.setPlayerLocation(message.targetPos.getX() + 0.5, 
             			message.targetPos.getY() + 0.5, message.targetPos.getZ() + 0.5, message.yaw, message.pitch);
-                
             }
         });
         return null;
     }
-
 }

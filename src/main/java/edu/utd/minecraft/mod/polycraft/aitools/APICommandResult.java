@@ -22,23 +22,8 @@ public class APICommandResult {
 	private String[] args;
 	private Result result;
 	private String message;
+	private float stepCost;
 	private JsonObject jobject;
-	
-	/**
-	 * Used if the command <b>IS</b> included in args. ex: decoding command result json
-	 * @param args
-	 * @param result
-	 * @param message
-	 */
-	public APICommandResult(String args[], Result result, String message) {
-		command = args[0];
-		if(args.length > 1)
-			this.args = Arrays.copyOfRange(args, 1, args.length);
-		
-		this.result = result;
-		this.message = message;
-		jobject = new JsonObject();
-	}
 	
 	/**
 	 * Used if the command <b>IS NOT</b> included in args. ex: decoding command result json
@@ -46,14 +31,36 @@ public class APICommandResult {
 	 * @param args
 	 * @param result
 	 * @param message
+	 * @param cost
 	 */
-	public APICommandResult(String command, String args[], Result result, String message) {
-		this.command = command;
-		this.args = args;
+	public APICommandResult(String command, String[] args, Result result, String message, float cost) {
+		if(command == null) {	// old style stores command in args
+			this.command = args[0];
+			if(args.length > 1)
+				this.args = Arrays.copyOfRange(args, 1, args.length);
+			else
+				this.args = new String[0];
+		}else {
+			this.command = command;
+			this.args = args;
+		}
 		
 		this.result = result;
 		this.message = message;
+		this.stepCost = cost;
 		jobject = new JsonObject();
+	}
+	
+	public APICommandResult(String[] args, Result result, String message, float cost) {
+		this(null, args, result, message, cost);
+	}
+	
+	public APICommandResult(String command, String[] args, Result result, String message) {
+		this(command, args, result, message, 0);
+	}
+	
+	public APICommandResult(String[] args, Result result, String message) {
+		this(null, args, result, message);
 	}
 	
 	public JsonObject toJson() {
@@ -65,6 +72,7 @@ public class APICommandResult {
 			jobject.addProperty("argument", "");
 		jobject.addProperty("result", result.name());
 		jobject.addProperty("message", message);
+		jobject.addProperty("stepCost", stepCost);
 		return jobject;
 	}
 	
@@ -86,7 +94,8 @@ public class APICommandResult {
     	return new APICommandResult(jobject.get("command").getAsString(),
     			jobject.get("argument").getAsString().split(" "),
     			Result.valueOf(jobject.get("result").getAsString()),
-    			jobject.get("message").getAsString());
+    			jobject.get("message").getAsString(),
+    			jobject.get("stepCost").getAsFloat());
     }
 
 	public String getCommand() {

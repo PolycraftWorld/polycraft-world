@@ -32,6 +32,8 @@ import edu.utd.minecraft.mod.polycraft.commands.dev.CommandTemp;
 import edu.utd.minecraft.mod.polycraft.commands.dev.CommandTutorial;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.item.PolycraftItemHelper;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.APICommandMessage;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.APICommandMessageHandler;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.BreakBlockMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.BreakBlockMessageHandler;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CollectMessage;
@@ -244,6 +246,7 @@ public class PolycraftMod {
 		SChannel.registerMessage(BreakBlockMessageHandler.class, BreakBlockMessage.class, 7, Side.SERVER);
 		SChannel.registerMessage(TeleportMessageHandler.class, TeleportMessage.class, 8, Side.SERVER);
 		SChannel.registerMessage(ExperimentMessageHandler.class, ExperimentMessage.class, 9, Side.CLIENT);
+		SChannel.registerMessage(APICommandMessageHandler.class, APICommandMessage.class, 10, Side.SERVER);
 		this.configDirectory =event.getModConfigurationDirectory();
 		proxy.preInit();
 	}
