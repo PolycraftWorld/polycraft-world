@@ -41,7 +41,7 @@ public class APICommandTilt extends APICommandBase{
 				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw, 30F);
 				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw, 15F);
 				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw, 0F);
-				return new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Syntax", this.stepCost);
+				return new APICommandResult(args, APICommandResult.Result.SUCCESS, "", this.stepCost);
 			}
 			else if(args[1].equalsIgnoreCase("down")) {
 				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw, 0F);
@@ -49,7 +49,7 @@ public class APICommandTilt extends APICommandBase{
 				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw, 30F);
 				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw, 45F);
 				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw, 60F);
-				return new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Syntax", this.stepCost);
+				return new APICommandResult(args, APICommandResult.Result.SUCCESS, "", this.stepCost);
 			}else {
 				return new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Input", this.stepCost);
 			}
