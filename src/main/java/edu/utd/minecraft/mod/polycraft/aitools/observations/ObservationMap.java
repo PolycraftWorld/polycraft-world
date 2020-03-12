@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation;
+package edu.utd.minecraft.mod.polycraft.aitools.observations;
 
 import java.util.ArrayList;
 
@@ -6,15 +6,20 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import edu.utd.minecraft.mod.polycraft.aitools.APICommandResult;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureData;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureGuide;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Vec3;
 
 public class ObservationMap implements IObservation{
 
@@ -45,7 +50,19 @@ public class ObservationMap implements IObservation{
 					JsonObject blockObj = new JsonObject();
 					currentPos = pos1.add(i, 0, k);
 					blockObj.addProperty("name", exp.getWorld().getBlockState(currentPos).getBlock().getRegistryName());
-					
+					// check if block is accessible
+					AxisAlignedBB area = new AxisAlignedBB(new BlockPos(exp.posOffset),
+	    					new BlockPos(exp.pos2.add(exp.posOffset)));
+					boolean isAccessible = false;
+					for(EnumFacing facing: EnumFacing.HORIZONTALS) {
+						if(exp.getWorld().isAirBlock(currentPos.offset(facing))) {
+							if(!area.isVecInside(new Vec3(currentPos.offset(facing))))
+								continue;
+							isAccessible = true;
+							break;
+						}
+					}
+					blockObj.addProperty("isAccessible", isAccessible);
 					for(IProperty prop: exp.getWorld().getBlockState(currentPos).getProperties().keySet()) {
 						blockObj.addProperty(prop.getName(), exp.getWorld().getBlockState(currentPos).getProperties().get(prop).toString());;
 					}

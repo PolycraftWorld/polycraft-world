@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.experiment.tutorial.observation;
+package edu.utd.minecraft.mod.polycraft.aitools.observations;
 
 import java.nio.IntBuffer;
 import java.util.ArrayList;
