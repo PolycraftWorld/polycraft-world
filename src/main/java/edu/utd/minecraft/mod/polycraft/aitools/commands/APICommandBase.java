@@ -39,12 +39,20 @@ public abstract class APICommandBase {
 		return side;
 	}
 	
+	/**
+     * When Overriding, call super fromBytes first for consistency 
+     * @param buf
+     */
     public void fromBytes(ByteBuf buf)
     {
     	stepCost = buf.readFloat();
     	side = buf.readBoolean() ? Side.CLIENT: Side.SERVER;	// Read isClient. if True set to client, else Server
     }
 
+    /**
+     * When Overriding, call super toBytes first for consistency
+     * @param buf
+     */
     public void toBytes(ByteBuf buf)
     {
     	buf.writeFloat(stepCost);

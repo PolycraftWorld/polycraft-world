@@ -11,14 +11,12 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumFacing;
 
-public class APICommandMove extends APICommandBase{
+public class APICommandMoveDir extends APICommandBase{
 
-	private float blocksToMove;
 	private EnumFacing dir;
 	
-	public APICommandMove(float cost, float blocksToMove, EnumFacing dir) {
+	public APICommandMoveDir(float cost, EnumFacing dir) {
 		super(cost);
-		this.blocksToMove = blocksToMove;
 		this.dir = dir;
 	}
 

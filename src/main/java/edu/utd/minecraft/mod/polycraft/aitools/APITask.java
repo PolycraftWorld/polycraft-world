@@ -21,14 +21,14 @@ public class APITask implements Runnable{
 	
 	@Override
 	public void run() {
-		Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("LL command received"));
-		BotAPI.lowLevel(args);
-		try {
-			BotAPI.data(out, client);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("LL command received"));
+//		BotAPI.lowLevel(args);
+//		try {
+//			BotAPI.data(out, client);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 }

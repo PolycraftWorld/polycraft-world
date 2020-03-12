@@ -25,7 +25,7 @@ public class CraftMessage implements IMessage{
     @Override
     public void fromBytes(ByteBuf buf)
     {
-    	args = StandardCharsets.UTF_8.decode(buf.readBytes(buf.readInt()).nioBuffer()).toString();;
+    	args = StandardCharsets.UTF_8.decode(buf.readBytes(buf.readInt()).nioBuffer()).toString();
     }
 
     @Override
