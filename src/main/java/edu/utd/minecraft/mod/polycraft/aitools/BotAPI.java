@@ -88,6 +88,7 @@ public class BotAPI {
 	public static float senseMapCost = unitLookCost + senseScreenCost * 4;		
 	public static float senseAllCost = senseInventoryCost + senseLocationsCost + senseMapCost;	
 
+	public static AtomicReference<Float> totalCostIncurred = new AtomicReference<Float>(new Float(0));
 	
 	public static BotAPI INSTANCE= new BotAPI();
 	static String fromClient;
@@ -129,7 +130,8 @@ public class BotAPI {
 		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Message: " + commandResult.get().getMessage()));
 		int counter = 0;
 		if(commandResult.get().getArgs() != null)
-				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("args: \"" + String.join(" ", commandResult.get().getArgs())));
+				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Args: " + String.join(" ", commandResult.get().getArgs())));
+		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Action Cost: " + commandResult.get().getCost()));
 	}
 	
 	public static void placeStoneBlock(String args[]) {
@@ -216,7 +218,6 @@ public class BotAPI {
 		BotAPI.pos.set(2, ((int)player.posZ >> 4) << 4);
 		BlockPos playerPos = new BlockPos(BotAPI.pos.get(0), BotAPI.pos.get(1),BotAPI.pos.get(2));
 		int xMax = 16, yMax = 0, zMax = 16;
-		
 		
 		if(args.length > 3) {
 			BotAPI.pos.set(3, Integer.parseInt(args[1]));
@@ -326,6 +327,7 @@ public class BotAPI {
 				availableCommands.put("SENSE_LOCATIONS", new APICommandObservation(senseLocationsCost, ObsType.LOCATIONS));
 				availableCommands.put("SENSE_SCREEN", new APICommandObservation(senseScreenCost, ObsType.SCREEN));
 				availableCommands.put("SENSE_RECIPE", new APICommandObservation(senseRecipeCost, ObsType.RECIPES));
+				// TODO: add command to retrieve
 			} 
 			
 				
@@ -353,6 +355,8 @@ public class BotAPI {
 	        		}
 	        	}else if(args[0].toUpperCase().startsWith("RESET")) {
 	            	OldBotAPI.reset(args);
+        		}else if(args[0].toUpperCase().startsWith("CHECK_COST")) {
+        			setResult(new APICommandResult(args, Result.SUCCESS, String.format("Total Cost Incurred: %.1f", totalCostIncurred.get()), STEP_COST_PER_TICK));
         		}else {
 	            	setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Command"));
 	        		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
@@ -441,7 +445,7 @@ public class BotAPI {
 		                        		if(!stepEnd.get() && Duration.between(time, Instant.now()).getSeconds() >= 3)
 		                        			setResult(new APICommandResult(fromClientSplit, Result.ACTION_TIMEOUT, "Action timed out on server side", -1337));
 		                        		if(fromClient.startsWith("RESET")) {
-		                        			
+		                        			totalCostIncurred.set(0F);
 		                        			JsonObject jobj = new JsonObject();
 		                        			jobj.add("recipes", PolycraftMod.recipeManagerRuntime.getRecipesJsonByContainerType(PolycraftContainerType.POLYCRAFTING_TABLE));
 		                        			toClient = jobj.toString();
@@ -450,7 +454,8 @@ public class BotAPI {
 		                        		}else {
 		                        			// print command result instead of observations
 		                        			//toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations().toString();
-		                        	        JsonObject jobj = commandResult.get().getJobject();
+		                        			totalCostIncurred.set(totalCostIncurred.get() + commandResult.get().getCost());
+		                        			JsonObject jobj = commandResult.get().getJobject();
 		                        	        jobj.add("command_result", commandResult.get().toJson());
 		                        			toClient = jobj.toString();
 		                        			out.println(toClient);

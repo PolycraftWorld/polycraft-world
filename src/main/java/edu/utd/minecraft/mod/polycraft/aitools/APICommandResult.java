@@ -109,6 +109,10 @@ public class APICommandResult {
 	public String[] getArgs() {
 		return args;
 	}
+	
+	public float getCost() {
+		return stepCost;
+	}
 
 	public void setArgs(String[] args) {
 		this.args = args;
