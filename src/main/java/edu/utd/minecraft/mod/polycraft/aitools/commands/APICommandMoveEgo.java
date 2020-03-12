@@ -64,7 +64,7 @@ public class APICommandMoveEgo extends APICommandBase{
 			if(!(x == 0 || z == 0)) {	//check if path is free of collisions
 				if(CheckIfBlockCollide(player.worldObj, player.getPosition().add(x, 0, 0)) ||
 						CheckIfBlockCollide(player.worldObj, player.getPosition().add(0, 0, z))) {
-					return new APICommandResult(args, APICommandResult.Result.FAIL, "Block in path", this.stepCost);
+					return new APICommandResult(args, APICommandResult.Result.FAIL, "Block in path", (float) (this.stepCost * Math.sqrt(2))); // Diagonals should be multiplied by sqrt(2)
 				}
 			}
 			double newX = player.posX - Math.round(Math.sin(Math.toRadians(player.rotationYaw + angle)));

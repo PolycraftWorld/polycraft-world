@@ -67,6 +67,28 @@ public class BotAPI {
 	
 	private static final int API_PORT = 9000;
 	private static final int TIMEOUT_TICKS = 20;
+	private static final int TICKS_PER_SEC = 20;
+	private static final float MOVEMENT_SPEED = 4.3F; // meters per second
+	private static final float LOOK_SPEED = 5.0F; // Avg human reaction time ~ 200ms or 5 looks per second
+	private static final int STEP_COST_PER_TICK = 6;
+	
+	public static float movementSpeedMod = 1.0f;
+	public static float teleportCost = TICKS_PER_SEC * STEP_COST_PER_TICK;
+	public static float blockPlaceCost = TICKS_PER_SEC * STEP_COST_PER_TICK / 4;		// Assuming you can place 4 blocks a second
+	public static float craftCostPerItem = TICKS_PER_SEC * STEP_COST_PER_TICK;
+	public static float chatCost = TICKS_PER_SEC * STEP_COST_PER_TICK;
+	public static float unitMovementCost = ((TICKS_PER_SEC / MOVEMENT_SPEED) * STEP_COST_PER_TICK) / movementSpeedMod;
+	public static float unitLookCost = (TICKS_PER_SEC / LOOK_SPEED) * STEP_COST_PER_TICK;
+	
+	//sensing costs
+	public static float senseScreenCost = STEP_COST_PER_TICK;
+	public static float senseRecipeCost = TICKS_PER_SEC * STEP_COST_PER_TICK * 10;	// this should usually only happen once (unless you are dumbbbb)
+	public static float senseInventoryCost = TICKS_PER_SEC * STEP_COST_PER_TICK / 2;	// assuming you can check inventory 2 times a second
+	public static float senseLocationsCost = STEP_COST_PER_TICK;		// this should be a quick operation
+	public static float senseMapCost = unitLookCost + senseScreenCost * 4;		
+	public static float senseAllCost = senseInventoryCost + senseLocationsCost + senseMapCost;	
+
+	
 	public static BotAPI INSTANCE= new BotAPI();
 	static String fromClient;
 	static String toClient;
@@ -272,36 +294,38 @@ public class BotAPI {
 			}
 			
 			if(availableCommands.size() == 0) {
-				availableCommands.put("MOVE_NORTH", new APICommandMoveDir(25, EnumFacing.NORTH));
-				availableCommands.put("MOVE_SOUTH", new APICommandMoveDir(25, EnumFacing.SOUTH));
-				availableCommands.put("MOVE_EAST", new APICommandMoveDir(25, EnumFacing.EAST));
-				availableCommands.put("MOVE_WEST", new APICommandMoveDir(25, EnumFacing.WEST));
-				availableCommands.put("LOOK_NORTH", new APICommandLook(10, false, EnumFacing.NORTH));
-				availableCommands.put("LOOK_SOUTH", new APICommandLook(10, false, EnumFacing.SOUTH));
-				availableCommands.put("LOOK_EAST", new APICommandLook(10, false, EnumFacing.EAST));
-				availableCommands.put("LOOK_WEST", new APICommandLook(10, false, EnumFacing.WEST));
-				availableCommands.put("SMOOTH_MOVE", new APICommandMoveEgo(25));
-				availableCommands.put("SMOOTH_TURN", new APICommandLook(10, true));
-				availableCommands.put("SMOOTH_TILT", new APICommandTilt(10));
-				availableCommands.put("TELEPORT", new APICommandTeleport(50, false));
-				availableCommands.put("TP_TO", new APICommandTeleport(50, true));
-				availableCommands.put("CHAT", new APICommandChat(10));
-				availableCommands.put("CRAFT", new APICommandCraft(25, ""));
-				availableCommands.put("CRAFT_AXE", new APICommandCraft(25, "CRAFT 1 minecraft:planks minecraft:planks 0 minecraft:planks minecraft:stick 0 0 minecraft:stick 0"));
-				availableCommands.put("CRAFT_PLANKS", new APICommandCraft(25, "CRAFT 1 minecraft:log 0 0 0"));
-				availableCommands.put("CRAFT_STICKS", new APICommandCraft(25, "CRAFT 1 minecraft:planks 0 minecraft:planks 0"));
-				availableCommands.put("CRAFT_TREE_TAP", new APICommandCraft(25, "CRAFT 1 minecraft:planks minecraft:stick minecraft:planks minecraft:planks 0 minecraft:planks 0 minecraft:planks 0"));
-				availableCommands.put("CRAFT_POGO_STICK", new APICommandCraft(25, "CRAFT 1 minecraft:stick minecraft:stick minecraft:stick minecraft:planks minecraft:stick minecraft:planks 0 polycraft:sack_polyisoprene_pellets 0"));
-				availableCommands.put("CRAFT_CRAFTING_TABLE", new APICommandCraft(25, "CRAFT 1 minecraft:planks minecraft:planks minecraft:planks minecraft:planks"));
-				availableCommands.put("PLACE_BLOCK", new APICommandPlaceBlock(50, ""));
-				availableCommands.put("PLACE_MACGUFFIN", new APICommandPlaceBlock(50, "PLACE_MACGUFFIN polycraft:macguffin MacGuffin"));
-				availableCommands.put("PLACE_CRAFTING_TABLE", new APICommandPlaceBlock(50, "PLACE_CRAFTING_TABLE minecraft:crafting_table"));
-				availableCommands.put("PLACE_TREE_TAP", new APICommandPlaceBlock(50, "PLACE_BLOCK polycraft:tree_tap"));
-				availableCommands.put("SENSE_ALL", new APICommandObservation(5, ObsType.ALL));
-				availableCommands.put("SENSE_INVENTORY", new APICommandObservation(5, ObsType.INVENTORY));
-				availableCommands.put("SENSE_LOCATIONS", new APICommandObservation(5, ObsType.LOCATIONS));
-				availableCommands.put("SENSE_SCREEN", new APICommandObservation(5, ObsType.SCREEN));
-				availableCommands.put("SENSE_RECIPE", new APICommandObservation(5, ObsType.RECIPES));
+				availableCommands.put("MOVE_NORTH", new APICommandMoveDir(unitMovementCost, EnumFacing.NORTH));
+				availableCommands.put("MOVE_SOUTH", new APICommandMoveDir(unitMovementCost, EnumFacing.SOUTH));
+				availableCommands.put("MOVE_EAST", new APICommandMoveDir(unitMovementCost, EnumFacing.EAST));
+				availableCommands.put("MOVE_WEST", new APICommandMoveDir(unitMovementCost, EnumFacing.WEST));
+				availableCommands.put("SMOOTH_MOVE", new APICommandMoveEgo(unitMovementCost));	// TODO: look into separating for screen sensing
+				
+				availableCommands.put("LOOK_NORTH", new APICommandLook(unitLookCost, false, EnumFacing.NORTH));
+				availableCommands.put("LOOK_SOUTH", new APICommandLook(unitLookCost, false, EnumFacing.SOUTH));
+				availableCommands.put("LOOK_EAST", new APICommandLook(unitLookCost, false, EnumFacing.EAST));
+				availableCommands.put("LOOK_WEST", new APICommandLook(unitLookCost, false, EnumFacing.WEST));
+				availableCommands.put("SMOOTH_TURN", new APICommandLook(unitLookCost, true));
+				availableCommands.put("SMOOTH_TILT", new APICommandTilt(unitLookCost));	// TODO: use Look command for tilt
+				
+				availableCommands.put("TELEPORT", new APICommandTeleport(unitMovementCost, teleportCost, false));
+				availableCommands.put("TP_TO", new APICommandTeleport(unitMovementCost, teleportCost, true));
+				availableCommands.put("CHAT", new APICommandChat(chatCost));
+				availableCommands.put("CRAFT", new APICommandCraft(craftCostPerItem, ""));
+				availableCommands.put("CRAFT_AXE", new APICommandCraft(craftCostPerItem, "CRAFT 1 minecraft:planks minecraft:planks 0 minecraft:planks minecraft:stick 0 0 minecraft:stick 0"));
+				availableCommands.put("CRAFT_PLANKS", new APICommandCraft(craftCostPerItem, "CRAFT 1 minecraft:log 0 0 0"));
+				availableCommands.put("CRAFT_STICKS", new APICommandCraft(craftCostPerItem, "CRAFT 1 minecraft:planks 0 minecraft:planks 0"));
+				availableCommands.put("CRAFT_TREE_TAP", new APICommandCraft(craftCostPerItem, "CRAFT 1 minecraft:planks minecraft:stick minecraft:planks minecraft:planks 0 minecraft:planks 0 minecraft:planks 0"));
+				availableCommands.put("CRAFT_POGO_STICK", new APICommandCraft(craftCostPerItem, "CRAFT 1 minecraft:stick minecraft:stick minecraft:stick minecraft:planks minecraft:stick minecraft:planks 0 polycraft:sack_polyisoprene_pellets 0"));
+				availableCommands.put("CRAFT_CRAFTING_TABLE", new APICommandCraft(craftCostPerItem, "CRAFT 1 minecraft:planks minecraft:planks minecraft:planks minecraft:planks"));
+				availableCommands.put("PLACE_BLOCK", new APICommandPlaceBlock(blockPlaceCost, ""));
+				availableCommands.put("PLACE_MACGUFFIN", new APICommandPlaceBlock(blockPlaceCost, "PLACE_MACGUFFIN polycraft:macguffin MacGuffin"));
+				availableCommands.put("PLACE_CRAFTING_TABLE", new APICommandPlaceBlock(blockPlaceCost, "PLACE_CRAFTING_TABLE minecraft:crafting_table"));
+				availableCommands.put("PLACE_TREE_TAP", new APICommandPlaceBlock(blockPlaceCost, "PLACE_BLOCK polycraft:tree_tap"));
+				availableCommands.put("SENSE_ALL", new APICommandObservation(senseAllCost, ObsType.ALL));
+				availableCommands.put("SENSE_INVENTORY", new APICommandObservation(senseInventoryCost, ObsType.INVENTORY));
+				availableCommands.put("SENSE_LOCATIONS", new APICommandObservation(senseLocationsCost, ObsType.LOCATIONS));
+				availableCommands.put("SENSE_SCREEN", new APICommandObservation(senseScreenCost, ObsType.SCREEN));
+				availableCommands.put("SENSE_RECIPE", new APICommandObservation(senseRecipeCost, ObsType.RECIPES));
 			} 
 			
 				

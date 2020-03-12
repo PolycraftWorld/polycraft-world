@@ -122,7 +122,7 @@ public class APICommandCraft extends APICommandBase{
     	
     	if(missingItem || !recipeWorked || !nearCraftingTable) {	// if we had missing items or the recipe didn't work, add them back to the player's inventory
 			//player.addChatComponentMessage(new ChatComponentText("Missing Item:" + missingItems));
-			APICommandResult result = new APICommandResult(args, APICommandResult.Result.FAIL, missingItem?"missing items: " + missingItems: !recipeWorked? "Invalid recipe":"Need to be near crafting table", this.stepCost);
+			APICommandResult result = new APICommandResult(args, APICommandResult.Result.FAIL, missingItem?"missing items: " + missingItems: !recipeWorked? "Invalid recipe":"Need to be near crafting table", this.stepCost * items.size());
 			for(RecipeComponent item: items) {
 				player.inventory.addItemStackToInventory(item.itemStack);
 			}
@@ -142,7 +142,7 @@ public class APICommandCraft extends APICommandBase{
     	if(resultingItems.isEmpty()) 
     		return new APICommandResult(args, APICommandResult.Result.FAIL, "Unhandled error", this.stepCost);
     	else 
-    		return new APICommandResult(args, APICommandResult.Result.SUCCESS, "Crafted items: " + resultingItems, this.stepCost);
+    		return new APICommandResult(args, APICommandResult.Result.SUCCESS, "Crafted items: " + resultingItems, this.stepCost * items.size());
 	}
 
 	@Override
