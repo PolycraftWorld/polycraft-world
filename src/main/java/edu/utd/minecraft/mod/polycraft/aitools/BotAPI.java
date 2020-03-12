@@ -327,7 +327,9 @@ public class BotAPI {
 	        			stepEndValue = false;	// TODO: we should only need one of these - SG
 	        			waitOnResult = true;
 	        		}
-	        	}else {
+	        	}else if(args[0].toUpperCase().startsWith("RESET")) {
+	            	OldBotAPI.reset(args);
+        		}else {
 	            	setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Command"));
 	        		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command not recognized: " + fromClient));
 	        		for(String argument: args) {
