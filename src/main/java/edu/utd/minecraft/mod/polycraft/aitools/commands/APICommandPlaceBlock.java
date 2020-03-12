@@ -157,7 +157,7 @@ public class APICommandPlaceBlock extends APICommandBase{
 		player.addChatComponentMessage(new ChatComponentText("x: " + targetPos.xCoord + " :: Y: " + targetPos.yCoord + " :: Z:" + targetPos.zCoord));
 		
 		player.setPositionAndRotation(player.posX, player.posY, player.posZ, (float) pitch, (float) yaw);
-
+		Minecraft.getMinecraft().entityRenderer.getMouseOver(1);	// must force update minecraft mouseOver object. 
 		// Right click
 		Minecraft.getMinecraft().playerController.onPlayerRightClick(player, Minecraft.getMinecraft().theWorld, player.inventory.getCurrentItem(), 
 				Minecraft.getMinecraft().objectMouseOver.getBlockPos(), Minecraft.getMinecraft().objectMouseOver.sideHit, Minecraft.getMinecraft().objectMouseOver.hitVec);
