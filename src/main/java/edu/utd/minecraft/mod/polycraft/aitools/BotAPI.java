@@ -27,6 +27,7 @@ import com.google.gson.JsonParser;
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.aitools.APICommandResult.Result;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandBase;
+import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandBreakBlock;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandChat;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandCraft;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandLook;
@@ -75,6 +76,7 @@ public class BotAPI {
 	public static float movementSpeedMod = 1.0f;
 	public static float teleportCost = TICKS_PER_SEC * STEP_COST_PER_TICK;
 	public static float blockPlaceCost = TICKS_PER_SEC * STEP_COST_PER_TICK / 4;		// Assuming you can place 4 blocks a second
+	public static float blockBreakCost = TICKS_PER_SEC * STEP_COST_PER_TICK;		// Assuming you can place 1 blocks a second
 	public static float craftCostPerItem = TICKS_PER_SEC * STEP_COST_PER_TICK;
 	public static float chatCost = TICKS_PER_SEC * STEP_COST_PER_TICK;
 	public static float unitMovementCost = ((TICKS_PER_SEC / MOVEMENT_SPEED) * STEP_COST_PER_TICK) / movementSpeedMod;
@@ -311,6 +313,7 @@ public class BotAPI {
 				availableCommands.put("TELEPORT", new APICommandTeleport(unitMovementCost, teleportCost, false));
 				availableCommands.put("TP_TO", new APICommandTeleport(unitMovementCost, teleportCost, true));
 				availableCommands.put("CHAT", new APICommandChat(chatCost));
+				
 				availableCommands.put("CRAFT", new APICommandCraft(craftCostPerItem, ""));
 				availableCommands.put("CRAFT_AXE", new APICommandCraft(craftCostPerItem, "CRAFT 1 minecraft:planks minecraft:planks 0 minecraft:planks minecraft:stick 0 0 minecraft:stick 0"));
 				availableCommands.put("CRAFT_PLANKS", new APICommandCraft(craftCostPerItem, "CRAFT 1 minecraft:log 0 0 0"));
@@ -318,10 +321,14 @@ public class BotAPI {
 				availableCommands.put("CRAFT_TREE_TAP", new APICommandCraft(craftCostPerItem, "CRAFT 1 minecraft:planks minecraft:stick minecraft:planks minecraft:planks 0 minecraft:planks 0 minecraft:planks 0"));
 				availableCommands.put("CRAFT_POGO_STICK", new APICommandCraft(craftCostPerItem, "CRAFT 1 minecraft:stick minecraft:stick minecraft:stick minecraft:planks minecraft:stick minecraft:planks 0 polycraft:sack_polyisoprene_pellets 0"));
 				availableCommands.put("CRAFT_CRAFTING_TABLE", new APICommandCraft(craftCostPerItem, "CRAFT 1 minecraft:planks minecraft:planks minecraft:planks minecraft:planks"));
+				
 				availableCommands.put("PLACE_BLOCK", new APICommandPlaceBlock(blockPlaceCost, ""));
 				availableCommands.put("PLACE_MACGUFFIN", new APICommandPlaceBlock(blockPlaceCost, "PLACE_MACGUFFIN polycraft:macguffin MacGuffin"));
 				availableCommands.put("PLACE_CRAFTING_TABLE", new APICommandPlaceBlock(blockPlaceCost, "PLACE_CRAFTING_TABLE minecraft:crafting_table"));
 				availableCommands.put("PLACE_TREE_TAP", new APICommandPlaceBlock(blockPlaceCost, "PLACE_BLOCK polycraft:tree_tap"));
+				
+				availableCommands.put("BREAK_BLOCK", new APICommandBreakBlock(blockBreakCost));
+				
 				availableCommands.put("SENSE_ALL", new APICommandObservation(senseAllCost, ObsType.ALL));
 				availableCommands.put("SENSE_INVENTORY", new APICommandObservation(senseInventoryCost, ObsType.INVENTORY));
 				availableCommands.put("SENSE_LOCATIONS", new APICommandObservation(senseLocationsCost, ObsType.LOCATIONS));
@@ -354,7 +361,7 @@ public class BotAPI {
 	        			waitOnResult = true;
 	        		}
 	        	}else if(args[0].toUpperCase().startsWith("RESET")) {
-	            	OldBotAPI.reset(args);
+	            	BotAPI.reset(args);
         		}else if(args[0].toUpperCase().startsWith("CHECK_COST")) {
         			setResult(new APICommandResult(args, Result.SUCCESS, String.format("Total Cost Incurred: %.1f", totalCostIncurred.get()), STEP_COST_PER_TICK));
         		}else {
