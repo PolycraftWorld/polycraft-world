@@ -39,8 +39,10 @@ public class APICommandBreakBlock extends APICommandBase{
     	
     	if(!player.worldObj.isAirBlock(breakPos))
     		return new APICommandResult(args, APICommandResult.Result.FAIL, "Failed to break block", this.stepCost);
-    	else 
+    	else {	//When we succeed, break the block above too, for the case of trees
+    		player.worldObj.setBlockToAir(breakPos.add(0,1,0));
     		return new APICommandResult(args, APICommandResult.Result.SUCCESS, "", this.stepCost);
+    	}
     	
 	}
 
