@@ -81,7 +81,7 @@ public class APICommandTeleport extends APICommandBase{
 						player.setPositionAndUpdate(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5);
 						player.playerNetServerHandler.setPlayerLocation(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, player.rotationYaw, player.rotationPitch);
 						return (new APICommandResult(args, APICommandResult.Result.SUCCESS, "", (this.stepCost * teleportDist) + teleportPenalty));
-					} else if( blockDist == 1) {
+					} else if(blockDist == 1) {
 						for(EnumFacing facing: EnumFacing.HORIZONTALS) {
 							if(player.worldObj.isAirBlock(targetPos.offset(facing))) {
 								if(!area.isVecInside(new Vec3(targetPos.offset(facing))))
