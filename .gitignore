@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /build
 /gradle
 /.metadata
@@ -76,4 +75,3 @@ run
 /forge-*-changelog.txt
 /forge-*-src.zip
 /src/main/java/com/example/examplemod
->>>>>>> refs/remotes/origin/1.4.13_dev
