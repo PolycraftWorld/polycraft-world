@@ -12,6 +12,7 @@
       "canProceed": false,
       "isDone": false,
       "completionTime": 0,
+      "uuid": "d986780e-22dd-44cb-98d2-faf8dc73c82b",
       "pos2": [
         27,
         4,
@@ -39,13 +40,52 @@
       "canProceed": false,
       "isDone": false,
       "completionTime": 0,
+      "uuid": "c5fd8bf9-87eb-4977-80d0-357bb5fa06b7",
       "pos2": [
-        32,
+        30,
         4,
-        32
+        30
       ],
       "count": 0,
-      "genType": "TREES"
+      "genType": "BLOCK_LIST",
+      "blockList": [
+        {
+          "blockPos": [
+            10,
+            4,
+            10
+          ],
+          "blockName": "tree"
+        },
+        {
+          "blockPos": [
+            20,
+            4,
+            20
+          ],
+          "blockName": "minecraft:crafting_table"
+        }
+      ]
+    },
+    {
+      "pos": [
+        1,
+        4,
+        1
+      ],
+      "name": "map",
+      "color": -256,
+      "type": "DATA",
+      "canProceed": true,
+      "isDone": false,
+      "completionTime": 0,
+      "uuid": "53f20c95-f1e5-48f4-9310-b663f71ba5d8",
+      "pos2": [
+        30,
+        4,
+        30
+      ],
+      "data": " "
     },
     {
       "pos": [
@@ -59,6 +99,7 @@
       "canProceed": false,
       "isDone": false,
       "completionTime": 0,
+      "uuid": "b80e43ef-db9c-4d5f-b13e-68b430d3c3f8",
       "pos2": [
         13,
         4,
@@ -73,9 +114,9 @@
       0
     ],
     "pos2": [
-      34,
-      18,
-      34
+      30,
+      9,
+      30
     ],
     "name": "",
     "numTeams": 2,
@@ -83,5 +124,6 @@
     "seed": 0,
     "hideGui": false,
     "outputScreen": false
-  }
+  },
+  "novelty_config": {}
 }
