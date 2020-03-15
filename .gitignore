@@ -52,7 +52,7 @@ eclipse
 run/*
 !run/options.txt
 !run/resourcepacks
-
+run
 /build
 /gradle
 /.metadata

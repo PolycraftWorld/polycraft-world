@@ -46,7 +46,7 @@ public class NoveltyParser {
 
 		for(ElementTransform transform: transforms) {
 			for(TutorialFeature feat: expDef.getFeatures()) {
-				transform.applyTransform(feat, seed);
+				transform.applyTransform(feat, expDef.getFeatures(), seed);
 			}
 		}
 		return expDef;

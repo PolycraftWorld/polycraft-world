@@ -78,7 +78,7 @@ public class TutorialFeatureStart extends TutorialFeature{
 	
 	@Override
 	public void onClientTickUpdate(ExperimentTutorial exp) {
-		if(!spawnedInClient) {
+		if(spawnedInServer) {
 			Minecraft.getMinecraft().thePlayer.setPositionAndRotation(((int)this.pos.getX()) + 0.5, ((int)this.pos.getY()) + 0.5, ((int)this.pos.getZ()) + 0.5,
 					(float) this.lookDir.getY(), (float) this.lookDir.getX());
 			spawnedInClient = true;
