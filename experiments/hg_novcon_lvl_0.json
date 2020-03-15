@@ -1,6 +1,6 @@
 {
 	"seed":0,
-	"template":"hgv1_1.psm",
+	"templatePath":"hgv1_1.psm",
 	"novelties":[
 		{
 			"blockName": "polycraft:macguffin",
