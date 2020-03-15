@@ -61,6 +61,7 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 		TREES,
 		STUMPS,
 		BLOCK_LIST,
+		AREA,
 		HILLS
 	}
 	
@@ -128,6 +129,16 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 						exp.world.setBlockState(blockPos.add(exp.pos.xCoord, exp.pos.yCoord, exp.pos.zCoord), Block.getBlockFromName(blockListByPos.get(blockPos)).getDefaultState(), 2);
 				}
 			}
+			break;
+		case AREA:
+			if(blockListByPos != null && !blockListByPos.values().isEmpty())	// must have something in block list
+				for(int x = pos.getX(); x <= pos2.getX(); x++) {
+					for(int z = pos.getZ(); z <= pos2.getZ(); z++) {
+						for(int y = pos.getY(); y < pos2.getY(); y++) {
+							exp.world.setBlockState(new BlockPos(x,y,z), Block.getBlockFromName(blockListByPos.values().iterator().next()).getDefaultState(), 2);
+						}
+					}
+				}
 		default:
 			break;
 		}

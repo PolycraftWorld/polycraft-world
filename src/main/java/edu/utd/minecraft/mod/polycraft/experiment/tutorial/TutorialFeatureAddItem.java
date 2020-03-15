@@ -5,7 +5,7 @@ import java.awt.Color;
 import com.google.gson.JsonObject;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyItemNameField;
+import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyRegistryNameField;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpCreator;
@@ -27,7 +27,7 @@ public class TutorialFeatureAddItem extends TutorialFeature{
 	private boolean isValid;
 	
 	//GuiFields for Parameters
-	protected GuiPolyItemNameField itemField;
+	protected GuiPolyRegistryNameField itemField;
 	protected GuiPolyNumField stackSizeField;
 
 	public TutorialFeatureAddItem() {}
@@ -79,7 +79,7 @@ public class TutorialFeatureAddItem extends TutorialFeature{
 		//add labels for item stack params 
         guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
         		"Pos"));
-        itemField = new GuiPolyItemNameField(fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .8), 10);
+        itemField = new GuiPolyRegistryNameField(fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .8), 10);
         itemField.setMaxStringLength(64);
         itemField.setText(itemName);
         itemField.setTextColor(16777215);
