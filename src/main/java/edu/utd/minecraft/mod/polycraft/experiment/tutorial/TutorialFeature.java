@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
+ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -73,7 +73,8 @@ public class TutorialFeature implements ITutorialFeature{
 		SCORE(TutorialFeatureScore.class.getName()),
 		END(TutorialFeatureEnd.class.getName()),
 		GROUP(TutorialFeatureGroup.class.getName()),
-		WORLDGEN(TutorialFeatureWorldBuilder.class.getName());
+		WORLDGEN(TutorialFeatureWorldBuilder.class.getName()),
+		WALL(TutorialFeatureWall.class.getName());
 		public String className;
 		
 		TutorialFeatureType(String className) {
