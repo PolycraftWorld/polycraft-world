@@ -34,6 +34,7 @@ public class ExperimentDefinition {
 
 	ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
 	public TutorialOptions tutOptions = new TutorialOptions();
+	public JsonObject novCon = new JsonObject();
 	
 	public ExperimentDefinition() {
 		
@@ -102,6 +103,7 @@ public class ExperimentDefinition {
 		}
 		experimentJson.add("features", featureListJson);
 		experimentJson.add("options", tutOptions.saveJson());
+		experimentJson.add("novelty_config", novCon);
 		FileOutputStream fout = null, foutArea = null;
 		
 		try {

@@ -63,6 +63,7 @@ import net.minecraft.util.Timer;
 import net.minecraft.util.Vec3;
 import net.minecraft.util.Vec3i;
 import net.minecraftforge.fml.relauncher.Side;
+import scala.actors.threadpool.Arrays;
 
 public class BotAPI {
 	
@@ -215,26 +216,9 @@ public class BotAPI {
 	
 	public static void reset(String args[]){
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-		BotAPI.pos.set(0, ((int)player.posX >> 4) << 4);
-		BotAPI.pos.set(1, (int)player.posY);
-		BotAPI.pos.set(2, ((int)player.posZ >> 4) << 4);
-		BlockPos playerPos = new BlockPos(BotAPI.pos.get(0), BotAPI.pos.get(1),BotAPI.pos.get(2));
-		int xMax = 16, yMax = 0, zMax = 16;
 		
-		if(args.length > 3) {
-			BotAPI.pos.set(3, Integer.parseInt(args[1]));
-			BotAPI.pos.set(4, Integer.parseInt(args[2]));
-			BotAPI.pos.set(5, Integer.parseInt(args[3]));
-			xMax = BotAPI.pos.get(3);
-			yMax = BotAPI.pos.get(4);
-			zMax = BotAPI.pos.get(5);
-			
-			player.sendChatMessage("/reset setup " + args[1] + " " + args[2] + " " + args[3]);
-		}else if(args.length == 2) {
-			player.sendChatMessage("/reset " + args[1]);
-		}else if(args.length == 3) {
-			player.sendChatMessage("/reset " + args[1] + " " + args[2]);
-		}
+		player.sendChatMessage("/reset " + String.join(" ", (String[])Arrays.copyOfRange(args, 1, args.length)));
+		
 		setResult(new APICommandResult(args, Result.ATTEMPT, "Attempting to start new experiment"));
 	}
 

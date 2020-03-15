@@ -33,18 +33,29 @@ public class WorldGenTransform extends ElementTransform{
 					count++;
 				}
 			}
-			//for(count = rand.nextInt(intensity) + intensity / 10;count > 0; count --) {
-			while(count > 0) {
-				BlockPos pos1 = feature.getPos(), pos2 = feature.getPos2();
-				for(TutorialFeature tutFeat: features) {	// loop through features to find dimensions of specific data features
-					if(tutFeat.getName().equals("room ne")) {	// this is specific to hunter gather task and should be done through config somehow
-						pos1 = tutFeat.getPos();
-						pos2 = tutFeat.getPos2();
-						break;
-					}
+
+			BlockPos pos1 = feature.getPos(), pos2 = feature.getPos2();
+			for(TutorialFeature tutFeat: features) {	// loop through features to find dimensions of specific data features
+				if(tutFeat.getName().equals("room ne")) {	// this is specific to hunter gather task and should be done through config somehow
+					pos1 = tutFeat.getPos();
+					pos2 = tutFeat.getPos2();
+					break;
 				}
-				((TutorialFeatureWorldBuilder)feature).getBlockList().put(pos1.add(rand.nextInt(Math.abs(pos2.getX() - pos1.getX())), 
-						0, rand.nextInt(Math.abs(pos2.getZ() - pos1.getZ()))), blockName);
+			}
+			
+			if(blockName.startsWith("tree")) {
+				// trees can't spawn next to walls
+				pos1 = pos1.add(1, 0, 1);
+				pos2 = pos2.add(-1, 0, -1);
+			}
+			
+			
+			while(count > 0) {
+				BlockPos blockPos = pos1.add(rand.nextInt(Math.abs(pos2.getX() - pos1.getX())), 
+						0, rand.nextInt(Math.abs(pos2.getZ() - pos1.getZ())));
+				if(((TutorialFeatureWorldBuilder)feature).getBlockList().containsKey(blockPos))
+					continue;
+				((TutorialFeatureWorldBuilder)feature).getBlockList().put(blockPos, blockName);
 				count--;
 			}
 		}

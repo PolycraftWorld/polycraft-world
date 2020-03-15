@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -47,7 +48,7 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 	
 	//working parameters
 	private int count = 30;
-	private Map<BlockPos, String> blockListByPos;
+	private ConcurrentHashMap<BlockPos, String> blockListByPos;
 	
 	//Gui Parameters
 	@SideOnly(Side.CLIENT)
@@ -75,7 +76,7 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 		this.spawnRand = false;
 		this.featureType = TutorialFeatureType.WORLDGEN;
 		this.genType = gentype;
-		blockListByPos = new HashMap<BlockPos, String>();	// initialize blockList to prevent errors 
+		blockListByPos = new ConcurrentHashMap<BlockPos, String>();	// initialize blockList to prevent errors 
 	}
 	
 	@Override
@@ -114,15 +115,6 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 	            		break;	//break for loop
 	            }
 			}
-			// remove leaves near bot navigation space
-			for(int i = 0; i <= pos2.getX(); i++) {
-				for(int k = 0; k <= pos2.getZ(); k++) {
-					for(int j = 0; j < 3; j++) {
-						if(exp.getWorld().getBlockState(pos.add(i, j, k)).getBlock() == Blocks.leaves)
-							exp.getWorld().setBlockToAir(pos.add(i, j, k));
-					}
-				}
-			}
 			break;
 		case BLOCK_LIST:
 			for(BlockPos blockPos: blockListByPos.keySet()){
@@ -130,9 +122,8 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 					if(blockListByPos.get(blockPos).equals("tree")) {	
 						IBlockState iblockstate = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
 			            IBlockState iblockstate1 = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
-			            WorldGenerator worldgenerator = new WorldGenTrees(true, 5, iblockstate, iblockstate1, false);	// use static height trees
+			            WorldGenerator worldgenerator = new WorldGenTrees(true, 6, iblockstate, iblockstate1, false);	// use static height trees
 			           	worldgenerator.generate(exp.world, new Random(0), blockPos.add(exp.posOffset.xCoord, exp.posOffset.yCoord, exp.posOffset.zCoord));
-			            
 					}else {
 						exp.world.setBlockState(blockPos.add(exp.posOffset.xCoord, exp.posOffset.yCoord, exp.posOffset.zCoord), Block.getBlockFromName(blockListByPos.get(blockPos)).getDefaultState(), 2);
 					}
@@ -152,7 +143,15 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 			break;
 		}
 		
-			
+		// remove any leaves near bot navigation space
+		for(int i = 0; i <= pos2.getX(); i++) {
+			for(int k = 0; k <= pos2.getZ(); k++) {
+				for(int j = 0; j < 3; j++) {
+					if(exp.getWorld().getBlockState(pos.add(i, j, k)).getBlock() == Blocks.leaves)
+						exp.getWorld().setBlockToAir(pos.add(i, j, k));
+				}
+			}
+		}
 		canProceed = true;
 		this.complete(exp);
 	}
@@ -305,7 +304,7 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 		else
 			this.genType = GenType.TREES;	//trees is default because that's the only thing we had before adding this field
 		NBTTagList blockList = (NBTTagList) nbtFeat.getTag("blockList");
-		blockListByPos = new HashMap<BlockPos, String>();
+		blockListByPos = new ConcurrentHashMap<BlockPos, String>();
 		if(blockList != null) {
 			for(int i = 0; i < blockList.tagCount(); i++) {
 				NBTTagCompound blockEntry = blockList.getCompoundTagAt(i);
@@ -347,7 +346,7 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 		this.pos2 = blockPosFromJsonArray(featJson.get("pos2").getAsJsonArray());
 		this.count = featJson.get("count").getAsInt();
 		this.genType = GenType.valueOf(featJson.get("genType").getAsString());
-		blockListByPos = new HashMap<BlockPos, String>();	// initialize blockList to prevent errors 
+		blockListByPos = new ConcurrentHashMap<BlockPos, String>();	// initialize blockList to prevent errors 
 		JsonElement blockList = featJson.get("blockList");
 		if(blockList != null)
 			for(JsonElement blockEntry: blockList.getAsJsonArray()) {

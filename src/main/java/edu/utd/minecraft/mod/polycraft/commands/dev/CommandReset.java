@@ -227,8 +227,8 @@ public class CommandReset extends CommandBase{
 						expDef = parser.transform(args[1], Long.parseLong(args[2]));
 					else
 						expDef = parser.transform(args[1]);
-					String newPath = (new Timestamp(System.currentTimeMillis())).toString() + args[1];
-					expDef.save("experimentsLog/", newPath);
+					String newPath = (new Timestamp(System.currentTimeMillis())).toString().replace(":", ".") + ".json";
+					expDef.saveJson("experimentsLog/", newPath);
 					registerNewExperiment(player, true, "experimentsLog/" + newPath);
 					break;
 				default:
