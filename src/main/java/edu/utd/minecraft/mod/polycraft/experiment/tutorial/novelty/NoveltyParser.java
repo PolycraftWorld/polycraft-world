@@ -31,7 +31,7 @@ public class NoveltyParser {
 		loadJson(path);
 		for(ElementTransform transform: transforms) {
 			for(TutorialFeature feat: expDef.getFeatures()) {
-				transform.applyTransform(feat);
+				transform.applyTransform(feat, expDef.getFeatures());
 			}
 		}
 		return expDef;

@@ -106,13 +106,14 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 			while(count-- > 0) {
 				IBlockState iblockstate = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
 	            IBlockState iblockstate1 = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
-	            WorldGenerator worldgenerator = new WorldGenTrees(true, 4 + rand.nextInt(7), iblockstate, iblockstate1, false);
+	            //WorldGenerator worldgenerator = new WorldGenTrees(true, 4 + rand.nextInt(7), iblockstate, iblockstate1, false);
+	            WorldGenerator worldgenerator = new WorldGenTrees(true, 5, iblockstate, iblockstate1, false);	// use static height trees
 	            for(int x=0;x<5;x++){	//try to generate the tree 5 times before giving up
 	            	if(worldgenerator.generate(exp.world, rand, pos.add(rand.nextInt(pos2.getX() - pos.getX()), 0, rand.nextInt(pos2.getZ() - pos.getZ()))))
 	            		break;	//break for loop
 	            }
 			}
-			
+			// remove leaves near bot navigation space
 			for(int i = 0; i <= pos2.getX(); i++) {
 				for(int k = 0; k <= pos2.getZ(); k++) {
 					for(int j = 0; j < 3; j++) {
@@ -124,8 +125,16 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 			break;
 		case BLOCK_LIST:
 			for(BlockPos blockPos: blockListByPos.keySet()){
-				if(exp.world.isAirBlock(blockPos.add(exp.pos.xCoord, exp.pos.yCoord, exp.pos.zCoord))) {	//If the position is clear, set to block
-						exp.world.setBlockState(blockPos.add(exp.pos.xCoord, exp.pos.yCoord, exp.pos.zCoord), Block.getBlockFromName(blockListByPos.get(blockPos)).getDefaultState(), 2);
+				if(exp.world.isAirBlock(blockPos.add(exp.posOffset.xCoord, exp.posOffset.yCoord, exp.posOffset.zCoord))) {	//If the position is clear, set to block
+					if(blockListByPos.get(blockPos).equals("tree")) {	
+						IBlockState iblockstate = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
+			            IBlockState iblockstate1 = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+			            WorldGenerator worldgenerator = new WorldGenTrees(true, 5, iblockstate, iblockstate1, false);	// use static height trees
+			           	worldgenerator.generate(exp.world, new Random(0), blockPos.add(exp.posOffset.xCoord, exp.posOffset.yCoord, exp.posOffset.zCoord));
+			            
+					}else {
+						exp.world.setBlockState(blockPos.add(exp.posOffset.xCoord, exp.posOffset.yCoord, exp.posOffset.zCoord), Block.getBlockFromName(blockListByPos.get(blockPos)).getDefaultState(), 2);
+					}
 				}
 			}
 		default:
@@ -206,7 +215,12 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
         		"Data: "));
         dataField = new GuiTextField(420, fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .6), 10);
         dataField.setMaxStringLength(9999); //don't really want a max length here
-        dataField.setText("");
+        String dataText = ""; //build text for data field
+        for(BlockPos blockPos: blockListByPos.keySet()) {
+        	dataText += dataText.isEmpty()?"":";"; // first add a ";" separator if there is already text in the field
+        	dataText += blockListByPos.get(blockPos) + "," + blockPos.getX() + "," + blockPos.getY() + "," + blockPos.getZ();
+        }
+        dataField.setText(dataText);
         dataField.setTextColor(16777215);
         dataField.setVisible(true);
         dataField.setCanLoseFocus(true);
@@ -223,6 +237,7 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 		this.count = Integer.parseInt(countField.getText());
 		this.genType = cycleGenType.getCurrentOption();
 		if(!dataField.getText().isEmpty()) {
+			blockListByPos.clear();
 			String[] blockAndPosArray = dataField.getText().split(";");
 			for(String blockAndPos: blockAndPosArray) {
 				String[] blockAndPosSplit = blockAndPos.split(",");
@@ -287,6 +302,11 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 				blockListByPos.put(new BlockPos(posArray[0], posArray[1], posArray[2]), blockEntry.getString("blockName"));
 			}
 		}
+	}
+	
+	@Override
+	public BlockPos getPos2() {
+		return pos2;
 	}
 	
 	@Override

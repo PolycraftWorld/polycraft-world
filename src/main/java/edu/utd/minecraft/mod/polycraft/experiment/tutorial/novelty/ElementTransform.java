@@ -1,23 +1,11 @@
 package edu.utd.minecraft.mod.polycraft.experiment.tutorial.novelty;
 
-import java.awt.Color;
-import java.util.EnumSet;
+import java.util.ArrayList;
 import java.util.Set;
 
 import com.google.gson.JsonObject;
 
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureAddItem;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureCake;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureData;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureEnd;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureGroup;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureGuide;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureInstruction;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureScore;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureStart;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureWorldBuilder;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 
 public abstract class ElementTransform {
 
@@ -57,7 +45,7 @@ public abstract class ElementTransform {
 		return false;
 	}
 	
-	public abstract TutorialFeature applyTransform(TutorialFeature feature);
+	public abstract TutorialFeature applyTransform(TutorialFeature feature, ArrayList<TutorialFeature> features);
 	
 	public JsonObject saveJson()
 	{
