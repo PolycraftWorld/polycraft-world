@@ -1,0 +1,12 @@
+{
+	"seed":0,
+	"template":"hgv1_1.psm",
+	"novelties":[
+		{
+			"blockName": "polycraft:macguffin",
+			"type": "WorldGenTransform",
+			"seedOverride":0,
+			"intensity":20
+		}
+	]
+}

@@ -5,10 +5,13 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import org.apache.commons.lang3.math.NumberUtils;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
@@ -20,11 +23,13 @@ import com.google.gson.JsonParser;
 
 import edu.utd.minecraft.mod.polycraft.aitools.BotAPI;
 import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentManager;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentDefinition;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialOptions;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.novelty.NoveltyParser;
 import edu.utd.minecraft.mod.polycraft.privateproperty.Enforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.PrivateProperty;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
@@ -37,6 +42,7 @@ import net.minecraft.block.BlockOldLeaf;
 import net.minecraft.block.BlockOldLog;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -66,6 +72,7 @@ public class CommandReset extends CommandBase{
 	private static final String chatCommandTrees = "trees";
 	private static final String chatCommandInv = "inv";
 	private static final String chatCommandDomain = "domain";
+	private static final String chatCommandNovel = "novel";
 	private static final String chatCommandHills = "hills";
 	
 	static ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
@@ -213,6 +220,17 @@ public class CommandReset extends CommandBase{
 //					player.inventory.clear();
 //					player.setPositionAndUpdate(BotAPI.pos.get(0) + Math.random() * BotAPI.pos.get(3), y, BotAPI.pos.get(2) + Math.random() * BotAPI.pos.get(5));
 					break;
+				case chatCommandNovel:
+					NoveltyParser parser = new NoveltyParser();
+					ExperimentDefinition expDef = new ExperimentDefinition();
+					if(args.length == 3 && NumberUtils.isNumber(args[2])) // check if seed override is included
+						expDef = parser.transform(args[1], Long.parseLong(args[2]));
+					else
+						expDef = parser.transform(args[1]);
+					String newPath = (new Timestamp(System.currentTimeMillis())).toString() + args[1];
+					expDef.save("experimentsLog/", newPath);
+					registerNewExperiment(player, true, "experimentsLog/" + newPath);
+					break;
 				default:
 					player.setPosition(x + Math.random() * 15, y, z + Math.random() * 15);
 					break;
@@ -273,8 +291,8 @@ public class CommandReset extends CommandBase{
     	for(int chunkX = 0; chunkX <= chunkXMax; chunkX++) {
     		for(int chunkZ = 0; chunkZ <= chunkZMax; chunkZ++) {
         		net.minecraft.world.chunk.Chunk chunk = PolycraftChunkProvider.readChunkFromNBT(DimensionManager.getWorld(8), areaNBT.getCompoundTag("chunk," + chunkX + "," + chunkZ),
-        				chunkX,
-        				chunkZ);
+        				(int)TutorialManager.INSTANCE.getExperiment(id).pos.xCoord >> 4 ,
+    				(int)TutorialManager.INSTANCE.getExperiment(id).pos.zCoord >> 4);	// these are offsets, not chunk coords. coords are read within this function
 				chunks.add(chunk);
         	}
     	}

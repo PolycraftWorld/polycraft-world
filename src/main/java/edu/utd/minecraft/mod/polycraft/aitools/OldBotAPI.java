@@ -1245,15 +1245,15 @@ public class OldBotAPI {
 	}
 	
 	public static void GenNovelty(String args[]) {
-		if(args.length == 4) {
-			NoveltyParser parser = new NoveltyParser();
-			ExperimentDefinition expDef = new ExperimentDefinition();
-			expDef.loadJson(Minecraft.getMinecraft().theWorld, args[2]);
-			expDef = parser.transform(expDef, args[1]);
-			expDef.saveJson("", args[3]);
-		}else {
-			setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid format. Expected format: GEN_NOVELTY [novelty config json] [experiment template] [transformed experiment]"));
-		}
+//		if(args.length == 4) {
+//			NoveltyParser parser = new NoveltyParser();
+//			ExperimentDefinition expDef = new ExperimentDefinition();
+//			expDef.loadJson(Minecraft.getMinecraft().theWorld, args[2]);
+//			expDef = parser.transform(expDef, args[1]);
+//			expDef.saveJson("", args[3]);
+//		}else {
+//			setResult(new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid format. Expected format: GEN_NOVELTY [novelty config json] [experiment template] [transformed experiment]"));
+//		}
 	}
 
 	public static void toggleAPIThread() {

@@ -25,7 +25,7 @@ public abstract class ElementTransform {
 	TransformType type = TransformType.GenericTransform;
 	
 	protected int intensity;
-	protected long seed;
+	protected long seedOverride;
 
 	protected JsonObject jobj = new JsonObject();
 	
@@ -57,14 +57,14 @@ public abstract class ElementTransform {
 		return false;
 	}
 	
-	public abstract TutorialFeature applyTransform(TutorialFeature feature);
+	public abstract TutorialFeature applyTransform(TutorialFeature feature, long seedOverride);
 	
 	public JsonObject saveJson()
 	{
 		jobj = new JsonObject();	//erase current jobj so we don't get duplicates?
 		jobj.addProperty("type", type.name());
 		jobj.addProperty("intensity", intensity);
-		jobj.addProperty("seed", seed);
+		jobj.addProperty("seedOverride", seedOverride);
 		return jobj;
 	}
 	
@@ -72,7 +72,10 @@ public abstract class ElementTransform {
 	{
 		this.type = TransformType.valueOf(transformJson.get("type").getAsString());
 		this.intensity = transformJson.get("intensity").getAsInt();
-		this.seed = transformJson.get("seed").getAsLong();
+		if(transformJson.get("seedOverride")!=null)
+			this.seedOverride = transformJson.get("seedOverride").getAsLong();
+		else
+			this.seedOverride = -1; // -1 means we don't override seed
 	}
 	
 }

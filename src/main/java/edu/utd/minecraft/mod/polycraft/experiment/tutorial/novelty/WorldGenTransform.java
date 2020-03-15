@@ -19,9 +19,11 @@ public class WorldGenTransform extends ElementTransform{
 	}
 
 	@Override
-	public TutorialFeature applyTransform(TutorialFeature feature) {
+	public TutorialFeature applyTransform(TutorialFeature feature, long seed) {
+		if(this.seedOverride == -1)
+			seedOverride = seed;
 		if(shouldApplyTransform(feature)) {
-			Random rand = new Random(seed);
+			Random rand = new Random(seedOverride);
 				
 			for(int count = rand.nextInt(intensity) + intensity / 10;count > 0; count --) {
 				((TutorialFeatureWorldBuilder)feature).getBlockList().put(feature.getPos().add(rand.nextInt(feature.getPos2().getX()), 

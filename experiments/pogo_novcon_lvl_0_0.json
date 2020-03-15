@@ -1,0 +1,12 @@
+{
+	"seed":0,
+	"template":"pogo.psm",
+	"novelties":[
+		{
+			"blockName": "minecraft:crafting_table",
+			"type": "WorldGenTransform",
+			"seedOverride":0,
+			"intensity":20
+		}
+	]
+}

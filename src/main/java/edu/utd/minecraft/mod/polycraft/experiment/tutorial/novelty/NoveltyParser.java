@@ -14,6 +14,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentDefinition;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftChunkProvider;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -22,20 +23,35 @@ import net.minecraft.world.chunk.Chunk;
 public class NoveltyParser {
 	
 	ArrayList<ElementTransform> transforms = new ArrayList<ElementTransform>();
+	public String templatePath = "";
+	public long seed;
 	
 	public NoveltyParser() {
 		//initialize any needed variables
 	}
 	
-	public ExperimentDefinition transform(ExperimentDefinition expDef, String path) {
+	public ExperimentDefinition transform(String path) {
 		loadJson(path);
+		return transform(path, seed);
+	}
+	
+	public ExperimentDefinition transform(String path, long seed) {
+		loadJson(path);
+		this.seed = seed;	// override seed when we call from commandRESET
+		ExperimentDefinition expDef = new ExperimentDefinition();
+		if(templatePath.endsWith(".psm"))
+			expDef.load(Minecraft.getMinecraft().theWorld, "", templatePath);
+		else
+			expDef.loadJson(Minecraft.getMinecraft().theWorld, templatePath);
+
 		for(ElementTransform transform: transforms) {
 			for(TutorialFeature feat: expDef.getFeatures()) {
-				transform.applyTransform(feat);
+				transform.applyTransform(feat, seed);
 			}
 		}
 		return expDef;
 	}
+	
 	
 	public void loadJson(String path) {
 		try {
@@ -43,6 +59,10 @@ public class NoveltyParser {
 
         	JsonParser parser = new JsonParser();
             JsonObject expJson = (JsonObject) parser.parse(new FileReader(path));
+            
+            this.templatePath = expJson.get("templatePath").getAsString();
+            this.seed = expJson.get("seed").getAsLong();
+            
             JsonArray transformListJson = expJson.get("novelties").getAsJsonArray();
 			for(int i =0;i<transformListJson.size();i++) {
 				JsonObject transformJobj=transformListJson.get(i).getAsJsonObject();
