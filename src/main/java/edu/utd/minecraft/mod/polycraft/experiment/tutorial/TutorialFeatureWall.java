@@ -106,10 +106,12 @@ public class TutorialFeatureWall extends TutorialFeature{
 					if(buildDoor) {
 						// build a door path here
 						if(y == yMin && (z == zMin && xAxis || x == xMin && !xAxis)) {
-							Block door = Block.getBlockFromName("minecraft:wooden_door");
-					        IBlockState iblockstate = door.getDefaultState().withProperty(BlockDoor.FACING, xAxis?EnumFacing.SOUTH: EnumFacing.EAST).withProperty(BlockDoor.HINGE, BlockDoor.EnumHingePosition.LEFT);
-					        exp.world.setBlockState(new BlockPos(x, y, z), iblockstate.withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.LOWER), 2);
-					        exp.world.setBlockState(new BlockPos(x, y + 1, z), iblockstate.withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.UPPER), 2);
+//							Block door = Block.getBlockFromName("minecraft:wooden_door");
+//					        IBlockState iblockstate = door.getDefaultState().withProperty(BlockDoor.FACING, xAxis?EnumFacing.SOUTH: EnumFacing.EAST).withProperty(BlockDoor.HINGE, BlockDoor.EnumHingePosition.LEFT);
+//					        exp.world.setBlockState(new BlockPos(x, y, z), iblockstate.withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.LOWER), 2);
+//					        exp.world.setBlockState(new BlockPos(x, y + 1, z), iblockstate.withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.UPPER), 2);
+							exp.world.setBlockToAir(new BlockPos(x, y, z));
+							exp.world.setBlockToAir(new BlockPos(x, y + 1, z));
 						}else if(z != zMin) {
 							exp.world.setBlockToAir(new BlockPos(x, y, z));
 						}

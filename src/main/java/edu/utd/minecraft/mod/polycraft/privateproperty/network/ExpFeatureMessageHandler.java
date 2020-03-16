@@ -51,7 +51,7 @@ public class ExpFeatureMessageHandler implements IMessageHandler<ExpFeatureMessa
             		}
                 }
              });
-        }else {
+        }else {	// This is the CLIENT code
         	IThreadListener mainThread = Minecraft.getMinecraft();
             mainThread.addScheduledTask(new Runnable()
             {

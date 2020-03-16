@@ -12,78 +12,111 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureInstru
 import edu.utd.minecraft.mod.polycraft.privateproperty.ServerEnforcer;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
-
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 
 public class TutorialFeatureEnd extends TutorialFeature{
 
 	public enum EndCondition{
-		TIME,
-		ITEM,
-		ITEM_TO_LOCATION,
-		LOCATION,
-		SCORE
+		END_TIME,	// max total runtime
+		ITEM,	// item to acquire in inventory
+		BLOCK_TO_LOCATION,	// place block at location
+		LOCATION,	// Reach location
+		END_STEP_COST	// max step cost
 	};
-	private EndCondition endCondition;
+	
+	public EndCondition endCondition;
+	private String itemToAcquire;
+	private String blockToPlace;
+	public BlockPos locationToReach;
+	private float endTime, endStepCost;
+	public boolean isFinished;
 	
 	public TutorialFeatureEnd() {}
-	public int countDown;
 	
 	public TutorialFeatureEnd(String name, BlockPos pos){
 		super(name, pos, Color.YELLOW);
 		super.featureType = TutorialFeatureType.END;
-		this.countDown=50;
+		isFinished = false;
 	}
 	
 	@Override
 	public void preInit(ExperimentTutorial exp) {
 		super.preInit(exp);
-		this.countDown=50;
 	}
 	
 	@Override
 	public void onServerTickUpdate(ExperimentTutorial exp) {
-		for(EntityPlayer player: exp.scoreboard.getPlayersAsEntity()) {
-			this.countDown+=-1;
-			if(this.countDown%20==0)
-			{
-				this.isDirty=true;
-			}
-			if(this.countDown<=5)
-			{
-				//TP player to UTD
-				sendPlayerToUTD((EntityPlayerMP) player, exp);
-				complete(exp);
-				//save Player/Client hasCompletedTutorial=true;
-				ServerEnforcer.INSTANCE.UpdateClientTutorialCompleted((EntityPlayerMP)player);
-			}
+		
+		for(String playerName : exp.getPlayersInExperiment()) {
+			EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(playerName);
+			isFinished = onCommandReceived(player);
+		}
+		
+		if(isFinished) {
+			this.complete(exp);
 		}
 	}
 	
-	private void sendPlayerToUTD(EntityPlayerMP player, ExperimentTutorial exp){
-		player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0,	
-				new PolycraftTeleporter(player.mcServer.worldServerForDimension(0), 
-				(int) 0, (int) 100, (int) 0,
-				(float) 0, (float) 0));
+	public boolean onCommandReceived(EntityPlayer player) {
+		
+		switch(endCondition) {
+		case ITEM:
+			if(player.inventory.hasItem(Item.itemRegistry.getObject(new ResourceLocation(itemToAcquire))))
+				return true;
+			break;
+		case BLOCK_TO_LOCATION:
+			if(player.worldObj.getBlockState(locationToReach).getBlock() == Block.getBlockFromName(blockToPlace))
+				return true;
+			break;
+		case LOCATION:
+			break;
+		case END_STEP_COST:
+			break;
+		case END_TIME:
+			break;
+		default:
+			break;
+		}
+		
+		return false;
 	}
 	
 	@Override
 	public void render(Entity entity) {
-		TutorialRender.instance.renderTutorialDrawStringWithScale("\u00A76YOU WON!",100,35,2F);
-		TutorialRender.instance.renderTutorialDrawString("\u00A7eYou will be teleported in \u00A76"+this.countDown/20+"\u00A7e seconds!",150,100);
+		return;
+		//TutorialRender.instance.renderTutorialDrawStringWithScale("\u00A76YOU WON!",100,35,2F);
 	}
+	
+//	public EndCondition endCondition;
+//	private String itemToAcquire;
+//	private String blockToPlace;
+//	private BlockPos locationToReach;
+//	private float endTime, endStepCost;
+//	public boolean isFinished;
 	
 	@Override
 	public NBTTagCompound save()
 	{
 		super.save();
-		nbt.setInteger("countdown", this.countDown);
+		nbt.setString("endCondition", endCondition.name());
+		nbt.setString("itemToAcquire", itemToAcquire);
+		nbt.setString("blockToPlace", blockToPlace);
+		int pos[] = {locationToReach.getX(), locationToReach.getY(), locationToReach.getZ()};
+		nbt.setIntArray("locationToReach",pos);
+		nbt.setFloat("endTime", endTime);
+		nbt.setFloat("endStepCost", endStepCost);
+		nbt.setBoolean("isFinished", isFinished);
 		return nbt;
 	}
 	
@@ -91,7 +124,14 @@ public class TutorialFeatureEnd extends TutorialFeature{
 	public void load(NBTTagCompound nbtFeat)
 	{
 		super.load(nbtFeat);
-		this.countDown=nbtFeat.getInteger("countdown");
+		endCondition = EndCondition.valueOf(nbtFeat.getString("endCondition"));
+		itemToAcquire = nbtFeat.getString("itemToAcquire");
+		blockToPlace = nbtFeat.getString("blockToPlace");
+		int featPos[]=nbtFeat.getIntArray("pos");
+		locationToReach = new BlockPos(featPos[0], featPos[1], featPos[2]);
+		endTime = nbtFeat.getFloat("endTime");
+		endStepCost = nbtFeat.getFloat("endStepCost");
+		isFinished = nbtFeat.getBoolean("isFinished");
 	}
 	
 
@@ -99,7 +139,14 @@ public class TutorialFeatureEnd extends TutorialFeature{
 	public JsonObject saveJson()
 	{
 		super.saveJson();
-		jobj.addProperty("countdown", countDown);
+		jobj.addProperty("endCondition", endCondition.name());
+		jobj.addProperty("itemToAcquire", itemToAcquire);
+		jobj.addProperty("blockToPlace", blockToPlace);
+		jobj.add("locationToReach", blockPosToJsonArray(locationToReach));
+		jobj.addProperty("endTime", endTime);
+		jobj.addProperty("endStepCost", endStepCost);
+		jobj.addProperty("isFinished", isFinished);
+		
 		return jobj;
 	}
 	
@@ -107,6 +154,13 @@ public class TutorialFeatureEnd extends TutorialFeature{
 	public void loadJson(JsonObject featJson)
 	{
 		super.loadJson(featJson);
-		this.countDown = featJson.get("countdown").getAsInt();
+		endCondition = EndCondition.valueOf(featJson.get("endCondition").getAsString());
+		itemToAcquire = featJson.get("itemToAcquire").getAsString();
+		blockToPlace = featJson.get("blockToPlace").getAsString();
+		locationToReach = blockPosFromJsonArray(featJson.get("locationToReach").getAsJsonArray());
+		endTime = featJson.get("endTime").getAsFloat();
+		endStepCost = featJson.get("endStepCost").getAsFloat();
+		isFinished = featJson.get("isFinished").getAsBoolean();
+		
 	}
 }

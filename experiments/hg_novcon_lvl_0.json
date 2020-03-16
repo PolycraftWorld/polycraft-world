@@ -1,11 +1,17 @@
 {
 	"seed":0,
-	"templatePath":"hgv1_1.psm",
+	"templatePath":"experiments/hgv1_1.json",
 	"novelties":[
 		{
 			"blockName": "polycraft:macguffin",
 			"type": "WorldGenTransform",
-			"seedOverride":0,
+			"seedOverride":-1,
+			"intensity":20
+		},
+		{
+			"blockName": "minecraft:lapis_block",
+			"type": "TargetDestTransform",
+			"seedOverride":-1,
 			"intensity":20
 		}
 	]

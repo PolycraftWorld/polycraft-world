@@ -41,6 +41,7 @@ import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandTilt;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentDefinition;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureEnd;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.novelty.NoveltyParser;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
@@ -117,14 +118,36 @@ public class BotAPI {
     static int delay = 0;
     static String tempQ = null;
 
+    // this is set from the client .. I think
 	public static void setResult(APICommandResult result) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
+			for(TutorialFeature feature : TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getFeatures()) {
+				if(feature instanceof TutorialFeatureEnd) {
+					JsonObject jobj = new JsonObject();
+					jobj.addProperty("goalType", ((TutorialFeatureEnd)feature).endCondition.name());
+					jobj.addProperty("goalAchieved", ((TutorialFeatureEnd)feature).onCommandReceived(Minecraft.getMinecraft().thePlayer));
+					result.addJObject("goal", jobj);
+				}
+			}
+		}
 		commandResult.set(result);
 		serverResult = null;
 		printResult();
 		waitOnResult = false;
 	}
 	
+	// this is set from the server .. I think
 	public static void setServerResult(APICommandResult result) {
+		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {
+			for(TutorialFeature feature : TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getFeatures()) {
+				if(feature instanceof TutorialFeatureEnd) {
+					JsonObject jobj = new JsonObject();
+					jobj.addProperty("goalType", ((TutorialFeatureEnd)feature).endCondition.name());
+					jobj.addProperty("goalAchieved", ((TutorialFeatureEnd)feature).onCommandReceived(Minecraft.getMinecraft().thePlayer));
+					result.addJObject("goal", jobj);
+				}
+			}
+		}
 		serverResult = result;
 	}
 	

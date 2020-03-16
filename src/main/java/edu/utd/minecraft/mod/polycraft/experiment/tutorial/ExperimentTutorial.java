@@ -283,10 +283,11 @@ public class ExperimentTutorial{
 				if(!feature.canProceed)
 					break;
 				// if we reach the end feature, end the experiment
-				if(feature.getFeatureType() == TutorialFeatureType.END) {
-					currentState = State.Ending;
-					break;
-				}
+				// TODO: add new ending feature 
+//				if(feature.getFeatureType() == TutorialFeatureType.END) {
+//					currentState = State.Ending;
+//					break;
+//				}
 			}
 			break;
 		case Ending:

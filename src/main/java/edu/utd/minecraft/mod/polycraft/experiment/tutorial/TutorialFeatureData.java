@@ -2,22 +2,18 @@ package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
 import java.awt.Color;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.gson.JsonObject;
 
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpCreator;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -59,6 +55,12 @@ public class TutorialFeatureData extends TutorialFeature{
 		pos2 = pos2.add(exp.posOffset.xCoord,
 				exp.posOffset.yCoord,
 				exp.posOffset.zCoord);
+
+		if(this.name.startsWith("dest")) {
+			if(exp.world.getBlockState(pos.add(0,-1,0)).getBlock() != Blocks.lapis_block) {
+				exp.world.setBlockState(pos.add(0,-1,0), Blocks.lapis_block.getDefaultState());
+			}
+		}
 		}
 	
 	@Override

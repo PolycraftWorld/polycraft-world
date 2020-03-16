@@ -81,12 +81,12 @@ public class APICommandTeleport extends APICommandBase{
 						player.setPositionAndUpdate(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5);
 						player.playerNetServerHandler.setPlayerLocation(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, player.rotationYaw, player.rotationPitch);
 						return (new APICommandResult(args, APICommandResult.Result.SUCCESS, "", (this.stepCost * teleportDist) + teleportPenalty));
-					} else if(blockDist == 1) {
+					} else if(blockDist >= 1) {
 						for(EnumFacing facing: EnumFacing.HORIZONTALS) {
-							if(player.worldObj.isAirBlock(targetPos.offset(facing))) {
-								if(!area.isVecInside(new Vec3(targetPos.offset(facing))))
+							if(player.worldObj.isAirBlock(targetPos.add(facing.getFrontOffsetX() * blockDist, facing.getFrontOffsetY() * blockDist, facing.getFrontOffsetZ() * blockDist))) {
+								if(!area.isVecInside(new Vec3(targetPos.add(facing.getFrontOffsetX() * blockDist, facing.getFrontOffsetY() * blockDist, facing.getFrontOffsetZ() * blockDist))))
 									continue;
-								targetPos = targetPos.offset(facing);
+								targetPos = targetPos.add(facing.getFrontOffsetX() * blockDist, facing.getFrontOffsetY() * blockDist, facing.getFrontOffsetZ() * blockDist);
 								player.setLocationAndAngles(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, facing.getOpposite().getHorizontalIndex() * 90f, 0f);
 						    	player.playerNetServerHandler.setPlayerLocation(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, facing.getOpposite().getHorizontalIndex() * 90f, 0f);
 						    	return (new APICommandResult(args, APICommandResult.Result.SUCCESS, "", (this.stepCost * teleportDist) + teleportPenalty));
