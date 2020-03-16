@@ -29,6 +29,7 @@ import edu.utd.minecraft.mod.polycraft.aitools.APICommandResult.Result;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandBase;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandBreakBlock;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandChat;
+import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandCollect;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandCraft;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandLook;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandMoveDir;
@@ -323,6 +324,7 @@ public class BotAPI {
 				availableCommands.put("PLACE_TREE_TAP", new APICommandPlaceBlock(blockPlaceCost, "PLACE_BLOCK polycraft:tree_tap"));
 				
 				availableCommands.put("BREAK_BLOCK", new APICommandBreakBlock(blockBreakCost));
+				availableCommands.put("EXTRACT_RUBBER", new APICommandCollect(blockBreakCost));
 				
 				availableCommands.put("SENSE_ALL", new APICommandObservation(senseAllCost, ObsType.ALL));
 				availableCommands.put("SENSE_INVENTORY", new APICommandObservation(senseInventoryCost, ObsType.INVENTORY));
