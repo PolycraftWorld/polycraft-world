@@ -120,8 +120,8 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 			for(BlockPos blockPos: blockListByPos.keySet()){
 				if(exp.world.isAirBlock(blockPos.add(exp.posOffset.xCoord, exp.posOffset.yCoord, exp.posOffset.zCoord))) {	//If the position is clear, set to block
 					if(blockListByPos.get(blockPos).equals("tree")) {	
-						IBlockState iblockstate = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
-			            IBlockState iblockstate1 = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+						IBlockState iblockstate = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.OAK);
+			            IBlockState iblockstate1 = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.OAK).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
 			            WorldGenerator worldgenerator = new WorldGenTrees(true, 6, iblockstate, iblockstate1, false);	// use static height trees
 			           	worldgenerator.generate(exp.world, new Random(0), blockPos.add(exp.posOffset.xCoord, exp.posOffset.yCoord, exp.posOffset.zCoord));
 					}else {
