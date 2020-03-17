@@ -406,7 +406,10 @@ public class BotAPI {
 	                        BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 	                        PrintWriter out = new PrintWriter(client.getOutputStream(),true);
 	                        while(!client.isClosed()) {
-	                        	String  fromClient = StringUtils.chomp(in.readLine());
+	                        	String  fromClient = in.readLine();
+	                        	if(fromClient == null)
+	                        		break;
+	                        	fromClient = StringUtils.chomp(fromClient);
 	                        	System.out.println(fromClient);
 	                        	try {
 		                        	if(fromClient.startsWith("{")) {
