@@ -1,6 +1,6 @@
 {
 	"seed":0,
-	"templatePath":"experiments/hgv1_1.json",
+	"templatePath":"../experiments/hgv1_1.json",
 	"novelties":[
 		{
 			"blockName": "polycraft:macguffin",
