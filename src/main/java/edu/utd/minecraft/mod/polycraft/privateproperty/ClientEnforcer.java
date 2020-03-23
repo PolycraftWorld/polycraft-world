@@ -1000,9 +1000,9 @@ public class ClientEnforcer extends Enforcer {
 						client.ingameGUI.drawRect(x+40, y+16, x+56, y+32, 0xFF11CC00);
 						client.ingameGUI.drawRect(x+72, y+16, x+88, y+32, 0xFF0011CC);
 						
-						client.fontRendererObj.drawStringWithShadow("☢",x+12, y+20,  0xFF000000);
-						client.fontRendererObj.drawStringWithShadow("☯", x+44, y+20,  0xFF000000);
-						client.fontRendererObj.drawStringWithShadow("♥", x+78, y+20,  0xFF000000);
+						client.fontRendererObj.drawStringWithShadow("2",x+12, y+20,  0xFF000000);
+						client.fontRendererObj.drawStringWithShadow("1", x+44, y+20,  0xFF000000);
+						client.fontRendererObj.drawStringWithShadow("0", x+78, y+20,  0xFF000000);
 					}
 				}
 				else
