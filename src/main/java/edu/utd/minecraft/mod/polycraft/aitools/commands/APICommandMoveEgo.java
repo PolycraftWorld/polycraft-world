@@ -57,6 +57,11 @@ public class APICommandMoveEgo extends APICommandBase{
 			double x = -Math.round(Math.sin(Math.toRadians(player.rotationYaw + angle)));
 			double z = Math.round(Math.cos(Math.toRadians(player.rotationYaw + angle)));
 			System.out.println("X: " + x + " :: Z: " + z);
+			
+			//if player position is x.5, using getPosition() will round up. Change player position to x.499
+			if(player.getPosition().getX() > player.posX || player.getPosition().getZ() > player.posZ)
+				player.setPositionAndUpdate(((int)player.posX) + 0.499 , player.posY, ((int)player.posZ) + 0.499 );
+			
 			//check if destination is free of collision 
 			if(CheckIfBlockCollide(player.worldObj, player.getPosition().add(x, 0, z)))
 				return new APICommandResult(args, APICommandResult.Result.FAIL, "Block in path", this.stepCost);
