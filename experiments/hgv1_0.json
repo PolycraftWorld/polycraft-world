@@ -103,6 +103,31 @@
       ],
       "data": "render"
     },
+	{
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "name": "End Condition",
+      "color": -256,
+      "type": "END",
+      "canProceed": true,
+      "isDone": false,
+      "completionTime": 0,
+      "uuid": "db3e5cd8-6749-11ea-bc55-0242ac130003",
+	  "endCondition": "BLOCK_TO_LOCATION",
+	  "itemToAcquire": "",
+	  "blockToPlace": "polycraft:macguffin",
+	  "locationToReach": [
+						10,
+						4,
+						12
+						],
+	  "endTime": 0,
+	  "endStepCost": 0,
+	  "isFinished": false
+    },
     {
       "pos": [
         16,
