@@ -74,7 +74,7 @@ public class APICommandMoveEgo extends APICommandBase{
 			}
 			double newX = player.posX - Math.round(Math.sin(Math.toRadians(player.rotationYaw + angle)));
 			double newZ = player.posZ + Math.round(Math.cos(Math.toRadians(player.rotationYaw + angle)));
-			player.setPositionAndRotation(newX, player.posY, newZ,player.rotationYaw, 0f);
+			player.setPositionAndRotation(newX, player.posY, newZ,player.rotationYaw, player.rotationPitch);
 			return new APICommandResult(args, APICommandResult.Result.SUCCESS, "", this.stepCost);
 		}else
 			return new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Syntax", this.stepCost);
