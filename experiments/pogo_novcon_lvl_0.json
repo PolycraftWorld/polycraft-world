@@ -1,6 +1,6 @@
 {
 	"seed":0,
-	"templatePath":"../experiments/pogo.json",
+	"templatePath":"experiments/pogo.json",
 	"novelties":[
 		{
 			"blockName": "minecraft:crafting_table",

@@ -219,8 +219,8 @@
     "numTeams": 1,
     "teamSize": 1,
     "seed": 0,
-    "hideGui": false,
-    "outputScreen": false
+    "hideGui": true,
+    "outputScreen": true
   },
   "novelty_config": {}
 }
