@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
 import net.minecraft.block.Block;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.item.EntityItem;
@@ -45,6 +46,12 @@ public class ObservationPlayerInventory implements IObservation{
 			itemObj.addProperty("count", player.inventory.getStackInSlot(i).stackSize);
 			itemObj.addProperty("damage", player.inventory.getStackInSlot(i).getItemDamage());
 			itemObj.addProperty("maxdamage", player.inventory.getStackInSlot(i).getMaxDamage());
+			
+			if(Block.getBlockFromItem(player.inventory.getStackInSlot(i).getItem()) != null) {
+				for(IProperty prop: Block.getBlockFromItem(player.inventory.getStackInSlot(i).getItem()).getDefaultState().getProperties().keySet()) {
+					itemObj.addProperty(prop.getName(), Block.getBlockFromItem(player.inventory.getStackInSlot(i).getItem()).getDefaultState().getProperties().get(prop).toString());;
+				}
+			}
 			
 			jobject.add(String.valueOf(i), itemObj);
 		}
