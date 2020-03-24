@@ -54,6 +54,6 @@ public class APICommandTilt extends APICommandBase{
 				return new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Input", this.stepCost);
 			}
 		}else
-			return new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Syntax", this.stepCost);
+			return new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Syntax. Expected parameter [FORWARD/DOWN]", this.stepCost);
 	}
 }
