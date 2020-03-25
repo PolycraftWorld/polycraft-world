@@ -26,7 +26,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TutorialFeatureTreeNovelty extends TutorialFeature{
 	private BlockPos pos2;
-	boolean spawnRand;
 	
 	//working parameters
 	private int count = 20;
@@ -48,7 +47,6 @@ public class TutorialFeatureTreeNovelty extends TutorialFeature{
 	public TutorialFeatureTreeNovelty(String name, BlockPos pos, BlockPos lookDir){
 		super(name, pos, Color.GREEN);
 		this.pos2 = pos;
-		this.spawnRand = false;
 		this.featureType = TutorialFeatureType.WORLDGEN;
 	}
 	
@@ -155,7 +153,6 @@ public class TutorialFeatureTreeNovelty extends TutorialFeature{
 //		nbt.setInteger("dim", dim);
 //		nbt.setBoolean("spawnedInServer", spawnedInServer);
 //		nbt.setBoolean("spawnedInClient", spawnedInClient);
-		nbt.setBoolean("spawnRand", spawnRand);
 		return nbt;
 	}
 	
@@ -170,7 +167,6 @@ public class TutorialFeatureTreeNovelty extends TutorialFeature{
 //		this.dim = nbtFeat.getInteger("dim");
 //		this.spawnedInServer = nbtFeat.getBoolean("spawnedInServer");
 //		this.spawnedInClient = nbtFeat.getBoolean("spawnedInClient");
-		this.spawnRand = nbtFeat.getBoolean("spawnRand");
 	}
 	
 }

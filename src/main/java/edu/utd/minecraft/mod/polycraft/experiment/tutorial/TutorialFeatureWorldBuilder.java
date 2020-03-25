@@ -44,7 +44,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TutorialFeatureWorldBuilder extends TutorialFeature{
 	private BlockPos pos2;
-	boolean spawnRand;
 	
 	//working parameters
 	private int count = 30;
@@ -73,7 +72,6 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 	public TutorialFeatureWorldBuilder(String name, BlockPos pos, BlockPos lookDir, GenType gentype){
 		super(name, pos, Color.GREEN);
 		this.pos2 = pos;
-		this.spawnRand = false;
 		this.featureType = TutorialFeatureType.WORLDGEN;
 		this.genType = gentype;
 		blockListByPos = new ConcurrentHashMap<BlockPos, String>();	// initialize blockList to prevent errors 

@@ -48,7 +48,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TutorialFeatureWall extends TutorialFeature{
 	private BlockPos pos2;
-	boolean spawnRand;
 	
 	//working parameters
 	private int meta;
@@ -66,7 +65,6 @@ public class TutorialFeatureWall extends TutorialFeature{
 	public TutorialFeatureWall(String name, BlockPos pos){
 		super(name, pos, Color.GREEN);
 		this.pos2 = pos;
-		this.spawnRand = false;
 		this.featureType = TutorialFeatureType.WALL;
 	}
 	
