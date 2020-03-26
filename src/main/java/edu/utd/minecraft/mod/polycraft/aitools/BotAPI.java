@@ -37,6 +37,7 @@ import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandMoveEgo;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandObservation;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandObservation.ObsType;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandPlaceBlock;
+import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandSelectItem;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandTeleport;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandTilt;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
@@ -82,6 +83,7 @@ public class BotAPI {
 	public static float blockBreakCost = TICKS_PER_SEC * STEP_COST_PER_TICK;		// Assuming you can place 1 blocks a second
 	public static float craftCostPerItem = TICKS_PER_SEC * STEP_COST_PER_TICK;
 	public static float chatCost = TICKS_PER_SEC * STEP_COST_PER_TICK;
+	public static float guiActionCost = TICKS_PER_SEC * STEP_COST_PER_TICK;
 	public static float unitMovementCost = ((TICKS_PER_SEC / MOVEMENT_SPEED) * STEP_COST_PER_TICK) / movementSpeedMod;
 	public static float unitLookCost = (TICKS_PER_SEC / LOOK_SPEED) * STEP_COST_PER_TICK;
 	
@@ -319,6 +321,8 @@ public class BotAPI {
 				availableCommands.put("CRAFT_TREE_TAP", new APICommandCraft(craftCostPerItem, "CRAFT 1 minecraft:planks minecraft:stick minecraft:planks minecraft:planks 0 minecraft:planks 0 minecraft:planks 0"));
 				availableCommands.put("CRAFT_POGO_STICK", new APICommandCraft(craftCostPerItem, "CRAFT 1 minecraft:stick minecraft:stick minecraft:stick minecraft:planks minecraft:stick minecraft:planks 0 polycraft:sack_polyisoprene_pellets 0"));
 				availableCommands.put("CRAFT_CRAFTING_TABLE", new APICommandCraft(craftCostPerItem, "CRAFT 1 minecraft:planks minecraft:planks minecraft:planks minecraft:planks"));
+				
+				availableCommands.put("SELECT_ITEM", new APICommandSelectItem(guiActionCost, ""));
 				
 				availableCommands.put("PLACE_BLOCK", new APICommandPlaceBlock(blockPlaceCost, ""));
 				availableCommands.put("PLACE_MACGUFFIN", new APICommandPlaceBlock(blockPlaceCost, "PLACE_MACGUFFIN polycraft:macguffin MacGuffin"));
