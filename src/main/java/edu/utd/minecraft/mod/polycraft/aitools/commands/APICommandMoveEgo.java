@@ -7,6 +7,7 @@ import edu.utd.minecraft.mod.polycraft.aitools.APICommandResult;
 import edu.utd.minecraft.mod.polycraft.aitools.APICommandResult.Result;
 import edu.utd.minecraft.mod.polycraft.aitools.APIHelper.CommandResult;
 import edu.utd.minecraft.mod.polycraft.block.BlockMacGuffin;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -18,7 +19,9 @@ import net.minecraft.world.World;
 
 public class APICommandMoveEgo extends APICommandBase{
 	
-	public APICommandMoveEgo(float cost) {
+	private boolean smooth;	// whether we send interpolated frames or not in the response
+	
+	public APICommandMoveEgo(float cost, boolean smooth) {
 		super(cost);
 	}
 
@@ -86,6 +89,18 @@ public class APICommandMoveEgo extends APICommandBase{
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	public void fromBytes(ByteBuf buf) {
+		super.fromBytes(buf);
+		smooth = buf.readBoolean();
+	}
+	
+	@Override
+	public void toBytes(ByteBuf buf) {
+		super.toBytes(buf);
+		buf.writeBoolean(smooth);
 	}
 
 }

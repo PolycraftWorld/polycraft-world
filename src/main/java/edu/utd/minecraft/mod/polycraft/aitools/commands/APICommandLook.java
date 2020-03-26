@@ -21,16 +21,17 @@ import net.minecraft.world.World;
 public class APICommandLook extends APICommandBase{
 	
 	private boolean isRelative;
+	private boolean smooth; // send interpolated frames in the response
 	private EnumFacing dir;
 	
-	public APICommandLook(float cost, boolean isRelative, EnumFacing dir) {
+	public APICommandLook(float cost, boolean isRelative, EnumFacing dir, boolean smooth) {
 		super(cost);
 		this.isRelative = isRelative;
 		this.dir = dir;
 	}
 	
-	public APICommandLook(float cost, boolean isRelative) {
-		this(cost, isRelative, null);
+	public APICommandLook(float cost, boolean isRelative, boolean smooth) {
+		this(cost, isRelative, null, smooth);
 	}
 
 	@Override

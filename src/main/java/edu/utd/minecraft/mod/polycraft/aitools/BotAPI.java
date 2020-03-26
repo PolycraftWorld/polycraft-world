@@ -297,13 +297,15 @@ public class BotAPI {
 				availableCommands.put("MOVE_SOUTH", new APICommandMoveDir(unitMovementCost, EnumFacing.SOUTH));
 				availableCommands.put("MOVE_EAST", new APICommandMoveDir(unitMovementCost, EnumFacing.EAST));
 				availableCommands.put("MOVE_WEST", new APICommandMoveDir(unitMovementCost, EnumFacing.WEST));
-				availableCommands.put("SMOOTH_MOVE", new APICommandMoveEgo(unitMovementCost));	// TODO: look into separating for screen sensing
+				availableCommands.put("MOVE", new APICommandMoveEgo(unitMovementCost, false));
+				availableCommands.put("SMOOTH_MOVE", new APICommandMoveEgo(unitMovementCost, true));
 				
-				availableCommands.put("LOOK_NORTH", new APICommandLook(unitLookCost, false, EnumFacing.NORTH));
-				availableCommands.put("LOOK_SOUTH", new APICommandLook(unitLookCost, false, EnumFacing.SOUTH));
-				availableCommands.put("LOOK_EAST", new APICommandLook(unitLookCost, false, EnumFacing.EAST));
-				availableCommands.put("LOOK_WEST", new APICommandLook(unitLookCost, false, EnumFacing.WEST));
-				availableCommands.put("SMOOTH_TURN", new APICommandLook(unitLookCost, true));
+				availableCommands.put("LOOK_NORTH", new APICommandLook(unitLookCost, false, EnumFacing.NORTH, false));
+				availableCommands.put("LOOK_SOUTH", new APICommandLook(unitLookCost, false, EnumFacing.SOUTH, false));
+				availableCommands.put("LOOK_EAST", new APICommandLook(unitLookCost, false, EnumFacing.EAST, false));
+				availableCommands.put("LOOK_WEST", new APICommandLook(unitLookCost, false, EnumFacing.WEST, false));
+				availableCommands.put("TURN", new APICommandLook(unitLookCost, true, false));
+				availableCommands.put("SMOOTH_TURN", new APICommandLook(unitLookCost, true, true));
 				availableCommands.put("SMOOTH_TILT", new APICommandTilt(unitLookCost));	// TODO: use Look command for tilt
 				
 				availableCommands.put("TELEPORT", new APICommandTeleport(unitMovementCost, teleportCost, false));
