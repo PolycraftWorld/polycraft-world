@@ -48,8 +48,8 @@ public class ObservationPlayerInventory implements IObservation{
 			itemObj.addProperty("maxdamage", player.inventory.getStackInSlot(i).getMaxDamage());
 			
 			if(Block.getBlockFromItem(player.inventory.getStackInSlot(i).getItem()) != null) {
-				for(IProperty prop: Block.getBlockFromItem(player.inventory.getStackInSlot(i).getItem()).getDefaultState().getProperties().keySet()) {
-					itemObj.addProperty(prop.getName(), Block.getBlockFromItem(player.inventory.getStackInSlot(i).getItem()).getDefaultState().getProperties().get(prop).toString());;
+				for(IProperty prop: Block.getBlockFromItem(player.inventory.getStackInSlot(i).getItem()).getStateFromMeta(player.inventory.getStackInSlot(i).getItemDamage()).getProperties().keySet()) {
+					itemObj.addProperty(prop.getName(), Block.getBlockFromItem(player.inventory.getStackInSlot(i).getItem()).getStateFromMeta(player.inventory.getStackInSlot(i).getItemDamage()).getProperties().get(prop).toString());;
 				}
 			}
 			
