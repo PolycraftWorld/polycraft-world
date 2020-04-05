@@ -15,7 +15,7 @@ public class PathConfiguration{
 		OPEN,
 		DOOR,
 		DOOR_FLIPPED,
-		SECRETE_DOOR,
+		SECRET_DOOR,
 		ONE_WAY_DOOR,
 		FALSE_DOOR,
 		HIDDEN_DOOR,

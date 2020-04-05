@@ -67,7 +67,6 @@ public class TutorialFeatureWall extends TutorialFeature{
 	private String leverBlockName;	// lever type
 	private int leverBlockMeta;
 	private HashMap<Integer, PathConfiguration> wallConfiguration;	// <slot (x or z value), pathtype> store pathway type per block length on wall
-	private ArrayList<Boolean> reversedSlots;	// used for reversed pathways (door on other side)
 	
 	//Gui Parameters
 	@SideOnly(Side.CLIENT)
@@ -238,7 +237,7 @@ public class TutorialFeatureWall extends TutorialFeature{
 						}
 					}
 				break;
-			case SECRETE_DOOR:
+			case SECRET_DOOR:
 				break;
 			case WALL:
 				// do nothing, we already built the wall
@@ -341,7 +340,21 @@ public class TutorialFeatureWall extends TutorialFeature{
 		if(wallConfiguration == null || wallConfiguration.isEmpty())
 		{
 			wallConfiguration = new HashMap<Integer, PathConfiguration>();
-			wallConfiguration.put(4, new PathConfiguration(PathType.DOOR, false));
+//			wallConfiguration.put(4, new PathConfiguration(PathType.DOOR, false));
+
+			wallConfiguration.put(0, new PathConfiguration(PathType.OPEN_FULL_HEIGHT, false));
+			wallConfiguration.put(1, new PathConfiguration(PathType.OPEN, false));
+			wallConfiguration.put(3, new PathConfiguration(PathType.DOOR, false));
+			wallConfiguration.put(5, new PathConfiguration(PathType.DOOR, true));
+			wallConfiguration.put(7, new PathConfiguration(PathType.DOOR, false));
+			wallConfiguration.put(9, new PathConfiguration(PathType.DOOR, false));
+			wallConfiguration.put(11, new PathConfiguration(PathType.DOOR, false));
+			wallConfiguration.get(7).setButtonLocation(Location.OUTSIDE);
+			wallConfiguration.get(7).setPressurePlateLocation(Location.OUTSIDE);
+			wallConfiguration.get(9).setButtonLocation(Location.INSIDE);
+			wallConfiguration.get(9).setPressurePlateLocation(Location.INSIDE);
+			wallConfiguration.get(11).setButtonLocation(Location.BOTH);
+			wallConfiguration.get(11).setPressurePlateLocation(Location.BOTH);
 		}
 		
 		super.updateValues();
