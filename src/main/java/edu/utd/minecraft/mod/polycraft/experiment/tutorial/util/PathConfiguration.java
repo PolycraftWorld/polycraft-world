@@ -41,6 +41,8 @@ public class PathConfiguration{
 	public PathConfiguration(PathType type, boolean reversed) {
 		this.type = type;
 		this.reversed = reversed;
+		buttonLocation = Location.NONE;	// default NONE
+		pressurePlateLocation = Location.NONE;	// default NONE
 	}
 
 	public PathType getType() {
