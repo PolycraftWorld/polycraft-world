@@ -55,6 +55,9 @@ public class APICommandPlaceBlock extends APICommandBase{
 		if(!argsOverride.isEmpty())
 			args = argsOverride.split(" ");
 		
+		if(args.length < 2)	// check for parameter input
+    		return new APICommandResult(clientArgs, APICommandResult.Result.FAIL, "Missing Parameter", this.stepCost);
+
 		//check that player has the item in inventory
 		String itemID = args[1];
     	int slotToTransfer = -1;
