@@ -34,7 +34,7 @@ public class PathConfiguration{
 	private PathType type;
 	private boolean reversed;
 	private Location buttonLocation;
-	private Location pressurePlaceLocation;
+	private Location pressurePlateLocation;
 	
 	public PathConfiguration() {}
 	
@@ -67,12 +67,12 @@ public class PathConfiguration{
 		this.buttonLocation = buttonLocation;
 	}
 
-	public Location getPressurePlaceLocation() {
-		return pressurePlaceLocation;
+	public Location getPressurePlateLocation() {
+		return pressurePlateLocation;
 	}
 
 	public void setPressurePlateLocation(Location pressurePlaceLocation) {
-		this.pressurePlaceLocation = pressurePlaceLocation;
+		this.pressurePlateLocation = pressurePlaceLocation;
 	}
 
 	public NBTTagCompound save()
@@ -95,7 +95,7 @@ public class PathConfiguration{
 		jobj.addProperty("type", type.name());
 		jobj.addProperty("reversed", reversed);
 		jobj.addProperty("buttonLocation", buttonLocation.name());
-		jobj.addProperty("pressurePlaceLocation", pressurePlaceLocation.name());
+		jobj.addProperty("pressurePlaceLocation", pressurePlateLocation.name());
 		
 		return jobj;
 	}
@@ -105,6 +105,6 @@ public class PathConfiguration{
 		type = PathType.valueOf(jobj.get("type").getAsString());
 		reversed = jobj.get("reversed").getAsBoolean();
 		buttonLocation = jobj.get("buttonLocation") == null? Location.NONE: Location.valueOf(jobj.get("buttonLocation").getAsString());
-		pressurePlaceLocation = jobj.get("pressurePlaceLocation") == null? Location.NONE: Location.valueOf(jobj.get("pressurePlaceLocation").getAsString());
+		pressurePlateLocation = jobj.get("pressurePlaceLocation") == null? Location.NONE: Location.valueOf(jobj.get("pressurePlaceLocation").getAsString());
 	}
 }

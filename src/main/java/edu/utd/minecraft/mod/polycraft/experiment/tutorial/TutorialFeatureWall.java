@@ -180,11 +180,11 @@ public class TutorialFeatureWall extends TutorialFeature{
 		        }
 		        
 		        // spawn pressure plates
-		        if(path.getPressurePlaceLocation() == Location.BOTH || path.getPressurePlaceLocation() == Location.OUTSIDE) {
+		        if(path.getPressurePlateLocation() == Location.BOTH || path.getPressurePlateLocation() == Location.OUTSIDE) {
 		        	exp.world.setBlockState(new BlockPos(x + (!xAxis?(!path.isReversed()? -1:1):0), y, z + (xAxis?(!path.isReversed()? -1:1):0)), 
 		        			Block.getBlockFromName(pressurePlateBlockName).getDefaultState(), 2);
 		        }
-		        if(path.getPressurePlaceLocation() == Location.BOTH || path.getPressurePlaceLocation() == Location.INSIDE) {
+		        if(path.getPressurePlateLocation() == Location.BOTH || path.getPressurePlateLocation() == Location.INSIDE) {
 		        	exp.world.setBlockState(new BlockPos(x + (!xAxis?(path.isReversed()? -1:1):0), y, z + (xAxis?(path.isReversed()? -1:1):0)), 
 		        			Block.getBlockFromName(pressurePlateBlockName).getDefaultState(), 2);
 		        }
