@@ -18,9 +18,13 @@ import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpCreator;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.util.PathConfiguration;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.util.PathConfiguration.Location;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.util.PathConfiguration.PathType;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockButton;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockOldLeaf;
@@ -36,6 +40,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemDoor;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
@@ -49,10 +54,20 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TutorialFeatureWall extends TutorialFeature{
 	private BlockPos pos2;
 	
+	
 	//working parameters
-	private int meta;
-	private String blockName;
-	private ArrayList<Boolean> doorSlots;
+	private String wallBlockName;		// material used for wall
+	private int wallBlockMeta;
+	private String doorBlockName;		// door type
+	private int doorBlockMeta;
+	private String buttonBlockName;	// button type
+	private int buttonBlockMeta;
+	private String pressurePlateBlockName;	// pressure plate type
+	private int pressurePlateBlockMeta;
+	private String leverBlockName;	// lever type
+	private int leverBlockMeta;
+	private HashMap<Integer, PathConfiguration> wallConfiguration;	// <slot (x or z value), pathtype> store pathway type per block length on wall
+	private ArrayList<Boolean> reversedSlots;	// used for reversed pathways (door on other side)
 	
 	//Gui Parameters
 	@SideOnly(Side.CLIENT)
@@ -83,41 +98,153 @@ public class TutorialFeatureWall extends TutorialFeature{
 		int yMin = Math.min(pos.getY(), pos2.getY());
 		int yMax = Math.max(pos.getY(), pos2.getY());
 		
+		// definitions for testing 
+		//wallConfiguration = new HashMap<Integer, PathConfiguration>();
+		wallConfiguration.put(0, new PathConfiguration(PathType.OPEN_FULL_HEIGHT, false));
+		wallConfiguration.put(1, new PathConfiguration(PathType.OPEN, false));
+		wallConfiguration.put(3, new PathConfiguration(PathType.DOOR, false));
+		wallConfiguration.put(5, new PathConfiguration(PathType.DOOR, true));
+		wallConfiguration.put(7, new PathConfiguration(PathType.DOOR, false));
+		wallConfiguration.put(9, new PathConfiguration(PathType.DOOR, false));
+		wallConfiguration.put(11, new PathConfiguration(PathType.DOOR, false));
+		wallConfiguration.get(7).setButtonLocation(Location.OUTSIDE);
+		wallConfiguration.get(7).setPressurePlateLocation(Location.OUTSIDE);
+		wallConfiguration.get(9).setButtonLocation(Location.INSIDE);
+		wallConfiguration.get(9).setPressurePlateLocation(Location.INSIDE);
+		wallConfiguration.get(11).setButtonLocation(Location.BOTH);
+		wallConfiguration.get(11).setPressurePlateLocation(Location.BOTH);
+		
 		//Determine direction
 		boolean xAxis = false;
 		if(Math.abs(pos.getX() - pos2.getX()) > Math.abs(pos.getZ() - pos2.getZ()))
 			xAxis = true;
 		// generate wall
-		for(int x = xMin; x <= xMax; x++) {
-			for(int z = zMin; z <= zMax; z++) {
+		for(int v1 = xAxis? xMin:zMin; v1 <= (xAxis? xMax:zMax); v1++) {
+			// Build the wall first, just in case we need to place something like a button (needs a wall)
+			for(int v2 = !xAxis? xMin:zMin; v2 <= (!xAxis? xMax:zMax); v2++) {
+				// initialize x and z
+				int x = xAxis? v1:v2;
+				int z = !xAxis? v1:v2;
 				for(int y = yMin; y < yMax; y++) {
-					//every three blocks could be a pathway
-					boolean buildDoor = false;
-					if(xAxis && (x + 1 - xMin) % 3 == 0 && //We want every 3 blocks to be a door, but offset by 1 so we don't start the count at 0
-							(x/3) < doorSlots.size() && doorSlots.get(x/3) && y < yMin + 2)	{
-						buildDoor = true;
-					}else if(!xAxis && (z + 1 - zMin) % 3 == 0 && //We want every 3 blocks to be a door, but offset by 1 so we don't start the count at 0
-							(z/3) < doorSlots.size() && doorSlots.get(z/3) && y < yMin + 2){
-						buildDoor = true;
+					exp.world.setBlockState(new BlockPos(x, y, z), Block.getBlockFromName(wallBlockName).getStateFromMeta(wallBlockMeta), 2);
+				}
+			}
+			
+			// build custom pathways
+			int y = yMin;
+			int x = xAxis? v1:xMin;
+			int z = !xAxis? v1:zMin;
+			// get current path config or default to WALL if missing
+			PathConfiguration path = wallConfiguration.get(v1 - (xAxis? xMin: zMin)) != null ? wallConfiguration.get(v1 - (xAxis? xMin: zMin)): 
+				new PathConfiguration(PathConfiguration.PathType.WALL, false);
+			switch(path.getType()) {
+			case BREAKABLE_WALL:
+				break;
+			case DOOR:
+				// build a door path here
+				// first clear path
+				if(xAxis)
+					for(int z2 = z;z2<=zMax;z2++) {
+				        exp.world.setBlockToAir(new BlockPos(x, y, z2));
+						exp.world.setBlockToAir(new BlockPos(x, y + 1, z2));
 					}
-					
-					if(buildDoor) {
-						// build a door path here
-						if(y == yMin && (z == zMin && xAxis || x == xMin && !xAxis)) {
-//							Block door = Block.getBlockFromName("minecraft:wooden_door");
-//					        IBlockState iblockstate = door.getDefaultState().withProperty(BlockDoor.FACING, xAxis?EnumFacing.SOUTH: EnumFacing.EAST).withProperty(BlockDoor.HINGE, BlockDoor.EnumHingePosition.LEFT);
-//					        exp.world.setBlockState(new BlockPos(x, y, z), iblockstate.withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.LOWER), 2);
-//					        exp.world.setBlockState(new BlockPos(x, y + 1, z), iblockstate.withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.UPPER), 2);
-							exp.world.setBlockToAir(new BlockPos(x, y, z));
-							exp.world.setBlockToAir(new BlockPos(x, y + 1, z));
-						}else if(z != zMin) {
+				else
+					for(int x2 = x;x2<=xMax;x2++) {
+				        exp.world.setBlockToAir(new BlockPos(x2, y, z));
+						exp.world.setBlockToAir(new BlockPos(x2, y + 1, z));
+					}
+				
+				// place door on front or back, depending if reversed
+				if(path.isReversed()) {
+					x = xAxis? v1:xMax;
+					z = !xAxis? v1:zMax;
+				}
+				Block door = Block.getBlockFromName(doorBlockName);
+		        IBlockState iblockstate = door.getDefaultState().withProperty(BlockDoor.FACING, xAxis? 
+		        		path.isReversed() ? EnumFacing.NORTH: EnumFacing.SOUTH: 
+		        		path.isReversed() ? EnumFacing.WEST: EnumFacing.EAST).withProperty(BlockDoor.HINGE, BlockDoor.EnumHingePosition.LEFT);
+		        exp.world.setBlockState(new BlockPos(x, y, z), iblockstate.withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.LOWER), 2);
+		        exp.world.setBlockState(new BlockPos(x, y + 1, z), iblockstate.withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.UPPER), 2);
+		        
+		        // spawn buttons
+		        if(path.getButtonLocation() == Location.BOTH || path.getButtonLocation() == Location.OUTSIDE) {
+		        	exp.world.setBlockState(new BlockPos(x + (!xAxis?(!path.isReversed()? -1:1):0), y + 2, z + (xAxis?(!path.isReversed()? -1:1):0)), 
+		        			Block.getBlockFromName(buttonBlockName).getDefaultState().withProperty(BlockButton.FACING, xAxis? 
+		    		        		!path.isReversed() ? EnumFacing.NORTH: EnumFacing.SOUTH: 
+		    			        		!path.isReversed() ? EnumFacing.WEST: EnumFacing.EAST), 2);
+		        }
+		        if(path.getButtonLocation() == Location.BOTH || path.getButtonLocation() == Location.INSIDE) {
+		        	exp.world.setBlockState(new BlockPos(x + (!xAxis?(path.isReversed()? -1:1):0), y + 1, z + (xAxis?(path.isReversed()? -1:1):0)), 
+		        			Block.getBlockFromName(buttonBlockName).getDefaultState().withProperty(BlockButton.FACING, xAxis? 
+		    		        		!path.isReversed() ? EnumFacing.WEST: EnumFacing.EAST: 
+		    			        		!path.isReversed() ? EnumFacing.NORTH: EnumFacing.SOUTH), 2);
+		        }
+		        
+		        // spawn pressure plates
+		        if(path.getPressurePlaceLocation() == Location.BOTH || path.getPressurePlaceLocation() == Location.OUTSIDE) {
+		        	exp.world.setBlockState(new BlockPos(x + (!xAxis?(!path.isReversed()? -1:1):0), y, z + (xAxis?(!path.isReversed()? -1:1):0)), 
+		        			Block.getBlockFromName(pressurePlateBlockName).getDefaultState(), 2);
+		        }
+		        if(path.getPressurePlaceLocation() == Location.BOTH || path.getPressurePlaceLocation() == Location.INSIDE) {
+		        	exp.world.setBlockState(new BlockPos(x + (!xAxis?(path.isReversed()? -1:1):0), y, z + (xAxis?(path.isReversed()? -1:1):0)), 
+		        			Block.getBlockFromName(pressurePlateBlockName).getDefaultState(), 2);
+		        }
+		        
+				break;
+			case DOOR_FLIPPED:
+				break;
+			case FALSE_DOOR:
+				break;
+			case HIDDEN_DOOR:
+				break;
+			case ONE_WAY_DOOR:
+				break;
+			case ONE_WAY_SECRET_DOOR:
+				break;
+			case OPEN:
+				// clear path
+//				if(xAxis)
+//					for(;z<=zMax;z++) {
+//				        exp.world.setBlockToAir(new BlockPos(x, y, z));
+//						exp.world.setBlockToAir(new BlockPos(x, y + 1, z));
+//					}
+//				else
+//					for(;x<=xMax;x++) {
+//				        exp.world.setBlockToAir(new BlockPos(x, y, z));
+//						exp.world.setBlockToAir(new BlockPos(x, y + 1, z));
+//					}
+				for(int v2 = !xAxis? xMin:zMin; v2 <= (!xAxis? xMax:zMax); v2++) {
+					// clear path to be open
+					for(y = yMin; y < yMin + 2; y++) {
+						if(xAxis)
+							exp.world.setBlockToAir(new BlockPos(x, y, v2));
+						else
+							exp.world.setBlockToAir(new BlockPos(v2, y, z));
+					}
+				}
+				break;
+			case OPEN_FULL_HEIGHT:
+				// clear path full height
+				if(xAxis)
+					for(;z<=zMax;z++) {
+						for(y = yMin; y < yMax; y++) {
 							exp.world.setBlockToAir(new BlockPos(x, y, z));
 						}
 					}
-					else {
-						exp.world.setBlockState(new BlockPos(x, y, z), Block.getBlockFromName(blockName).getStateFromMeta(meta), 2);
+				else
+					for(;x<=xMax;x++) {
+						for(y = yMin; y < yMax; y++) {
+							exp.world.setBlockToAir(new BlockPos(x, y, z));
+						}
 					}
-				}
+				break;
+			case SECRETE_DOOR:
+				break;
+			case WALL:
+				// do nothing, we already built the wall
+				break;
+			default:
+				break;
 			}
 		}
 			
@@ -167,10 +294,10 @@ public class TutorialFeatureWall extends TutorialFeature{
         y_pos += 15;
         
         guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-        		"Meta:"));
+        		"WallMeta:"));
         metaField = new GuiPolyNumField(fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
         metaField.setMaxStringLength(32);
-        metaField.setText(Integer.toString(meta));
+        metaField.setText(Integer.toString(wallBlockMeta));
         metaField.setTextColor(16777215);
         metaField.setVisible(true);
         metaField.setCanLoseFocus(true);
@@ -183,33 +310,12 @@ public class TutorialFeatureWall extends TutorialFeature{
         		"Block: "));
         blockNameField = new GuiTextField(420, fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .6), 10);
         blockNameField.setMaxStringLength(9999); //don't really want a max length here
-        blockNameField.setText(blockName != null? blockName:"");
+        blockNameField.setText(wallBlockName != null? wallBlockName:"");
         blockNameField.setTextColor(16777215);
         blockNameField.setVisible(true);
         blockNameField.setCanLoseFocus(true);
         blockNameField.setFocused(false);
         guiDevTool.textFields.add(blockNameField);
-        
-        y_pos += 15;
-		
-		guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-        		"Slots: "));
-        slotDataField = new GuiTextField(420, fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .6), 10);
-        slotDataField.setMaxStringLength(9999); //don't really want a max length here
-        //generate default text value for door slot field
-        String doorSlotsText = "";
-        if(doorSlots != null && doorSlots.size() > 0) {
-        	for(boolean slot: doorSlots)
-        		doorSlotsText += "," + (slot ? 1:0); // 1 for true, 0 for false. separated by commas
-        	if(doorSlotsText.startsWith(","))
-        		doorSlotsText = doorSlotsText.substring(1, doorSlotsText.length());
-        }
-        slotDataField.setText(doorSlotsText);
-        slotDataField.setTextColor(16777215);
-        slotDataField.setVisible(true);
-        slotDataField.setCanLoseFocus(true);
-        slotDataField.setFocused(false);
-        guiDevTool.textFields.add(slotDataField);
 	}
 	
 	@Override
@@ -217,25 +323,27 @@ public class TutorialFeatureWall extends TutorialFeature{
 		this.pos2 = new BlockPos(Integer.parseInt(xPos2Field.getText())
 				,Integer.parseInt(yPos2Field.getText())
 				,Integer.parseInt(zPos2Field.getText()));
-		this.meta = Integer.parseInt(metaField.getText());
+		this.wallBlockMeta = Integer.parseInt(metaField.getText());
 		if(!blockNameField.getText().isEmpty()) {
 			if(Block.getBlockFromName(blockNameField.getText()) != null)
-				blockName = blockNameField.getText();
+				wallBlockName = blockNameField.getText();
 			else
-				blockName = "";
+				wallBlockName = "";
 		}
-		doorSlots = new ArrayList<Boolean>();
-		if(!slotDataField.getText().isEmpty()) {
-			String[] dataSplit = slotDataField.getText().split(",");
-			for(String slot: dataSplit) {
-				if(NumberUtils.isNumber(slot)) {
-					if(slot.equals("1"))
-						doorSlots.add(new Boolean(true));
-					else
-						doorSlots.add(new Boolean(false));
-				}
-			}
+		
+
+		wallBlockName = wallBlockName != null? wallBlockName: "minecraft:stained_hardened_clay";
+		doorBlockName = doorBlockName != null? doorBlockName: "minecraft:wooden_door";
+		buttonBlockName = buttonBlockName != null? buttonBlockName: "minecraft:wooden_button";
+		pressurePlateBlockName = pressurePlateBlockName != null? pressurePlateBlockName: "minecraft:wooden_pressure_plate";
+		leverBlockName = leverBlockName != null? leverBlockName: "minecraft:lever";
+		
+		if(wallConfiguration == null || wallConfiguration.isEmpty())
+		{
+			wallConfiguration = new HashMap<Integer, PathConfiguration>();
+			wallConfiguration.put(4, new PathConfiguration(PathType.DOOR, false));
 		}
+		
 		super.updateValues();
 	}
 	
@@ -251,12 +359,24 @@ public class TutorialFeatureWall extends TutorialFeature{
 		super.save();
 		int pos2[] = {(int)this.pos2.getX(), (int)this.pos2.getY(), (int)this.pos2.getZ()};
 		nbt.setIntArray("pos2",pos2);
-		nbt.setInteger("meta", meta);
-		nbt.setString("blockName", blockName);
-		int[] doorSlotIntArray = new int[doorSlots.size()];
-		for(int i = 0; i < doorSlots.size(); i++)
-			doorSlotIntArray[i] = doorSlots.get(i)?1:0;
-		nbt.setIntArray("doorSlotIntArray", doorSlotIntArray);
+		nbt.setString("wallBlockName", wallBlockName);
+		nbt.setInteger("wallBlockMeta", wallBlockMeta);
+		nbt.setString("doorBlockName", doorBlockName);
+		nbt.setInteger("doorBlockMeta", doorBlockMeta);
+		nbt.setString("buttonBlockName", buttonBlockName);
+		nbt.setInteger("buttonBlockMeta", buttonBlockMeta);
+		nbt.setString("pressurePlateBlockName", pressurePlateBlockName);
+		nbt.setInteger("pressurePlateBlockMeta", pressurePlateBlockMeta);
+		nbt.setString("leverBlockName", leverBlockName);
+		nbt.setInteger("leverBlockMeta", leverBlockMeta);
+		NBTTagList wallConfig = new NBTTagList();
+		for(int slot: wallConfiguration.keySet()) {
+			NBTTagCompound slotConfig = new NBTTagCompound();	// define slot config to store data
+			slotConfig.setInteger("slot", slot);
+			slotConfig.setTag("config", wallConfiguration.get(slot).save());
+			wallConfig.appendTag(slotConfig);	// add slot config to wall config
+		}
+		nbt.setTag("wallConfiguration", wallConfig);
 		return nbt;
 	}
 	
@@ -267,12 +387,26 @@ public class TutorialFeatureWall extends TutorialFeature{
 //		int featLookDir[]=nbtFeat.getIntArray("lookDir");
 //		this.lookDir=new BlockPos(featLookDir[0], featLookDir[1], featLookDir[2]);
 		int featPos2[]=nbtFeat.getIntArray("pos2");
-		this.pos2=new BlockPos(featPos2[0], featPos2[1], featPos2[2]);
-		this.meta = nbtFeat.getInteger("meta");
-		this.blockName = nbtFeat.getString("blockName");
-		this.doorSlots = new ArrayList<Boolean>();
-		for(int slot: nbtFeat.getIntArray("doorSlotIntArray"))
-			doorSlots.add(slot==1);
+		pos2=new BlockPos(featPos2[0], featPos2[1], featPos2[2]);
+		wallBlockName = nbtFeat.getString("wallBlockName");
+		wallBlockMeta = nbtFeat.getInteger("wallBlockMeta");
+		doorBlockName = nbtFeat.getString("doorBlockName");
+		doorBlockMeta = nbtFeat.getInteger("doorBlockMeta");
+		buttonBlockName = nbtFeat.getString("buttonBlockName");
+		buttonBlockMeta = nbtFeat.getInteger("buttonBlockMeta");
+		pressurePlateBlockName = nbtFeat.getString("pressurePlateBlockName");
+		pressurePlateBlockMeta = nbtFeat.getInteger("pressurePlateBlockMeta");
+		leverBlockName = nbtFeat.getString("leverBlockName");
+		leverBlockMeta = nbtFeat.getInteger("leverBlockMeta");
+		
+		wallConfiguration = new HashMap<Integer, PathConfiguration>();
+		NBTTagList wallConfig = nbtFeat.getTagList("wallConfiguration", 10);
+		for(int i = 0; i < wallConfig.tagCount(); i++) {
+			NBTTagCompound slotConfig = wallConfig.getCompoundTagAt(i);
+			PathConfiguration path = new PathConfiguration();
+			path.load(slotConfig.getCompoundTag("config"));
+			wallConfiguration.put(slotConfig.getInteger("slot"), path);
+		}
 	}
 	
 	@Override
@@ -280,8 +414,24 @@ public class TutorialFeatureWall extends TutorialFeature{
 	{
 		super.saveJson();
 		jobj.add("pos2", blockPosToJsonArray(pos2));
-		jobj.addProperty("meta", meta);
-		jobj.addProperty("blockName", blockName);
+		jobj.addProperty("wallBlockName", wallBlockName);
+		jobj.addProperty("wallBlockMeta", wallBlockMeta);
+		jobj.addProperty("doorBlockName", doorBlockName);
+		jobj.addProperty("doorBlockMeta", doorBlockMeta);
+		jobj.addProperty("buttonBlockName", buttonBlockName);
+		jobj.addProperty("buttonBlockMeta", buttonBlockMeta);
+		jobj.addProperty("pressurePlateBlockName", pressurePlateBlockName);
+		jobj.addProperty("pressurePlateBlockMeta", pressurePlateBlockMeta);
+		jobj.addProperty("leverBlockName", leverBlockName);
+		jobj.addProperty("leverBlockMeta", leverBlockMeta);
+		JsonArray wallConfig = new JsonArray();
+		for(int slot: wallConfiguration.keySet()) {
+			JsonObject slotConfig = new JsonObject();	// define slot config to store data
+			slotConfig.addProperty("slot", slot);
+			slotConfig.add("config", wallConfiguration.get(slot).saveJson());
+			wallConfig.add(slotConfig);	// add slot config to wall config
+		}
+		jobj.add("wallConfiguration", wallConfig);
 		
 		return jobj;
 	}
@@ -291,8 +441,26 @@ public class TutorialFeatureWall extends TutorialFeature{
 	{
 		super.loadJson(featJson);
 		this.pos2 = blockPosFromJsonArray(featJson.get("pos2").getAsJsonArray());
-		this.meta = featJson.get("meta").getAsInt();
-		this.blockName = featJson.get("blockName").getAsString();
+		wallBlockName = featJson.get("wallBlockName").getAsString();
+		wallBlockMeta = featJson.get("wallBlockMeta").getAsInt();
+		doorBlockName = featJson.get("doorBlockName").getAsString();
+		doorBlockMeta = featJson.get("doorBlockMeta").getAsInt();
+		buttonBlockName = featJson.get("buttonBlockName").getAsString();
+		buttonBlockMeta = featJson.get("buttonBlockMeta").getAsInt();
+		pressurePlateBlockName = featJson.get("pressurePlateBlockName").getAsString();
+		pressurePlateBlockMeta = featJson.get("pressurePlateBlockMeta").getAsInt();
+		leverBlockName = featJson.get("leverBlockName").getAsString();
+		leverBlockMeta = featJson.get("leverBlockMeta").getAsInt();
+		
+		wallConfiguration = new HashMap<Integer, PathConfiguration>();
+		JsonArray wallConfig = featJson.get("wallConfiguration").getAsJsonArray();
+		for(int i = 0; i < wallConfig.size(); i++) {
+			JsonObject slotConfig = wallConfig.get(i).getAsJsonObject();
+			PathConfiguration path = new PathConfiguration();
+			path.loadJson(slotConfig.get("config").getAsJsonObject());
+			wallConfiguration.put(slotConfig.get("slot").getAsInt(), path);
+		}
 	}
+	
 	
 }
