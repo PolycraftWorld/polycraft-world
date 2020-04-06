@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
+package edu.utd.minecraft.mod.polycraft.experiment.tutorial.util;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

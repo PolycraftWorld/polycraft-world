@@ -18,6 +18,8 @@ import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpCreator;
 import edu.utd.minecraft.mod.polycraft.entity.Physics.EntityGravelCannonBall;
 import edu.utd.minecraft.mod.polycraft.entity.ai.EntityAICaptureBases;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.util.RenderBox;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.util.TutorialRender;
 import edu.utd.minecraft.mod.polycraft.inventory.cannon.GravelCannonInventory;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import net.minecraft.block.Block;

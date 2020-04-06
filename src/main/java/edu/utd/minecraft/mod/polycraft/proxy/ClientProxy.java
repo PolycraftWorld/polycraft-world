@@ -64,7 +64,7 @@ import edu.utd.minecraft.mod.polycraft.entity.projectile.RenderPaintball;
 import edu.utd.minecraft.mod.polycraft.experiment.feature.FeatureBase;
 import edu.utd.minecraft.mod.polycraft.experiment.old.ExperimentManager;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialRender;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.util.TutorialRender;
 import edu.utd.minecraft.mod.polycraft.handler.ResyncHandler;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftCleanroom;
 import edu.utd.minecraft.mod.polycraft.inventory.PolycraftInventoryBlock;

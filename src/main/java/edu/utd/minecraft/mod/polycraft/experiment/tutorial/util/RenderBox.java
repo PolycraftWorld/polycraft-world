@@ -1,4 +1,4 @@
-package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
+package edu.utd.minecraft.mod.polycraft.experiment.tutorial.util;
 
 import java.awt.Color;
 // import java.awt.Color;
