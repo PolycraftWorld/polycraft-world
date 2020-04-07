@@ -3,11 +3,15 @@ package edu.utd.minecraft.mod.polycraft.aitools.commands;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -16,8 +20,14 @@ import edu.utd.minecraft.mod.polycraft.aitools.APICommandResult.Result;
 import edu.utd.minecraft.mod.polycraft.aitools.APIHelper.CommandResult;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipe;
+import edu.utd.minecraft.mod.polycraft.crafting.PolycraftRecipeManager;
 import edu.utd.minecraft.mod.polycraft.crafting.RecipeComponent;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureRecipeOverride;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.CommandResultMessage;
+import edu.utd.minecraft.mod.polycraft.util.SetMap;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -113,8 +123,65 @@ public class APICommandCraft extends APICommandBase{
     	}
     	
     	boolean recipeWorked = false;
+    	boolean recipeOverride = false;
+    	PolycraftRecipe resultRecipe = null;
     	
-    	PolycraftRecipe resultRecipe = PolycraftMod.recipeManagerRuntime.findRecipe(PolycraftContainerType.POLYCRAFTING_TABLE, items);
+    	// check for custom recipelist for this experiment
+    	int expID = TutorialManager.INSTANCE.isPlayerinExperiment(player.getName());
+    	if(expID != -1) {
+    		for(TutorialFeature feature : TutorialManager.INSTANCE.getExperiment(expID).getFeatures()) {
+    			if(feature instanceof TutorialFeatureRecipeOverride) {
+    				recipeOverride = true;
+    				
+    				// *** Search for Recipe ***
+    				// Check shaped recipe in initial positions
+    				// copied code from PolycraftRecipeManager 
+    				List<PolycraftRecipe> validRecipes = Lists.newArrayList();
+    				final Set<PolycraftRecipe> shapedSet = ((TutorialFeatureRecipeOverride)feature).getShapedRecipes().getAnySubset(items);
+    				for (final PolycraftRecipe recipe : shapedSet) {
+    					if (recipe.isShapedOnly() && recipe.areInputsValid(items)) {
+    						validRecipes.add(recipe);
+    					}
+    				}
+    				if (validRecipes.size() != 0) {
+        				Collections.sort(validRecipes, new Comparator<PolycraftRecipe>() {
+        					@Override
+        					public int compare(PolycraftRecipe o1, PolycraftRecipe o2) {
+        						return PolycraftMod.compareInt(o2.getMaxInputStackSize(), o1.getMaxInputStackSize());
+        					}
+        				});
+        				resultRecipe = validRecipes.get(0);
+    				}
+    				
+    				if(resultRecipe != null) {	// couldn't find shaped recipe, check shapeless recipes
+    					// copied code from PolycraftRecipeManager 
+    					Set<String> itemSet = Sets.newLinkedHashSet();
+    					for (final RecipeComponent input : items) {
+    						itemSet.add(input.itemStack.getItem().toString());
+    					}
+    					
+    					final Set<PolycraftRecipe> shapelessSet = ((TutorialFeatureRecipeOverride)feature).getShapelessRecipes().getAnySubset(itemSet);
+    					for (final PolycraftRecipe recipe : shapelessSet) {
+    						if (recipe.areInputsValid(items)) {
+    							validRecipes.add(recipe);
+    						}
+    					}
+    					if (validRecipes.size() != 0) {
+	    					Collections.sort(validRecipes, new Comparator<PolycraftRecipe>() {
+	    						@Override
+	    						public int compare(PolycraftRecipe o1, PolycraftRecipe o2) {
+	    							return PolycraftMod.compareInt(o2.getMaxInputStackSize(), o1.getMaxInputStackSize());
+	    						}
+	    					});
+	    					resultRecipe = validRecipes.get(0);
+    					}
+    				}
+    			}
+    		}
+    	}
+    	
+    	if(!recipeOverride)	// if there was no recipe override, search through default recipes
+    		resultRecipe = PolycraftMod.recipeManagerRuntime.findRecipe(PolycraftContainerType.POLYCRAFTING_TABLE, items);
     	
     	if(resultRecipe != null) {
     		recipeWorked = true;

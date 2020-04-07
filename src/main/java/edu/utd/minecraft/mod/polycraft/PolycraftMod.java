@@ -50,6 +50,7 @@ import edu.utd.minecraft.mod.polycraft.privateproperty.network.IntegerMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.IntegerMessageHandler;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.InventoryMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.InventoryMessageHandler;
+import edu.utd.minecraft.mod.polycraft.privateproperty.network.PolycraftNetworkManager;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.TeleportMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.TeleportMessageHandler;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.aitool.GenerateMessage;
@@ -97,8 +98,11 @@ public class PolycraftMod {
 	public static final Logger logger = LogManager.getFormatterLogger(MODID);
 	public static final NumberFormat numFormat = NumberFormat.getInstance();
 	
-
+	
+	// SChannel is for sending custom packets
 	public static final SimpleNetworkWrapper SChannel = NetworkRegistry.INSTANCE.newSimpleChannel("polycraft");
+	// networkManager for intercepting vanilla packets
+	public static PolycraftNetworkManager networkManager = new PolycraftNetworkManager();
 
 	public static boolean GEN_JSON_DATA = false;
 

@@ -34,6 +34,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.EnumConnectionState;
+import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.util.BlockPos;
@@ -66,6 +67,7 @@ import net.minecraftforge.fml.common.network.FMLEmbeddedChannel;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleIndexedCodec;
@@ -102,6 +104,12 @@ import edu.utd.minecraft.mod.polycraft.scoreboards.ClientScoreboard;
 import edu.utd.minecraft.mod.polycraft.scoreboards.ScoreboardManager;
 import edu.utd.minecraft.mod.polycraft.trading.ItemStackSwitch;
 import edu.utd.minecraft.mod.polycraft.util.CompressUtil;
+import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.local.LocalChannel;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.client.Minecraft;
@@ -1063,6 +1071,19 @@ public class ClientEnforcer extends Enforcer {
 		//Block.getBlockById(blockID).onPostBlockPlaced(client.theWorld, new BlockPos(x, y, z), state); TODO: do we need this in 1.8?
 	}
 	
-	
+	@SubscribeEvent
+	public void onServerConnectToClient(ServerConnectionFromClientEvent event) {
+		//TODO: grab vanilla packets
+//		if(event.manager.channel().pipeline().get("polycraft_packet_handler") == null)
+//			event.manager.channel().pipeline().addBefore( (String) "packet_handler", (String) "polycraft_packet_handler", (ChannelHandler)PolycraftMod.networkManager);
+
+//        ((Bootstrap)((Bootstrap)((Bootstrap)(new Bootstrap()).group((EventLoopGroup)CLIENT_LOCAL_EVENTLOOP.getValue())).handler(new ChannelInitializer<Channel>()
+//        {
+//            protected void initChannel(Channel p_initChannel_1_) throws Exception
+//            {
+//                p_initChannel_1_.pipeline().addLast((String)"packet_handler", (ChannelHandler)networkmanager);
+//            }
+//        })).channel(LocalChannel.class)).connect(address).syncUninterruptibly();
+	}
 	
 }

@@ -1,11 +1,18 @@
 package edu.utd.minecraft.mod.polycraft.crafting;
 
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import edu.utd.minecraft.mod.polycraft.util.LogUtil;
 
@@ -18,6 +25,10 @@ import edu.utd.minecraft.mod.polycraft.util.LogUtil;
 public final class RecipeInput {
 	public final Collection<ItemStack> inputs;
 	public final ContainerSlot slot;
+	
+	public RecipeInput(final int slotIndex, final Iterable<ItemStack> items) {
+		this(new RecipeSlot(slotIndex), items);
+	}
 	
 	private RecipeInput(final ContainerSlot slot, final Iterable<ItemStack> items) {
 		Preconditions.checkNotNull(slot);		
@@ -160,6 +171,52 @@ public final class RecipeInput {
 			return false;
 		}
 		return true;
+	}
+	
+	public NBTTagCompound toNBT() {
+		NBTTagCompound nbt = new NBTTagCompound();	// define recipe input to store data
+		nbt.setInteger("slotIndex", slot.getSlotIndex());
+		NBTTagList itemStacksNbt = new NBTTagList();
+		for(ItemStack itemStack: inputs) {
+			NBTTagCompound itemStackConfig = new NBTTagCompound();	// define itemStackConfig to store itemStack to outputConfig
+			itemStackConfig.setString("name", itemStack.getItem().getRegistryName());
+			itemStackConfig.setInteger("stackSize", itemStack.stackSize);
+			itemStacksNbt.appendTag(itemStackConfig);
+		}
+		nbt.setTag("itemStacks", itemStacksNbt);
+		return nbt;
+	}
+
+	public static RecipeInput fromNBT(NBTTagCompound nbt) {
+		List<ItemStack> items = new LinkedList<ItemStack>();
+		NBTTagList itemStacksNbt = nbt.getTagList("itemStacks", 10);
+		for(int i = 0; i < itemStacksNbt.tagCount(); i++) {
+			items.add(new ItemStack(Item.getByNameOrId(itemStacksNbt.getCompoundTagAt(i).getString("name")), itemStacksNbt.getCompoundTagAt(i).getInteger("stackSize")));
+		}
+		return new RecipeInput(nbt.getInteger("slotIndex"), items);
+	}
+	
+	public JsonObject toJson() {
+		JsonObject jobj = new JsonObject();	// define jobj to return
+		jobj.addProperty("slotIndex", slot.getSlotIndex());
+		JsonArray itemStacksList = new JsonArray();
+		for(ItemStack itemStack: inputs) {
+			JsonObject itemStackConfig = new JsonObject();	// define itemStackConfig to store in Json
+			itemStackConfig.addProperty("name", itemStack.getItem().getRegistryName());
+			itemStackConfig.addProperty("stackSize", itemStack.stackSize);
+			itemStacksList.add(itemStackConfig);
+		}
+		jobj.add("itemStacks", itemStacksList);
+		return jobj;
+	}
+	
+	public static RecipeInput fromJson(JsonObject jobj) {
+		List<ItemStack> items = new LinkedList<ItemStack>();
+		JsonArray itemStacksJson = jobj.get("itemStacks").getAsJsonArray();
+		for(int i = 0; i < itemStacksJson.size(); i++) {
+			items.add(new ItemStack(Item.getByNameOrId(itemStacksJson.get(i).getAsJsonObject().get("name").getAsString()), itemStacksJson.get(i).getAsJsonObject().get("stackSize").getAsInt()));
+		}
+		return new RecipeInput(jobj.get("slotIndex").getAsInt(), items);
 	}
 
 	@Override

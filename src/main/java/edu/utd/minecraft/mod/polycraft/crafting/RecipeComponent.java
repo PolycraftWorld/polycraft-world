@@ -2,8 +2,10 @@ package edu.utd.minecraft.mod.polycraft.crafting;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 import com.google.common.base.Preconditions;
+import com.google.gson.JsonObject;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.util.LogUtil;
@@ -73,6 +75,36 @@ public class RecipeComponent implements Comparable<RecipeComponent> {
 		return PolycraftMod.compareInt(slot.getSlotIndex(), o.slot.getSlotIndex());
 	}
 
+	public NBTTagCompound toNBT() {
+		NBTTagCompound nbt = new NBTTagCompound();	// define recipe input to store data
+		nbt.setInteger("slotIndex", slot.getSlotIndex());
+		NBTTagCompound itemStackConfig = new NBTTagCompound();	// define itemStackConfig to store itemStack to outputConfig
+		itemStackConfig.setString("name", itemStack.getItem().getRegistryName());
+		itemStackConfig.setInteger("stackSize", itemStack.stackSize);
+		nbt.setTag("itemStack", itemStackConfig);
+		return nbt;
+	}
+
+	public static RecipeComponent fromNBT(NBTTagCompound nbt) {
+		NBTTagCompound itemStackConfig = nbt.getCompoundTag("itemStack");
+		return new RecipeComponent(nbt.getInteger("slotIndex"), Item.getByNameOrId(itemStackConfig.getString("name")), itemStackConfig.getInteger("stackSize"));
+	}
+	
+	public JsonObject toJson() {
+		JsonObject jobj = new JsonObject();	// define jobj to return
+		jobj.addProperty("slotIndex", slot.getSlotIndex());
+		JsonObject itemStackConfig = new JsonObject();	// define itemStackConfig to store in Json
+		itemStackConfig.addProperty("name", itemStack.getItem().getRegistryName());
+		itemStackConfig.addProperty("stackSize", itemStack.stackSize);
+		jobj.add("itemStack", itemStackConfig);
+		return jobj;
+	}
+	
+	public static RecipeComponent fromJson(JsonObject jobj) {
+		JsonObject itemStackConfig = jobj.get("itemStack").getAsJsonObject();
+		return new RecipeComponent(jobj.get("slotIndex").getAsInt(), Item.getByNameOrId(itemStackConfig.get("name").getAsString()), itemStackConfig.get("stackSize").getAsInt());
+	}
+	
 	@Override
 	public String toString() {
 		return "slot=" + slot + ", itemStack=" + LogUtil.toString(itemStack);

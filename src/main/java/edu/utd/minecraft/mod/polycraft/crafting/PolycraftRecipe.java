@@ -1,12 +1,15 @@
 package edu.utd.minecraft.mod.polycraft.crafting;
 
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +20,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import edu.utd.minecraft.mod.polycraft.util.LogUtil;
 
@@ -374,7 +379,91 @@ public class PolycraftRecipe {
 			}
 		}
 	}
+	
+	public NBTTagCompound toNBT() {
+		NBTTagCompound recipeConfig = new NBTTagCompound();	// define recipe configuration to store data
+		NBTTagList inputs = new NBTTagList();	// define recipe inputs to store data
+		NBTTagList outputs = new NBTTagList();	// define recipe outputs to store data
+		// build input config
+		for(RecipeInput input: getInputs())
+			inputs.appendTag(input.toNBT());
+		recipeConfig.setTag("inputs", inputs);	// add inputs to recipe config
+		// build output config
+		for(RecipeComponent output: getOutputs(null)) 
+			outputs.appendTag(output.toNBT());
+		recipeConfig.setTag("outputs", outputs);	// add outputs to recipe config
+		
+		recipeConfig.setString("containerType", containerType.name());
+		
+		return recipeConfig;
+	}
 
+	public static PolycraftRecipe fromNBT(NBTTagCompound nbt) {
+		NBTTagList inputsNbt = nbt.getTagList("inputs", 10);	// define recipe inputs to store data
+		NBTTagList outputsNbt = nbt.getTagList("outputs", 10);	// define recipe outputs to store data
+		
+		// we'll run into issues if one of these are blank
+		if(inputsNbt.tagCount() < 1 || outputsNbt.tagCount() < 1)
+			return null;
+		
+		List<RecipeInput> recipeInputs = new LinkedList<RecipeInput>();
+		List<RecipeComponent> recipeOutputs = new LinkedList<RecipeComponent>();
+		
+		// add input items to list
+		for(int i = 0; i < inputsNbt.tagCount(); i++)
+			recipeInputs.add(RecipeInput.fromNBT(inputsNbt.getCompoundTagAt(i)));
+		
+		// add output items to list
+		for(int i = 0; i < outputsNbt.tagCount(); i++)
+			recipeOutputs.add(RecipeComponent.fromNBT(outputsNbt.getCompoundTagAt(i)));
+		
+		PolycraftContainerType type = PolycraftContainerType.valueOf(nbt.getString("containerType"));
+		
+		return new PolycraftRecipe(type, recipeInputs, recipeOutputs);
+	}
+	
+	public JsonObject toJson() {
+		JsonObject recipeConfig = new JsonObject();	// define recipe configuration to store data
+		JsonArray inputs = new JsonArray();	// define recipe inputs to store data
+		JsonArray outputs = new JsonArray();	// define recipe outputs to store data
+		// build input config
+		for(RecipeInput input: getInputs())
+			inputs.add(input.toJson());
+		recipeConfig.add("inputs", inputs);	// add inputs to recipe config
+		// build output config
+		for(RecipeComponent output: getOutputs(null)) 
+			outputs.add(output.toJson());
+		recipeConfig.add("outputs", outputs);	// add outputs to recipe config
+
+		recipeConfig.addProperty("containerType", containerType.name());
+		
+		return recipeConfig;
+	}
+	
+	public static PolycraftRecipe fromJson(JsonObject jobj) {
+		JsonArray inputsJson = jobj.get("inputs").getAsJsonArray();	// define recipe inputs to store data
+		JsonArray outputsJson = jobj.get("outputs").getAsJsonArray();	// define recipe outputs to store data
+		
+		// we'll run into issues if one of these are blank
+		if(inputsJson.size() < 1 || outputsJson.size() < 1)
+			return null;
+		
+		List<RecipeInput> recipeInputs = new LinkedList<RecipeInput>();
+		List<RecipeComponent> recipeOutputs = new LinkedList<RecipeComponent>();
+		
+		// add input items to list
+		for(int i = 0; i < inputsJson.size(); i++)
+			recipeInputs.add(RecipeInput.fromJson(inputsJson.get(i).getAsJsonObject()));
+		
+		// add output items to list
+		for(int i = 0; i < outputsJson.size(); i++)
+			recipeOutputs.add(RecipeComponent.fromJson(outputsJson.get(i).getAsJsonObject()));
+		
+		PolycraftContainerType type = PolycraftContainerType.valueOf(jobj.get("containerType").getAsString());
+		
+		return new PolycraftRecipe(type, recipeInputs, recipeOutputs);
+	}
+	
 	@Override
 	public String toString() {
 		return "PolycraftRecipe [containerType=" + this.containerType + ", shapelessInputs=" + LogUtil.toStringRecipeInputs(shapelessInputs)

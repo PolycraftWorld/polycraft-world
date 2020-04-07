@@ -359,6 +359,7 @@ public class CommandReset extends CommandBase{
 
         } catch (Exception e) {
             System.out.println("I can't load schematic, because " + e.getStackTrace()[0]);
+            e.printStackTrace();
         }
 		return null;
 	}

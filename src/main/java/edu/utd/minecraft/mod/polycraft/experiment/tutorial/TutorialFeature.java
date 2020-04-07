@@ -63,18 +63,19 @@ public class TutorialFeature implements ITutorialFeature{
 	protected JsonObject jobj = new JsonObject();
 	
 	public enum TutorialFeatureType{
-		START(TutorialFeatureStart.class.getName()),
-		GENERIC(TutorialFeature.class.getName()),
-		GUIDE(TutorialFeatureGuide.class.getName()),
+		ADD_ITEM(TutorialFeatureAddItem.class.getName()),
 		CAKE(TutorialFeatureCake.class.getName()),
 		DATA(TutorialFeatureData.class.getName()),
-		ADD_ITEM(TutorialFeatureAddItem.class.getName()),
-		INSTRUCTION(TutorialFeatureInstruction.class.getName()),
-		SCORE(TutorialFeatureScore.class.getName()),
 		END(TutorialFeatureEnd.class.getName()),
+		GENERIC(TutorialFeature.class.getName()),
 		GROUP(TutorialFeatureGroup.class.getName()),
-		WORLDGEN(TutorialFeatureWorldBuilder.class.getName()),
-		WALL(TutorialFeatureWall.class.getName());
+		GUIDE(TutorialFeatureGuide.class.getName()),
+		INSTRUCTION(TutorialFeatureInstruction.class.getName()),
+		RECIPE_OVERRIDE(TutorialFeatureRecipeOverride.class.getName()),
+		SCORE(TutorialFeatureScore.class.getName()),
+		START(TutorialFeatureStart.class.getName()),
+		WALL(TutorialFeatureWall.class.getName()),
+		WORLDGEN(TutorialFeatureWorldBuilder.class.getName());
 		public String className;
 		
 		TutorialFeatureType(String className) {
