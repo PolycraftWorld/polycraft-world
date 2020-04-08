@@ -153,7 +153,7 @@ public class APICommandCraft extends APICommandBase{
         				resultRecipe = validRecipes.get(0);
     				}
     				
-    				if(resultRecipe != null) {	// couldn't find shaped recipe, check shapeless recipes
+    				if(resultRecipe == null) {	// couldn't find shaped recipe, check shapeless recipes
     					// copied code from PolycraftRecipeManager 
     					Set<String> itemSet = Sets.newLinkedHashSet();
     					for (final RecipeComponent input : items) {
