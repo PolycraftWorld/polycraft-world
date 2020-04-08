@@ -27,7 +27,7 @@ public final class RecipeInput {
 	public final ContainerSlot slot;
 	
 	public RecipeInput(final int slotIndex, final Iterable<ItemStack> items) {
-		this(new RecipeSlot(slotIndex), items);
+		this(slotIndex==-1? RecipeSlot.ANY:new RecipeSlot(slotIndex), items);
 	}
 	
 	private RecipeInput(final ContainerSlot slot, final Iterable<ItemStack> items) {
