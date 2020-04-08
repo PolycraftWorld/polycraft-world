@@ -16,6 +16,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -72,7 +73,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TutorialFeatureRecipeOverride extends TutorialFeature{
 	
-	private List<PolycraftRecipe> recipeList;	// <slot (x or z value), pathtype> store pathway type per block length on wall
+	private List<PolycraftRecipe> recipeList;	// list of available recipes
 
 	private final SetMap<RecipeComponent, PolycraftRecipe> shapedRecipes = new SetMap<RecipeComponent, PolycraftRecipe>();
 	private final SetMap<String, PolycraftRecipe> shapelessRecipes= new SetMap<String, PolycraftRecipe>();
@@ -111,6 +112,21 @@ public class TutorialFeatureRecipeOverride extends TutorialFeature{
 	public void onServerTickUpdate(ExperimentTutorial exp) {
 		// this is a data-type feature, build recipe lists then end
 		for(PolycraftRecipe recipe: recipeList) {
+			// Add shapeless recipes to the SetMap.  If there are no shapeless inputs,
+			// then the recipe is added as an empty set into the shapemap
+			final Collection<Set<RecipeComponent>> shapelessCombinations = recipe.getShapelessCombinations();
+			if (shapelessCombinations.size() != 0) {
+				for (final Set<RecipeComponent> inputs : shapelessCombinations) {
+					Set<String> itemSet = Sets.newLinkedHashSet();
+					for (final RecipeComponent input : inputs) {
+						itemSet.add(input.itemStack.getItem().toString());
+					}
+					shapelessRecipes.add(itemSet, recipe);
+				}
+			} else {
+				shapelessRecipes.add(Collections.EMPTY_SET, recipe);
+			}
+			
 			// Add shaped recipes to the SetMap.  If there are no shaped inputs,
 			// then the recipe is added as an empty set into the shapemap
 			final Collection<Set<RecipeComponent>> shapedCombinations = recipe.getShapedCombinations();
