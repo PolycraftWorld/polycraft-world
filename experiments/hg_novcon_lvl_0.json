@@ -6,13 +6,15 @@
 			"blockName": "polycraft:macguffin",
 			"type": "WorldGenTransform",
 			"seedOverride":-1,
-			"intensity":20
+			"intensity":20,
+			"transformType":"BLOCK_LOCATION"
 		},
 		{
 			"blockName": "minecraft:lapis_block",
 			"type": "TargetDestTransform",
 			"seedOverride":-1,
-			"intensity":20
+			"intensity":20,
+			"transformType":"BLOCK_LOCATION"
 		}
 	]
 }

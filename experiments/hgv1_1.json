@@ -72,6 +72,194 @@
       "pos": [
         1,
         4,
+        15
+      ],
+      "name": "Wall9",
+      "color": -16711936,
+      "type": "WALL",
+      "canProceed": false,
+      "isDone": false,
+      "completionTime": 0,
+      "uuid": "6f6f4268-fe6a-46d5-bb41-d236f210edb7",
+      "pos2": [
+        14,
+        7,
+        16
+      ],
+      "wallBlockName": "minecraft:stained_hardened_clay",
+      "wallBlockMeta": 5,
+      "doorBlockName": "minecraft:iron_door",
+      "doorBlockMeta": 0,
+      "buttonBlockName": "minecraft:wooden_button",
+      "buttonBlockMeta": 0,
+      "pressurePlateBlockName": "minecraft:wooden_pressure_plate",
+      "pressurePlateBlockMeta": 0,
+      "leverBlockName": "minecraft:lever",
+      "leverBlockMeta": 0,
+      "wallConfiguration": [
+        {
+          "slot": 0,
+          "config": {
+            "type": "OPEN_FULL_HEIGHT",
+            "reversed": false,
+            "buttonLocation": "NONE",
+            "pressurePlaceLocation": "NONE"
+          }
+        },
+        {
+          "slot": 1,
+          "config": {
+            "type": "OPEN",
+            "reversed": false,
+            "buttonLocation": "NONE",
+            "pressurePlaceLocation": "NONE"
+          }
+        },
+        {
+          "slot": 3,
+          "config": {
+            "type": "DOOR",
+            "reversed": false,
+            "buttonLocation": "NONE",
+            "pressurePlaceLocation": "NONE"
+          }
+        },
+        {
+          "slot": 5,
+          "config": {
+            "type": "DOOR",
+            "reversed": true,
+            "buttonLocation": "NONE",
+            "pressurePlaceLocation": "NONE"
+          }
+        },
+        {
+          "slot": 7,
+          "config": {
+            "type": "DOOR",
+            "reversed": false,
+            "buttonLocation": "OUTSIDE",
+            "pressurePlaceLocation": "OUTSIDE"
+          }
+        },
+        {
+          "slot": 9,
+          "config": {
+            "type": "DOOR",
+            "reversed": false,
+            "buttonLocation": "INSIDE",
+            "pressurePlaceLocation": "INSIDE"
+          }
+        },
+        {
+          "slot": 11,
+          "config": {
+            "type": "DOOR",
+            "reversed": false,
+            "buttonLocation": "BOTH",
+            "pressurePlaceLocation": "BOTH"
+          }
+        }
+      ]
+    },
+    {
+      "pos": [
+        15,
+        4,
+        1
+      ],
+      "name": "Wall10",
+      "color": -16711936,
+      "type": "WALL",
+      "canProceed": false,
+      "isDone": false,
+      "completionTime": 0,
+      "uuid": "11e088b1-4b64-40cd-89d2-84e0c863abf4",
+      "pos2": [
+        16,
+        7,
+        14
+      ],
+      "wallBlockName": "minecraft:stained_hardened_clay",
+      "wallBlockMeta": 5,
+      "doorBlockName": "minecraft:wooden_door",
+      "doorBlockMeta": 0,
+      "buttonBlockName": "minecraft:wooden_button",
+      "buttonBlockMeta": 0,
+      "pressurePlateBlockName": "minecraft:wooden_pressure_plate",
+      "pressurePlateBlockMeta": 0,
+      "leverBlockName": "minecraft:lever",
+      "leverBlockMeta": 0,
+      "wallConfiguration": [
+        {
+          "slot": 0,
+          "config": {
+            "type": "OPEN_FULL_HEIGHT",
+            "reversed": false,
+            "buttonLocation": "NONE",
+            "pressurePlaceLocation": "NONE"
+          }
+        },
+        {
+          "slot": 1,
+          "config": {
+            "type": "OPEN",
+            "reversed": false,
+            "buttonLocation": "NONE",
+            "pressurePlaceLocation": "NONE"
+          }
+        },
+        {
+          "slot": 3,
+          "config": {
+            "type": "DOOR",
+            "reversed": false,
+            "buttonLocation": "NONE",
+            "pressurePlaceLocation": "NONE"
+          }
+        },
+        {
+          "slot": 5,
+          "config": {
+            "type": "DOOR",
+            "reversed": true,
+            "buttonLocation": "NONE",
+            "pressurePlaceLocation": "NONE"
+          }
+        },
+        {
+          "slot": 7,
+          "config": {
+            "type": "DOOR",
+            "reversed": false,
+            "buttonLocation": "OUTSIDE",
+            "pressurePlaceLocation": "OUTSIDE"
+          }
+        },
+        {
+          "slot": 9,
+          "config": {
+            "type": "DOOR",
+            "reversed": false,
+            "buttonLocation": "INSIDE",
+            "pressurePlaceLocation": "INSIDE"
+          }
+        },
+        {
+          "slot": 11,
+          "config": {
+            "type": "DOOR",
+            "reversed": false,
+            "buttonLocation": "BOTH",
+            "pressurePlaceLocation": "BOTH"
+          }
+        }
+      ]
+    },
+    {
+      "pos": [
+        1,
+        4,
         17
       ],
       "name": "room sw",
@@ -159,7 +347,7 @@
       ],
       "data": "render"
     },
-	{
+    {
       "pos": [
         0,
         0,
@@ -172,17 +360,17 @@
       "isDone": false,
       "completionTime": 0,
       "uuid": "db3e5cd8-6749-11ea-bc55-0242ac130003",
-	  "endCondition": "BLOCK_TO_LOCATION",
-	  "itemToAcquire": "",
-	  "blockToPlace": "polycraft:macguffin",
-	  "locationToReach": [
-						7,
-						4,
-						26
-						],
-	  "endTime": 0,
-	  "endStepCost": 0,
-	  "isFinished": false
+      "endCondition": "BLOCK_TO_LOCATION",
+      "itemToAcquire": "",
+      "blockToPlace": "polycraft:macguffin",
+      "locationToReach": [
+        7,
+        4,
+        26
+      ],
+      "endTime": 0.0,
+      "endStepCost": 0.0,
+      "isFinished": false
     },
     {
       "pos": [
@@ -219,8 +407,8 @@
     "numTeams": 1,
     "teamSize": 1,
     "seed": 0,
-    "hideGui": true,
-    "outputScreen": true
+    "hideGui": false,
+    "outputScreen": false
   },
   "novelty_config": {}
 }

@@ -6,13 +6,15 @@
 			"blockName": "minecraft:crafting_table",
 			"type": "WorldGenTransform",
 			"seedOverride":-1,
-			"intensity":20
+			"intensity":20,
+			"transformType":"BLOCK_LOCATION"
 		},
 		{
 			"blockName": "tree",
 			"type": "WorldGenTransform",
 			"seedOverride":-1,
-			"intensity":20
+			"intensity":20,
+			"transformType":"BLOCK_LOCATION"
 		}
 	]
 }
