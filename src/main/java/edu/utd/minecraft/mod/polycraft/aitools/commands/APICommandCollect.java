@@ -12,6 +12,8 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.TeleportMessage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockOldLog;
+import net.minecraft.block.BlockPlanks.EnumType;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -40,7 +42,10 @@ public class APICommandCollect extends APICommandBase{
 			for(EnumFacing facing: EnumFacing.HORIZONTALS) {
 				if(player.worldObj.getBlockState(targetPos.offset(facing)).getBlock() == Blocks.log) {
 					player.inventory.addItemStackToInventory(new ItemStack(Item.getByNameOrId("polycraft:sack_polyisoprene_pellets"),1));
-					return new APICommandResult(args, Result.SUCCESS, "", stepCost);
+					if(player.worldObj.getBlockState(targetPos.offset(facing)).getValue(BlockOldLog.VARIANT) == EnumType.JUNGLE)
+						return new APICommandResult(args, Result.SUCCESS, "", stepCost / 2);
+					else
+						return new APICommandResult(args, Result.SUCCESS, "", stepCost);
 				}else
 					continue;
 			}
