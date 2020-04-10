@@ -74,6 +74,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TutorialFeatureRecipeOverride extends TutorialFeature{
 	
 	private List<PolycraftRecipe> recipeList;	// list of available recipes
+	private List<PolycraftRecipe> perceivedRecipeList; 	//list of available recipes with potential transformations applied
 
 	private final SetMap<RecipeComponent, PolycraftRecipe> shapedRecipes = new SetMap<RecipeComponent, PolycraftRecipe>();
 	private final SetMap<String, PolycraftRecipe> shapelessRecipes= new SetMap<String, PolycraftRecipe>();
@@ -163,13 +164,29 @@ public class TutorialFeatureRecipeOverride extends TutorialFeature{
 		super.updateValues();
 	}
 	
-	private void addRecipe(boolean isShaped, PolycraftContainerType containerType, List<RecipeInput> inputList, List<RecipeComponent> outputList) {
+	public void addRecipe(boolean isShaped, PolycraftContainerType containerType, List<RecipeInput> inputList, List<RecipeComponent> outputList) {
 		PolycraftRecipe recipeToAdd = new PolycraftRecipe(PolycraftContainerType.CRAFTING_TABLE, inputList, outputList);
 		recipeList.add(recipeToAdd);
 	}
 	
 	public List<PolycraftRecipe> getRecipes(){
 		return recipeList;
+	}
+	
+	public List<PolycraftRecipe> getRecipesForClient(){
+		if(perceivedRecipeList != null && !perceivedRecipeList.isEmpty())
+			return perceivedRecipeList;
+		else {
+			List<PolycraftRecipe> recipes = new LinkedList<PolycraftRecipe>();
+			for(PolycraftRecipe recipe : recipeList) {
+				recipes.add((PolycraftRecipe) recipe.clone());
+			}
+			return recipes;
+		}
+	}
+	
+	public void setPerceivedRecipes(List<PolycraftRecipe> perceivedRecipes) {
+		perceivedRecipeList = new LinkedList<PolycraftRecipe>(perceivedRecipes);
 	}
 	
 	public SetMap<RecipeComponent, PolycraftRecipe> getShapedRecipes() {
@@ -189,6 +206,18 @@ public class TutorialFeatureRecipeOverride extends TutorialFeature{
 			recipeListConfig.appendTag(recipe.toNBT());	// add recipe config to recipeListConfig
 		}
 		nbt.setTag("recipeListConfig", recipeListConfig);
+		
+		// save perceived recipes
+		if(perceivedRecipeList != null && !perceivedRecipeList.isEmpty()) {
+			recipeListConfig = new NBTTagList();
+			for(PolycraftRecipe recipe: perceivedRecipeList) {
+				recipeListConfig.appendTag(recipe.toNBT());	// add recipe config to recipeListConfig
+			}
+			nbt.setTag("perceivedRecipeListConfig", recipeListConfig);
+		}else {
+			nbt.setTag("perceivedRecipeListConfig", recipeListConfig);
+		}
+		
 		return nbt;
 	}
 	
@@ -201,6 +230,19 @@ public class TutorialFeatureRecipeOverride extends TutorialFeature{
 		for(int i=0; i < recipeListConfig.tagCount(); i++) {
 			recipeList.add(PolycraftRecipe.fromNBT(recipeListConfig.getCompoundTagAt(i)));
 		}
+		// load perceived recipes if they exist
+		if(nbtFeat.getTag("perceivedRecipeListConfig") != null) {
+			recipeListConfig = nbtFeat.getTagList("perceivedRecipeListConfig", 10);
+			perceivedRecipeList = new LinkedList<PolycraftRecipe>();
+			for(int i=0; i < recipeListConfig.tagCount(); i++) {
+				perceivedRecipeList.add(PolycraftRecipe.fromNBT(recipeListConfig.getCompoundTagAt(i)));
+			}
+		}else {
+			perceivedRecipeList = new LinkedList<PolycraftRecipe>();
+			for(int i=0; i < recipeListConfig.tagCount(); i++) {
+				perceivedRecipeList.add(PolycraftRecipe.fromNBT(recipeListConfig.getCompoundTagAt(i)));
+			}
+		}
 	}
 	
 	@Override
@@ -212,6 +254,17 @@ public class TutorialFeatureRecipeOverride extends TutorialFeature{
 			recipeListConfig.add(recipe.toJson());	// add recipe config to recipeListConfig
 		}
 		jobj.add("recipeListConfig", recipeListConfig);
+		
+		// save perceived recipes
+		if(perceivedRecipeList != null && !perceivedRecipeList.isEmpty()) {
+			recipeListConfig = new JsonArray();
+			for(PolycraftRecipe recipe: perceivedRecipeList) {
+				recipeListConfig.add(recipe.toJson());	// add recipe config to recipeListConfig
+			}
+			jobj.add("perceivedRecipeListConfig", recipeListConfig);
+		}else {
+			jobj.add("perceivedRecipeListConfig", recipeListConfig);
+		}
 		return jobj;
 	}
 	
@@ -223,6 +276,20 @@ public class TutorialFeatureRecipeOverride extends TutorialFeature{
 		recipeList = new LinkedList<PolycraftRecipe>();
 		for(int i=0; i < recipeListConfig.size(); i++) {
 			recipeList.add(PolycraftRecipe.fromJson(recipeListConfig.get(i).getAsJsonObject()));
+		}
+		
+		// load perceived recipes if they exist
+		if(featJson.get("perceivedRecipeListConfig") != null) {
+			recipeListConfig = featJson.get("perceivedRecipeListConfig").getAsJsonArray();
+			perceivedRecipeList = new LinkedList<PolycraftRecipe>();
+			for(int i=0; i < recipeListConfig.size(); i++) {
+				perceivedRecipeList.add(PolycraftRecipe.fromJson(recipeListConfig.get(i).getAsJsonObject()));
+			}
+		}else {
+			perceivedRecipeList = new LinkedList<PolycraftRecipe>();
+			for(int i=0; i < recipeListConfig.size(); i++) {
+				perceivedRecipeList.add(PolycraftRecipe.fromJson(recipeListConfig.get(i).getAsJsonObject()));
+			}
 		}
 	}
 	

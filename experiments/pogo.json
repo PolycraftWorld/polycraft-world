@@ -121,6 +121,313 @@
     },
     {
       "pos": [
+        2,
+        4,
+        2
+      ],
+      "name": "Recipe Override5",
+      "color": -16711936,
+      "type": "RECIPE_OVERRIDE",
+      "canProceed": false,
+      "isDone": false,
+      "completionTime": 0,
+      "uuid": "cbcc7ae2-80d0-46dd-a4f4-efa3855d705d",
+      "recipeListConfig": [
+        {
+          "inputs": [
+            {
+              "slotIndex": 1,
+              "itemStacks": [
+                {
+                  "name": "polycraft:bag_polyisoprene_pellets",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 0,
+              "itemStacks": [
+                {
+                  "name": "minecraft:stick",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 2,
+              "itemStacks": [
+                {
+                  "name": "minecraft:stick",
+                  "stackSize": 1
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "slotIndex": 9,
+              "itemStack": {
+                "name": "polycraft:wooden_pogo_stick",
+                "stackSize": 1
+              }
+            }
+          ],
+          "containerType": "CRAFTING_TABLE"
+        },
+		{
+          "inputs": [
+            {
+              "slotIndex": 0,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 1,
+              "itemStacks": [
+                {
+                  "name": "minecraft:stick",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 2,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            },
+			{
+              "slotIndex": 3,
+              "itemStacks": [
+                {
+                  "name": "minecraft:stick",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 5,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 7,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "slotIndex": 9,
+              "itemStack": {
+                "name": "polycraft:tree_tap",
+                "stackSize": 1
+              }
+            }
+          ],
+          "containerType": "CRAFTING_TABLE"
+        },
+		{
+          "inputs": [
+            {
+              "slotIndex": 0,
+              "itemStacks": [
+                {
+                  "name": "minecraft:stick",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 1,
+              "itemStacks": [
+                {
+                  "name": "minecraft:stick",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 2,
+              "itemStacks": [
+                {
+                  "name": "minecraft:stick",
+                  "stackSize": 1
+                }
+              ]
+            },
+			{
+              "slotIndex": 3,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 4,
+              "itemStacks": [
+                {
+                  "name": "minecraft:stick",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 5,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 7,
+              "itemStacks": [
+                {
+                  "name": "polycraft:sack_polyisoprene_pellets",
+                  "stackSize": 1
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "slotIndex": 9,
+              "itemStack": {
+                "name": "polycraft:wooden_pogo_stick",
+                "stackSize": 1
+              }
+            }
+          ],
+          "containerType": "CRAFTING_TABLE"
+        },
+		{
+          "inputs": [
+            {
+              "slotIndex": -1,
+              "itemStacks": [
+                {
+                  "name": "minecraft:log",
+                  "stackSize": 1
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "slotIndex": 9,
+              "itemStack": {
+                "name": "minecraft:planks",
+                "stackSize": 4
+              }
+            }
+          ],
+          "containerType": "CRAFTING_TABLE"
+        },
+		{
+          "inputs": [
+            {
+              "slotIndex": 0,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 3,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "slotIndex": 9,
+              "itemStack": {
+                "name": "minecraft:stick",
+                "stackSize": 4
+              }
+            }
+          ],
+          "containerType": "CRAFTING_TABLE"
+        },
+		{
+          "inputs": [
+            {
+              "slotIndex": 0,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 1,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 3,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            },
+			{
+              "slotIndex": 4,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "slotIndex": 9,
+              "itemStack": {
+                "name": "minecraft:crafting_table",
+                "stackSize": 1
+              }
+            }
+          ],
+          "containerType": "CRAFTING_TABLE"
+        }
+      ]
+    },
+    {
+      "pos": [
         0,
         0,
         0

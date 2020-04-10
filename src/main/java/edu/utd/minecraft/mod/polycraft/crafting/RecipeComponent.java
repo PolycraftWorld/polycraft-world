@@ -33,6 +33,14 @@ public class RecipeComponent implements Comparable<RecipeComponent> {
 		this.itemStack = stack;
 		this.slot = slot;
 	}
+	
+	/**
+	 *  Returns a new copy of RecipeComponent with no overlapping references
+	 */
+	@Override
+	protected Object clone() {
+		return new RecipeComponent(slot.getSlotIndex(), itemStack.getItem(), itemStack.stackSize);
+	}
 
 	@Override
 	public int hashCode() {

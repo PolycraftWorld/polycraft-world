@@ -47,6 +47,18 @@ public final class RecipeInput {
 			Preconditions.checkArgument(!"item.null".equals(item.getItem().getUnlocalizedName()));
 		}
 	}
+	
+	/**
+	 *  Returns a new copy of RecipeInput with no overlapping references
+	 */
+	@Override
+	public Object clone() {
+		List<ItemStack> newInputs = new LinkedList<ItemStack>();
+		for(ItemStack itemStack: inputs) {
+			newInputs.add(new ItemStack(itemStack.getItem(), itemStack.stackSize));
+		}
+		return new RecipeInput(slot.getSlotIndex(), newInputs);
+	}
 
 	/**
 	 * Returns the itemstack referenced by the RecipeComponent

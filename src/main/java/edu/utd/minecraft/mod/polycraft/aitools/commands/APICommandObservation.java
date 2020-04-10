@@ -76,7 +76,7 @@ public class APICommandObservation extends APICommandBase{
 		    		for(TutorialFeature feature : TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getFeatures()) {
 		    			if(feature instanceof TutorialFeatureRecipeOverride) {
 							JsonArray jarray = new JsonArray();
-							for(PolycraftRecipe recipe: ((TutorialFeatureRecipeOverride)feature).getRecipes()) {
+							for(PolycraftRecipe recipe: ((TutorialFeatureRecipeOverride)feature).getRecipesForClient()) {
 								JsonObject jsonRecipe = new JsonObject();
 								//inputs
 								JsonArray jinputs = new JsonArray();

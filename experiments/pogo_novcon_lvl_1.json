@@ -1,0 +1,11 @@
+{
+	"seed":0,
+	"templatePath":"experiments/pogo.json",
+	"novelties":[
+		{
+			"type": "RecipeTransform",
+			"seedOverride":-1,
+			"intensity":20
+		}
+	]
+}

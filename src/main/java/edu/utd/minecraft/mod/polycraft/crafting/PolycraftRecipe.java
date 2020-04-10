@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.crafting;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +64,21 @@ public class PolycraftRecipe {
 			final Iterable<RecipeComponent> outputs) {
 		this(containerType, inputs, outputs, 0);
 	}
+	
+	@Override
+	public Object clone() {
+		List<RecipeInput> newInputs = new LinkedList<RecipeInput>();
+		List<RecipeComponent> newOutputs = new LinkedList<RecipeComponent>();
+		
+		for(RecipeInput input: getInputs()) {
+			newInputs.add((RecipeInput)input.clone());
+		}
+		for(RecipeComponent output: outputs) {
+			newOutputs.add((RecipeComponent)output.clone());
+		}
+		
+		return new PolycraftRecipe(this.containerType, newInputs, newOutputs);
+	}
 
 	/**
 	 * Shifts the shaped inputs the amounts specified. Does not check if shifting is possible.
@@ -79,6 +95,68 @@ public class PolycraftRecipe {
 		this.shapedInputs.clear();
 		this.shapedInputs.putAll(newInputs);
 	}
+	
+	/**
+	 * Rotates the shaped inputs clock wise 90 degrees the amounts specified
+	 */
+	public void rotateInputsCW(final int dA) {
+		Map<ContainerSlot, RecipeInput> newInputs = Maps.newHashMap();
+		int N = containerType.getContainerSlotGrid(SlotType.INPUT).length;
+		int[][] newInputMatrix = new int[N][N];
+		
+		// copy matrix slots
+		for(int x = 0; x < N; x++) {
+			for(int y = 0; y < N; y++) {
+				newInputMatrix[y][x] = containerType.getContainerSlotGrid(SlotType.INPUT)[x][y].getSlotIndex();
+			}
+		}
+		
+		// get new slot matrix by rotating slot matrix dA times
+		for(int i = 0; i < dA; i++)
+			newInputMatrix = rotateMatrix(newInputMatrix.length, newInputMatrix);
+		
+		// perform the rotaion on recipe inputs
+		for(int x = 0; x < N; x++) {
+			for(int y = 0; y < N; y++) {
+				if(shapedInputs.get(new RecipeSlot((x * N) + y)) != null)
+					newInputs.put(new RecipeSlot(newInputMatrix[x][y]), new RecipeInput(newInputMatrix[x][y], shapedInputs.get(new RecipeSlot((x * N) + y)).inputs));
+			}
+		}
+		
+		this.shapedInputs.clear();
+		this.shapedInputs.putAll(newInputs);
+	}
+	
+	/**
+	 * An Inplace function to rotate a N x N matrix 
+	 * by 90 degrees in anti-clockwise direction 
+	 * @return 
+	 */
+	static int[][] rotateMatrix(int N, int mat[][]) 
+    { 
+        // Consider all squares one by one 
+        for (int x = 0; x < N / 2; x++) { 
+            // Consider elements in group of 4 in 
+            // current square 
+            for (int y = x; y < N - x - 1; y++) { 
+                // store current cell in temp variable 
+            	int temp = mat[x][y]; 
+  
+                // move values from right to top 
+                mat[x][y] = mat[y][N - 1 - x]; 
+  
+                // move values from bottom to right 
+                mat[y][N - 1 - x] = mat[N - 1 - x][N - 1 - y]; 
+  
+                // move values from left to bottom 
+                mat[N - 1 - x][N - 1 - y] = mat[N - 1 - y][x]; 
+  
+                // assign temp to left 
+                mat[N - 1 - y][x] = temp; 
+            } 
+        } 
+        return mat;
+    } 
 
 	private boolean canShiftInputs(final int dX, final int dY) {
 		return false;
@@ -183,6 +261,17 @@ public class PolycraftRecipe {
 		inputs.addAll(this.shapelessInputs);
 		inputs.addAll(this.shapedInputs.values());
 		return inputs;
+	}
+	
+	public void removeInput(int slotIndex) {
+		shapedInputs.remove(new RecipeSlot(slotIndex));
+	}
+	
+	/**
+	 * @return the inputs required by the recipe.
+	 */
+	public Map<ContainerSlot, RecipeInput> getShapedInputs() {
+		return shapedInputs;
 	}
 
 	/**

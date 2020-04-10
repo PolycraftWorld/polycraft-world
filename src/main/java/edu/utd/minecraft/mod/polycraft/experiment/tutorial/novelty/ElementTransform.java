@@ -20,6 +20,7 @@ public abstract class ElementTransform {
 	public enum TransformType{
 		WorldGenTransform(WorldGenTransform.class.getName()),
 		TargetDestTransform(TargetDestTransform.class.getName()),
+		RecipeTransform(RecipeTransform.class.getName()),
 		GenericTransform(ElementTransform.class.getName());
 		public String className;
 		

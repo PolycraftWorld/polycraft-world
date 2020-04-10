@@ -12,6 +12,8 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemTool;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -34,6 +36,14 @@ public class APICommandBreakBlock extends APICommandBase{
     		return new APICommandResult(args, APICommandResult.Result.FAIL, "Cannot break air block", this.stepCost);
     	}
 		
+		// adjust the step cost before we harvest the block
+    	float adjustedStepCost = stepCost;
+    	if(player.getHeldItem().getItem() instanceof ItemTool) {
+    		ItemTool tool = (ItemTool) player.getHeldItem().getItem();
+    		System.out.println("Tool efficiency: " + player.getHeldItem().getItem().getStrVsBlock(player.getHeldItem(), player.worldObj.getBlockState(breakPos).getBlock()));
+    		adjustedStepCost = stepCost / tool.getStrVsBlock(player.getHeldItem(), player.worldObj.getBlockState(breakPos).getBlock());
+    	}
+
 		// attempt to break the block
     	player.theItemInWorldManager.tryHarvestBlock(breakPos);
     	
@@ -42,7 +52,7 @@ public class APICommandBreakBlock extends APICommandBase{
     	else {	//When we succeed, break two blocks above, for case of trees
     		player.worldObj.setBlockToAir(breakPos.add(0,1,0));
     		player.worldObj.setBlockToAir(breakPos.add(0,2,0));
-    		return new APICommandResult(args, APICommandResult.Result.SUCCESS, "", this.stepCost);
+    		return new APICommandResult(args, APICommandResult.Result.SUCCESS, "", adjustedStepCost);
     	}
     	
 	}
