@@ -1,0 +1,8 @@
+language: java
+jdk: oraclejdk8
+before_install:
+ - wget https://files.minecraftforge.net/maven/net/minecraftforge/forge/1.8.9-11.15.1.2318-1.8.9/forge-1.8.9-11.15.1.2318-1.8.9-mdk.zip
+ - unzip -n forge-1.8.9-11.15.1.2318-1.8.9-mdk.zip
+ - rm forge-1.8.9-11.15.1.2318-1.8.9-mdk.zip
+install: ./gradlew setupCiWorkspace
+script: ./gradlew build
