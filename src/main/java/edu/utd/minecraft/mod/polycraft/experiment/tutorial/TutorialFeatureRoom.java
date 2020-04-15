@@ -48,11 +48,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TutorialFeatureRoom extends TutorialFeature{
+
 	private BlockPos pos2;
-	
-	//working parameters
-	private int meta;
-	private String blockName;
+
+	private int blockFloorMeta, blockWallMeta, blockCeilMeta, blockRefMeta;
+	private String blockFloorName, blockWallName, blockCeilName, blockRefName;
+	private boolean spawnRefBlocks, recycleRefSeed;
+	private int refSeed;
+	private float refSpawnChance;
 	private HashMap<EnumFacing, RoomSide> walls;
 	
 	//Gui Parameters
@@ -66,7 +69,7 @@ public class TutorialFeatureRoom extends TutorialFeature{
 	public TutorialFeatureRoom(String name, BlockPos pos){
 		super(name, pos, Color.GREEN);
 		this.pos2 = pos;
-		this.featureType = TutorialFeatureType.WALL;
+		this.featureType = TutorialFeatureType.ROOM;
 	}
 	
 	@Override
@@ -77,7 +80,65 @@ public class TutorialFeatureRoom extends TutorialFeature{
 	
 	@Override
 	public void onServerTickUpdate(ExperimentTutorial exp) {
+		int xMin = Math.min(pos.getX(), pos2.getX());
+		int xMax = Math.max(pos.getX(), pos2.getX());
+		int zMin = Math.min(pos.getZ(), pos2.getZ());
+		int zMax = Math.max(pos.getZ(), pos2.getZ());
+		int yMin = Math.min(pos.getY(), pos2.getY());
+		int yMax = Math.max(pos.getY(), pos2.getY());
 		
+		Random rand = new Random(refSeed);
+		
+		// build floor and ceiling
+		for(int x = xMin; x <= xMax; x++) {
+			for(int z = zMin; z <= zMax; z++) {
+				exp.world.setBlockState(new BlockPos(x,yMin,z), Block.getBlockFromName(blockFloorName).getStateFromMeta(blockFloorMeta), 2);
+				exp.world.setBlockState(new BlockPos(x,yMax,z), Block.getBlockFromName(blockCeilName).getStateFromMeta(blockCeilMeta), 2);
+			}
+		}
+		
+		// build walls
+		for(int y = yMin; y <= yMax; y++) {
+			for(int x = xMin; x <= xMax; x++) {
+				if(spawnRefBlocks) {
+					if(rand.nextDouble() < refSpawnChance) {	// spawn ref block
+						exp.world.setBlockState(new BlockPos(x,y,zMin), Block.getBlockFromName(blockRefName).getStateFromMeta(blockRefMeta), 2);
+					}else {
+						exp.world.setBlockState(new BlockPos(x,y,zMin), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+					}
+					if(rand.nextDouble() < refSpawnChance) {	// spawn ref block
+						exp.world.setBlockState(new BlockPos(x,y,zMax), Block.getBlockFromName(blockRefName).getStateFromMeta(blockRefMeta), 2);
+					}else {
+						exp.world.setBlockState(new BlockPos(x,y,zMax), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+					}
+				}else {
+					exp.world.setBlockState(new BlockPos(x,y,zMin), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+					exp.world.setBlockState(new BlockPos(x,y,zMax), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+				}
+					
+			}
+			for(int z = zMin; z <= zMax; z++) {
+				if(spawnRefBlocks) {
+					if(rand.nextDouble() < refSpawnChance) {	// spawn ref block
+						exp.world.setBlockState(new BlockPos(xMin,y,z), Block.getBlockFromName(blockRefName).getStateFromMeta(blockRefMeta), 2);
+					}else {
+						exp.world.setBlockState(new BlockPos(xMin,y,z), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+					}
+					if(rand.nextDouble() < refSpawnChance) {	// spawn ref block
+						exp.world.setBlockState(new BlockPos(xMax,y,z), Block.getBlockFromName(blockRefName).getStateFromMeta(blockRefMeta), 2);
+					}else {
+						exp.world.setBlockState(new BlockPos(xMax,y,z), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+					}
+				}else {
+					exp.world.setBlockState(new BlockPos(xMin,y,z), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+					exp.world.setBlockState(new BlockPos(xMax,y,z), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+				}
+			}
+		}
+		
+
+		canProceed = true;
+		this.complete(exp);
 	}
 	
 	@Override
@@ -118,33 +179,6 @@ public class TutorialFeatureRoom extends TutorialFeature{
         zPos2Field.setCanLoseFocus(true);
         zPos2Field.setFocused(false);
         guiDevTool.textFields.add(zPos2Field);
-        
-        y_pos += 15;
-        
-        guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-        		"Meta:"));
-        metaField = new GuiPolyNumField(fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .2), 10);
-        metaField.setMaxStringLength(32);
-        metaField.setText(Integer.toString(meta));
-        metaField.setTextColor(16777215);
-        metaField.setVisible(true);
-        metaField.setCanLoseFocus(true);
-        metaField.setFocused(false);
-        guiDevTool.textFields.add(metaField);
-        
-        y_pos += 15;
-		
-		guiDevTool.labels.add(new GuiPolyLabel(fr, x_pos +5, y_pos + 50, Format.getIntegerFromColor(new Color(90, 90, 90)), 
-        		"Block: "));
-        blockNameField = new GuiTextField(420, fr, x_pos + 40, y_pos + 49, (int) (guiDevTool.X_WIDTH * .6), 10);
-        blockNameField.setMaxStringLength(9999); //don't really want a max length here
-        blockNameField.setText(blockName != null? blockName:"");
-        blockNameField.setTextColor(16777215);
-        blockNameField.setVisible(true);
-        blockNameField.setCanLoseFocus(true);
-        blockNameField.setFocused(false);
-        guiDevTool.textFields.add(blockNameField);
-        
 	}
 	
 	@Override
@@ -152,14 +186,28 @@ public class TutorialFeatureRoom extends TutorialFeature{
 		this.pos2 = new BlockPos(Integer.parseInt(xPos2Field.getText())
 				,Integer.parseInt(yPos2Field.getText())
 				,Integer.parseInt(zPos2Field.getText()));
-		this.meta = Integer.parseInt(metaField.getText());
-		if(!blockNameField.getText().isEmpty()) {
-			if(Block.getBlockFromName(blockNameField.getText()) != null)
-				blockName = blockNameField.getText();
-			else
-				blockName = "";
-		}
 		
+		// set deafults here
+		if(blockFloorName == null) {
+			blockFloorName = "minecraft:grass";
+			blockFloorMeta = 0;
+		}
+		if(blockWallName == null) {
+			blockWallName = "minecraft:bedrock";
+			blockWallMeta = 0;
+		}
+		if(blockCeilName == null) {
+			blockCeilName = "minecraft:air";
+			blockCeilMeta = 0;
+		}
+		if(blockRefName == null) {
+			blockRefName = "minecraft:air";
+			blockRefMeta = 0;
+		}
+		spawnRefBlocks = false;
+		recycleRefSeed = false;
+		refSeed = 0;
+		refSpawnChance = 0.05f;
 		super.updateValues();
 	}
 	
@@ -169,14 +217,128 @@ public class TutorialFeatureRoom extends TutorialFeature{
 	}
 
 	
+	public int getBlockFloorMeta() {
+		return blockFloorMeta;
+	}
+
+	public void setBlockFloorMeta(int blockFloorMeta) {
+		this.blockFloorMeta = blockFloorMeta;
+	}
+
+	public int getBlockWallMeta() {
+		return blockWallMeta;
+	}
+
+	public void setBlockWallMeta(int blockWallMeta) {
+		this.blockWallMeta = blockWallMeta;
+	}
+
+	public int getBlockCeilMeta() {
+		return blockCeilMeta;
+	}
+
+	public void setBlockCeilMeta(int blockCeilMeta) {
+		this.blockCeilMeta = blockCeilMeta;
+	}
+
+	public int getBlockRefMeta() {
+		return blockRefMeta;
+	}
+
+	public void setBlockRefMeta(int blockRefMeta) {
+		this.blockRefMeta = blockRefMeta;
+	}
+
+	public String getBlockFloorName() {
+		return blockFloorName;
+	}
+
+	public void setBlockFloorName(String blockFloorName) {
+		this.blockFloorName = blockFloorName;
+	}
+
+	public String getBlockWallName() {
+		return blockWallName;
+	}
+
+	public void setBlockWallName(String blockWallName) {
+		this.blockWallName = blockWallName;
+	}
+
+	public String getBlockCeilName() {
+		return blockCeilName;
+	}
+
+	public void setBlockCeilName(String blockCeilName) {
+		this.blockCeilName = blockCeilName;
+	}
+
+	public String getBlockRefName() {
+		return blockRefName;
+	}
+
+	public void setBlockRefName(String blockRefName) {
+		this.blockRefName = blockRefName;
+	}
+
+	public boolean isSpawnRefBlocks() {
+		return spawnRefBlocks;
+	}
+
+	public void setSpawnRefBlocks(boolean spawnRefBlocks) {
+		this.spawnRefBlocks = spawnRefBlocks;
+	}
+
+	public boolean isRecycleRefSeed() {
+		return recycleRefSeed;
+	}
+
+	public void setRecycleRefSeed(boolean recycleRefSeed) {
+		this.recycleRefSeed = recycleRefSeed;
+	}
+
+	public int getRefSeed() {
+		return refSeed;
+	}
+
+	public void setRefSeed(int refSeed) {
+		this.refSeed = refSeed;
+	}
+
+	public float getRefSpawnChance() {
+		return refSpawnChance;
+	}
+
+	public void setRefSpawnChance(float refSpawnChance) {
+		this.refSpawnChance = refSpawnChance;
+	}
+
+	public GuiTextField getBlockNameField() {
+		return blockNameField;
+	}
+
+	public void setBlockNameField(GuiTextField blockNameField) {
+		this.blockNameField = blockNameField;
+	}
+
 	@Override
 	public NBTTagCompound save()
 	{
 		super.save();
 		int pos2[] = {(int)this.pos2.getX(), (int)this.pos2.getY(), (int)this.pos2.getZ()};
 		nbt.setIntArray("pos2",pos2);
-		nbt.setInteger("meta", meta);
-		nbt.setString("blockName", blockName);
+		nbt.setInteger("blockFloorMeta", blockFloorMeta);
+		nbt.setString("blockFloorName", blockFloorName);
+		nbt.setInteger("blockWallMeta", blockWallMeta);
+		nbt.setString("blockWallName", blockWallName);
+		nbt.setInteger("blockCeilMeta", blockCeilMeta);
+		nbt.setString("blockCeilName", blockCeilName);
+		nbt.setInteger("blockRefMeta", blockRefMeta);
+		nbt.setString("blockRefName", blockRefName);
+		nbt.setBoolean("spawnRefBlocks", spawnRefBlocks);
+		nbt.setBoolean("recycleRefSeed", recycleRefSeed);
+		nbt.setInteger("refSeed", refSeed);
+		nbt.setFloat("refSpawnChance", refSpawnChance);
 		return nbt;
 	}
 	
@@ -188,8 +350,18 @@ public class TutorialFeatureRoom extends TutorialFeature{
 //		this.lookDir=new BlockPos(featLookDir[0], featLookDir[1], featLookDir[2]);
 		int featPos2[]=nbtFeat.getIntArray("pos2");
 		this.pos2=new BlockPos(featPos2[0], featPos2[1], featPos2[2]);
-		this.meta = nbtFeat.getInteger("meta");
-		this.blockName = nbtFeat.getString("blockName");
+		this.blockFloorMeta = nbtFeat.getInteger("blockFloorMeta");
+		this.blockFloorName = nbtFeat.getString("blockFloorName");
+		this.blockWallMeta = nbtFeat.getInteger("blockWallMeta");
+		this.blockWallName = nbtFeat.getString("blockWallName");
+		this.blockCeilMeta = nbtFeat.getInteger("blockCeilMeta");
+		this.blockCeilName = nbtFeat.getString("blockCeilName");
+		this.blockRefMeta = nbtFeat.getInteger("blockRefMeta");
+		this.blockRefName = nbtFeat.getString("blockRefName");
+		this.spawnRefBlocks = nbtFeat.getBoolean("spawnRefBlocks");
+		this.recycleRefSeed = nbtFeat.getBoolean("recycleRefSeed");
+		this.refSeed = nbtFeat.getInteger("refSeed");
+		this.refSpawnChance = nbtFeat.getFloat("refSpawnChance");
 	}
 	
 	@Override
@@ -197,8 +369,18 @@ public class TutorialFeatureRoom extends TutorialFeature{
 	{
 		super.saveJson();
 		jobj.add("pos2", blockPosToJsonArray(pos2));
-		jobj.addProperty("meta", meta);
-		jobj.addProperty("blockName", blockName);
+		jobj.addProperty("blockFloorMeta", blockFloorMeta);
+		jobj.addProperty("blockFloorName", blockFloorName);
+		jobj.addProperty("blockWallMeta", blockWallMeta);
+		jobj.addProperty("blockWallName", blockWallName);
+		jobj.addProperty("blockCeilMeta", blockCeilMeta);
+		jobj.addProperty("blockCeilName", blockCeilName);
+		jobj.addProperty("blockRefMeta", blockRefMeta);
+		jobj.addProperty("blockRefName", blockRefName);
+		jobj.addProperty("spawnRefBlocks", spawnRefBlocks);
+		jobj.addProperty("recycleRefSeed", recycleRefSeed);
+		jobj.addProperty("refSeed", refSeed);
+		jobj.addProperty("refSpawnChance", refSpawnChance);
 		
 		return jobj;
 	}
@@ -208,16 +390,27 @@ public class TutorialFeatureRoom extends TutorialFeature{
 	{
 		super.loadJson(featJson);
 		this.pos2 = blockPosFromJsonArray(featJson.get("pos2").getAsJsonArray());
-		this.meta = featJson.get("meta").getAsInt();
-		this.blockName = featJson.get("blockName").getAsString();
+		this.blockFloorMeta = featJson.get("blockFloorMeta").getAsInt();
+		this.blockFloorName = featJson.get("blockFloorName").getAsString();
+		this.blockWallMeta = featJson.get("blockWallMeta").getAsInt();
+		this.blockWallName = featJson.get("blockWallName").getAsString();
+		this.blockCeilMeta = featJson.get("blockCeilMeta").getAsInt();
+		this.blockCeilName = featJson.get("blockCeilName").getAsString();
+		this.blockRefMeta = featJson.get("blockRefMeta").getAsInt();
+		this.blockRefName = featJson.get("blockRefName").getAsString();
+		this.spawnRefBlocks = featJson.get("spawnRefBlocks").getAsBoolean();
+		this.recycleRefSeed = featJson.get("recycleRefSeed").getAsBoolean();
+		this.refSeed = featJson.get("refSeed").getAsInt();
+		this.refSpawnChance = featJson.get("refSpawnChance").getAsFloat();
 	}
 	
+	// replaced by TutorialFeatureWall
 	private class RoomSide{
 		public EnumFacing outDirection;		// outward facing direction
 		public AxisAlignedBB box;
 		public ArrayList<Pathway> pathways;
 	}
-	
+	// replaced by TutorialFeatureWall
 	private class Pathway{
 		
 	}

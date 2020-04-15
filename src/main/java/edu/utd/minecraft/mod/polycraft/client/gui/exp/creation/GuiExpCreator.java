@@ -34,6 +34,7 @@ import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureGuide;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureInstruction;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureRecipeOverride;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureRoom;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureScore;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureStart;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureWall;
@@ -658,7 +659,13 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
 			break;
 		case RECIPE_OVERRIDE:
 			if(addNew)
-				featureToAdd = new TutorialFeatureRecipeOverride("Recipe Override" + devTool.getFeatures().size(),
+				featureToAdd = new TutorialFeatureRecipeOverride("Recipe Override " + devTool.getFeatures().size(),
+						new BlockPos(player.posX, player.posY, player.posZ));
+			featureToAdd.buildGuiParameters(this, x_pos, y_pos);
+			break;
+		case ROOM:
+			if(addNew)
+				featureToAdd = new TutorialFeatureRoom("Room " + devTool.getFeatures().size(),
 						new BlockPos(player.posX, player.posY, player.posZ));
 			featureToAdd.buildGuiParameters(this, x_pos, y_pos);
 			break;
@@ -690,7 +697,7 @@ public class GuiExpCreator extends PolycraftGuiScreenBase {
 			break;
 		case WALL:
 			if(addNew)
-				featureToAdd = new TutorialFeatureWall("Wall" + devTool.getFeatures().size(),
+				featureToAdd = new TutorialFeatureWall("Wall " + devTool.getFeatures().size(),
 						new BlockPos(player.posX, player.posY, player.posZ));
 			featureToAdd.buildGuiParameters(this, x_pos, y_pos);
 			break;

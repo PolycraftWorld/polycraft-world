@@ -360,6 +360,96 @@ public class TutorialFeatureWall extends TutorialFeature{
 		super.updateValues();
 	}
 	
+	
+	
+	public String getWallBlockName() {
+		return wallBlockName;
+	}
+
+	public void setWallBlockName(String wallBlockName) {
+		this.wallBlockName = wallBlockName;
+	}
+
+	public int getWallBlockMeta() {
+		return wallBlockMeta;
+	}
+
+	public void setWallBlockMeta(int wallBlockMeta) {
+		this.wallBlockMeta = wallBlockMeta;
+	}
+
+	public String getDoorBlockName() {
+		return doorBlockName;
+	}
+
+	public void setDoorBlockName(String doorBlockName) {
+		this.doorBlockName = doorBlockName;
+	}
+
+	public int getDoorBlockMeta() {
+		return doorBlockMeta;
+	}
+
+	public void setDoorBlockMeta(int doorBlockMeta) {
+		this.doorBlockMeta = doorBlockMeta;
+	}
+
+	public String getButtonBlockName() {
+		return buttonBlockName;
+	}
+
+	public void setButtonBlockName(String buttonBlockName) {
+		this.buttonBlockName = buttonBlockName;
+	}
+
+	public int getButtonBlockMeta() {
+		return buttonBlockMeta;
+	}
+
+	public void setButtonBlockMeta(int buttonBlockMeta) {
+		this.buttonBlockMeta = buttonBlockMeta;
+	}
+
+	public String getPressurePlateBlockName() {
+		return pressurePlateBlockName;
+	}
+
+	public void setPressurePlateBlockName(String pressurePlateBlockName) {
+		this.pressurePlateBlockName = pressurePlateBlockName;
+	}
+
+	public int getPressurePlateBlockMeta() {
+		return pressurePlateBlockMeta;
+	}
+
+	public void setPressurePlateBlockMeta(int pressurePlateBlockMeta) {
+		this.pressurePlateBlockMeta = pressurePlateBlockMeta;
+	}
+
+	public String getLeverBlockName() {
+		return leverBlockName;
+	}
+
+	public void setLeverBlockName(String leverBlockName) {
+		this.leverBlockName = leverBlockName;
+	}
+
+	public int getLeverBlockMeta() {
+		return leverBlockMeta;
+	}
+
+	public void setLeverBlockMeta(int leverBlockMeta) {
+		this.leverBlockMeta = leverBlockMeta;
+	}
+
+	public GuiTextField getBlockNameField() {
+		return blockNameField;
+	}
+
+	public void setBlockNameField(GuiTextField blockNameField) {
+		this.blockNameField = blockNameField;
+	}
+
 	@Override
 	public BlockPos getPos2() {
 		return pos2;

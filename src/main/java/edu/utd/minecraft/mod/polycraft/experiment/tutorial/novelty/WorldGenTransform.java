@@ -17,9 +17,11 @@ import net.minecraft.util.BlockPos;
 public class WorldGenTransform extends ElementTransform{
 	
 	String blockName;
+	int blockMeta;
 	
 	enum TransformType{
 		BLOCK_LOCATION,
+		BLOCK_REPLACE,
 		TREE_TYPE
 	}
 	
@@ -69,6 +71,10 @@ public class WorldGenTransform extends ElementTransform{
 					((TutorialFeatureWorldBuilder)feature).getBlockList().put(blockPos, blockName);
 					count--;
 				}
+				break;
+			case BLOCK_REPLACE:
+				
+				break;
 			case TREE_TYPE:
 				List<BlockPos> treeList = new LinkedList<BlockPos>();
 				for(BlockPos blockPos:((TutorialFeatureWorldBuilder)feature).getBlockList().keySet()){
@@ -95,6 +101,9 @@ public class WorldGenTransform extends ElementTransform{
 		super.loadJson(transformJson);
 		this.blockName = transformJson.get("blockName").getAsString();
 		this.transformType = TransformType.valueOf(transformJson.get("transformType").getAsString());
+		//check if blockMeta was provided for backwards compatibility 
+		if(transformJson.get("blockMeta") != null)
+			this.blockMeta = transformJson.get("blockMeta").getAsInt();
 	}
 	
 	@Override
@@ -102,6 +111,7 @@ public class WorldGenTransform extends ElementTransform{
 		super.saveJson();
 		jobj.addProperty("blockName", blockName);
 		jobj.addProperty("transformType", blockName);
+		jobj.addProperty("blockMeta", blockMeta);
 		return jobj;
 	}
 }

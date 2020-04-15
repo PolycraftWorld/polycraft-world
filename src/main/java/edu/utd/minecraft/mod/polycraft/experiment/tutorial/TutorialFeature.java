@@ -72,6 +72,7 @@ public class TutorialFeature implements ITutorialFeature{
 		GUIDE(TutorialFeatureGuide.class.getName()),
 		INSTRUCTION(TutorialFeatureInstruction.class.getName()),
 		RECIPE_OVERRIDE(TutorialFeatureRecipeOverride.class.getName()),
+		ROOM(TutorialFeatureRoom.class.getName()),
 		SCORE(TutorialFeatureScore.class.getName()),
 		START(TutorialFeatureStart.class.getName()),
 		WALL(TutorialFeatureWall.class.getName()),
