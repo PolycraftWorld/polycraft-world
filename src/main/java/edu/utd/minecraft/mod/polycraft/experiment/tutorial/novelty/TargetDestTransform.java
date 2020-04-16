@@ -45,6 +45,7 @@ public class TargetDestTransform extends ElementTransform{
 			for(TutorialFeature tutFeat: features) {	// loop through features to find end condition feature
 				if(tutFeat instanceof TutorialFeatureEnd) {	// this is specific to hunter gather task and should be done through config somehow
 					((TutorialFeatureEnd)tutFeat).locationToReach = blockPos;
+					tutFeat.setPos(blockPos);
 					break;
 				}
 			}

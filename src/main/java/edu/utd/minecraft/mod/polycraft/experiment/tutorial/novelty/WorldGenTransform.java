@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureWorldBuilder;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.util.BlockDef;
 import net.minecraft.util.BlockPos;
 
 public class WorldGenTransform extends ElementTransform{
@@ -41,7 +42,7 @@ public class WorldGenTransform extends ElementTransform{
 			case BLOCK_LOCATION:
 				int count = 0; // counter to track number of blocks already in the experiment
 				for(BlockPos blockPos:((TutorialFeatureWorldBuilder)feature).getBlockList().keySet()){
-					if(((TutorialFeatureWorldBuilder)feature).getBlockList().get(blockPos).equals(blockName)) {
+					if(((TutorialFeatureWorldBuilder)feature).getBlockList().get(blockPos).blockName.equals(blockName)) {
 						((TutorialFeatureWorldBuilder)feature).getBlockList().remove(blockPos);
 						count++;
 					}
@@ -68,7 +69,7 @@ public class WorldGenTransform extends ElementTransform{
 							0, rand.nextInt(Math.abs(pos2.getZ() - pos1.getZ())));
 					if(((TutorialFeatureWorldBuilder)feature).getBlockList().containsKey(blockPos))
 						continue;
-					((TutorialFeatureWorldBuilder)feature).getBlockList().put(blockPos, blockName);
+					((TutorialFeatureWorldBuilder)feature).getBlockList().put(blockPos, new BlockDef(blockName, blockMeta));
 					count--;
 				}
 				break;
@@ -78,7 +79,7 @@ public class WorldGenTransform extends ElementTransform{
 			case TREE_TYPE:
 				List<BlockPos> treeList = new LinkedList<BlockPos>();
 				for(BlockPos blockPos:((TutorialFeatureWorldBuilder)feature).getBlockList().keySet()){
-					if(((TutorialFeatureWorldBuilder)feature).getBlockList().get(blockPos).startsWith("tree")) {
+					if(((TutorialFeatureWorldBuilder)feature).getBlockList().get(blockPos).blockName.startsWith("tree")) {
 						treeList.add(blockPos);
 					}
 				}
@@ -87,7 +88,7 @@ public class WorldGenTransform extends ElementTransform{
 				Collections.shuffle(treeList, rand);
 				
 				for(int i = 0; i < Math.min(treeList.size(), treeList.size() * (intensity/100.0)); i++){
-					((TutorialFeatureWorldBuilder)feature).getBlockList().put(treeList.get(i), blockName);
+					((TutorialFeatureWorldBuilder)feature).getBlockList().put(treeList.get(i), new BlockDef(blockName, blockMeta));
 				}
 				break;
 			}

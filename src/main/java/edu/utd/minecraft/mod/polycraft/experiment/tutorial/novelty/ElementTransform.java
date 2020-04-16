@@ -18,11 +18,12 @@ public abstract class ElementTransform {
 	protected JsonObject jobj = new JsonObject();
 	
 	public enum TransformType{
-		WorldGenTransform(WorldGenTransform.class.getName()),
-		TargetDestTransform(TargetDestTransform.class.getName()),
+		DetritusTransform(DetritusTransform.class.getName()),
+		GenericTransform(ElementTransform.class.getName()),
 		RecipeTransform(RecipeTransform.class.getName()),
 		RoomTransform(RoomTransform.class.getName()),
-		GenericTransform(ElementTransform.class.getName());
+		TargetDestTransform(TargetDestTransform.class.getName()),
+		WorldGenTransform(WorldGenTransform.class.getName());
 		public String className;
 		
 		TransformType(String className) {

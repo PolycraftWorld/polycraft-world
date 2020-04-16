@@ -17,6 +17,7 @@ import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpCreator;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature.TutorialFeatureType;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.util.BlockDef;
 import edu.utd.minecraft.mod.polycraft.util.Format;
 import edu.utd.minecraft.mod.polycraft.worldgen.PolycraftTeleporter;
 import net.minecraft.block.Block;
@@ -47,7 +48,7 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 	
 	//working parameters
 	private int count = 30;
-	private ConcurrentHashMap<BlockPos, String> blockListByPos;
+	private ConcurrentHashMap<BlockPos, BlockDef> blockListByPos;
 	
 	//Gui Parameters
 	@SideOnly(Side.CLIENT)
@@ -74,7 +75,7 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 		this.pos2 = pos;
 		this.featureType = TutorialFeatureType.WORLDGEN;
 		this.genType = gentype;
-		blockListByPos = new ConcurrentHashMap<BlockPos, String>();	// initialize blockList to prevent errors 
+		blockListByPos = new ConcurrentHashMap<BlockPos, BlockDef>();	// initialize blockList to prevent errors 
 	}
 	
 	@Override
@@ -117,9 +118,9 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 		case BLOCK_LIST:
 			for(BlockPos blockPos: blockListByPos.keySet()){
 				if(exp.world.isAirBlock(blockPos.add(exp.posOffset.xCoord, exp.posOffset.yCoord, exp.posOffset.zCoord))) {	//If the position is clear, set to block
-					if(blockListByPos.get(blockPos).startsWith("tree")) {	
+					if(blockListByPos.get(blockPos).blockName.startsWith("tree")) {	
 						BlockPlanks.EnumType treeType = BlockPlanks.EnumType.OAK;
-						switch(blockListByPos.get(blockPos)) {
+						switch(blockListByPos.get(blockPos).blockName) {
 						case "tree":
 						case "treeOak":
 							treeType = BlockPlanks.EnumType.OAK;
@@ -132,7 +133,7 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 			            WorldGenerator worldgenerator = new WorldGenTrees(true, 6, iblockstate, iblockstate1, false);	// use static height trees
 			           	worldgenerator.generate(exp.world, new Random(0), blockPos.add(exp.posOffset.xCoord, exp.posOffset.yCoord, exp.posOffset.zCoord));
 					}else {
-						exp.world.setBlockState(blockPos.add(exp.posOffset.xCoord, exp.posOffset.yCoord, exp.posOffset.zCoord), Block.getBlockFromName(blockListByPos.get(blockPos)).getDefaultState(), 2);
+						exp.world.setBlockState(blockPos.add(exp.posOffset.xCoord, exp.posOffset.yCoord, exp.posOffset.zCoord), Block.getBlockFromName(blockListByPos.get(blockPos).blockName).getDefaultState(), 2);
 					}
 				}
 			}
@@ -142,7 +143,7 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 				for(int x = pos.getX(); x <= pos2.getX(); x++) {
 					for(int z = pos.getZ(); z <= pos2.getZ(); z++) {
 						for(int y = pos.getY(); y < pos2.getY(); y++) {
-							exp.world.setBlockState(new BlockPos(x,y,z), Block.getBlockFromName(blockListByPos.values().iterator().next()).getDefaultState(), 2);
+							exp.world.setBlockState(new BlockPos(x,y,z), Block.getBlockFromName(blockListByPos.values().iterator().next().blockName).getDefaultState(), 2);
 						}
 					}
 				}
@@ -261,7 +262,7 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 				if(blockAndPosSplit.length == 4) {
 					blockListByPos.put(new BlockPos(Integer.parseInt(blockAndPosSplit[1]), 
 							Integer.parseInt(blockAndPosSplit[2]), 
-							Integer.parseInt(blockAndPosSplit[3])), blockAndPosSplit[0]);
+							Integer.parseInt(blockAndPosSplit[3])), new BlockDef(blockAndPosSplit[0], 0));
 				}else {
 					System.out.println("Invalid Data input for World Builder Element");
 				}
@@ -270,8 +271,12 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 		super.updateValues();
 	}
 	
-	public Map<BlockPos, String> getBlockList(){
+	public Map<BlockPos, BlockDef> getBlockList(){
 		return blockListByPos;
+	}
+	
+	public GenType getGenType() {
+		return genType;
 	}
 	
 	@Override
@@ -288,7 +293,8 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 				NBTTagCompound blockEntry = new NBTTagCompound();
 				int posArray[] = {blockPos.getX(), blockPos.getY(), blockPos.getZ()};
 				blockEntry.setIntArray("blockPos",posArray);
-				blockEntry.setString("blockName", blockListByPos.get(blockPos));
+//				blockEntry.setString("blockName", blockListByPos.get(blockPos).blockName);
+				blockEntry.setTag("blockDef", blockListByPos.get(blockPos).save());
 				nbtList.appendTag(blockEntry);
 			}
 			nbt.setTag("blockList", nbtList);
@@ -311,12 +317,15 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 		else
 			this.genType = GenType.TREES;	//trees is default because that's the only thing we had before adding this field
 		NBTTagList blockList = (NBTTagList) nbtFeat.getTag("blockList");
-		blockListByPos = new ConcurrentHashMap<BlockPos, String>();
+		blockListByPos = new ConcurrentHashMap<BlockPos, BlockDef>();
 		if(blockList != null) {
 			for(int i = 0; i < blockList.tagCount(); i++) {
 				NBTTagCompound blockEntry = blockList.getCompoundTagAt(i);
 				int posArray[]=blockEntry.getIntArray("blockPos");
-				blockListByPos.put(new BlockPos(posArray[0], posArray[1], posArray[2]), blockEntry.getString("blockName"));
+				if(blockEntry.hasKey("blockDef")) {
+					blockListByPos.put(new BlockPos(posArray[0], posArray[1], posArray[2]), new BlockDef(blockEntry.getCompoundTag("blockDef")));
+				}else	// include old loading version for backwards compatibility 
+					blockListByPos.put(new BlockPos(posArray[0], posArray[1], posArray[2]), new BlockDef(blockEntry.getString("blockName"), 0));
 			}
 		}
 	}
@@ -338,7 +347,8 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 			for(BlockPos blockPos: blockListByPos.keySet()) {
 				JsonObject blockEntry = new JsonObject();
 				blockEntry.add("blockPos", blockPosToJsonArray(blockPos));
-				blockEntry.addProperty("blockName", blockListByPos.get(blockPos));
+//				blockEntry.addProperty("blockName", blockListByPos.get(blockPos));
+				blockEntry.add("blockDef", blockListByPos.get(blockPos).toJson());
 				jarray.add(blockEntry);
 			}
 			jobj.add("blockList", jarray);
@@ -353,13 +363,16 @@ public class TutorialFeatureWorldBuilder extends TutorialFeature{
 		this.pos2 = blockPosFromJsonArray(featJson.get("pos2").getAsJsonArray());
 		this.count = featJson.get("count").getAsInt();
 		this.genType = GenType.valueOf(featJson.get("genType").getAsString());
-		blockListByPos = new ConcurrentHashMap<BlockPos, String>();	// initialize blockList to prevent errors 
+		blockListByPos = new ConcurrentHashMap<BlockPos, BlockDef>();	// initialize blockList to prevent errors 
 		JsonElement blockList = featJson.get("blockList");
 		if(blockList != null)
 			for(JsonElement blockEntry: blockList.getAsJsonArray()) {
 				JsonObject blockObj = blockEntry.getAsJsonObject();
-				if(blockObj.has("blockName") && blockObj.has("blockPos"))
-					blockListByPos.put(blockPosFromJsonArray(blockObj.get("blockPos").getAsJsonArray()), blockObj.get("blockName").getAsString());
+				if((blockObj.has("blockName") || blockObj.has("blockDef")) && blockObj.has("blockPos"))
+					if(blockObj.has("blockDef"))
+						blockListByPos.put(blockPosFromJsonArray(blockObj.get("blockPos").getAsJsonArray()), new BlockDef(blockObj.get("blockDef").getAsJsonObject()));
+					else	// include old loading version for backwards compatibility 
+						blockListByPos.put(blockPosFromJsonArray(blockObj.get("blockPos").getAsJsonArray()), new BlockDef(blockObj.get("blockName").getAsString(), 0));
 				else
 					System.out.println("Block entry missing expected elements. Skipping block entry");
 			}

@@ -74,6 +74,7 @@ public class TutorialFeature implements ITutorialFeature{
 		RECIPE_OVERRIDE(TutorialFeatureRecipeOverride.class.getName()),
 		ROOM(TutorialFeatureRoom.class.getName()),
 		SCORE(TutorialFeatureScore.class.getName()),
+		SHADER(TutorialFeatureShader.class.getName()),
 		START(TutorialFeatureStart.class.getName()),
 		WALL(TutorialFeatureWall.class.getName()),
 		WORLDGEN(TutorialFeatureWorldBuilder.class.getName());
