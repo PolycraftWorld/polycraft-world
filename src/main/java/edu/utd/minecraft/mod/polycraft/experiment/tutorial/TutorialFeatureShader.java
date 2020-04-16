@@ -1,16 +1,26 @@
 package edu.utd.minecraft.mod.polycraft.experiment.tutorial;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
+import com.google.common.base.Charsets;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.aitools.BotAPI;
@@ -35,17 +45,21 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.resources.IResource;
+import net.minecraft.client.util.JsonException;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemDoor;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.gen.feature.WorldGenTrees;
@@ -97,6 +111,7 @@ public class TutorialFeatureShader extends TutorialFeature{
 	}
 	
 	private Shader shaderType;
+	public int intensity;
 		
 	public TutorialFeatureShader() {}
 	
@@ -117,7 +132,93 @@ public class TutorialFeatureShader extends TutorialFeature{
 	
 	@Override
 	public void onClientTickUpdate(ExperimentTutorial exp) {
-		Minecraft.getMinecraft().entityRenderer.loadShader(shaderType.resource);
+		if(shaderType == Shader.CUSTOM) {
+			JsonParser jsonparser = new JsonParser();
+	        InputStream inputstream = null;
+	        if(intensity < 0)
+	        	intensity = 0;
+	        if(intensity > 100)
+	        	intensity = 100;
+			try
+	        {
+	            IResource iresource = Minecraft.getMinecraft().getResourceManager().getResource(Shader.CUSTOM.resource);
+	            inputstream = iresource.getInputStream();
+	            JsonObject jsonobject = jsonparser.parse(IOUtils.toString(inputstream, Charsets.UTF_8)).getAsJsonObject();
+
+	            if (JsonUtils.isJsonArray(jsonobject, "passes"))
+	            {
+	                JsonArray jsonarray1 = jsonobject.getAsJsonArray("passes");
+
+	                for (JsonElement jsonelement1 : jsonarray1)
+	                {
+	                    if(jsonelement1.getAsJsonObject().get("name").getAsString().equals("color_convolve")) {
+	                    	JsonArray jsonarray2 = jsonelement1.getAsJsonObject().getAsJsonArray("uniforms");
+
+	    	                for (JsonElement jsonelement2 : jsonarray2)
+	    	                {
+    	                    	Gson gson = new Gson();
+    	                		ArrayList<Float> map = new ArrayList<Float>();
+	    	                    if(jsonelement2.getAsJsonObject().get("name").getAsString().equals("RedMatrix")) {
+	    	                		map.add(1f - intensity/200f);	// R
+	    	                		map.add(intensity/200f);	// G
+	    	                		map.add(intensity/200f);	// B
+	    	                		jsonelement2.getAsJsonObject().add("values", gson.toJsonTree(map));
+	    	                    }else if(jsonelement2.getAsJsonObject().get("name").getAsString().equals("GreenMatrix")) {
+	    	                    	map.add(intensity/200f);	// R
+	    	                		map.add(1f - intensity/200f);	// G
+	    	                		map.add(intensity/200f);	// B
+	    	                		jsonelement2.getAsJsonObject().add("values", gson.toJsonTree(map));
+	    	                    }else if(jsonelement2.getAsJsonObject().get("name").getAsString().equals("BlueMatrix")) {
+	    	                    	map.add(intensity/200f);	// R
+	    	                		map.add(intensity/200f);	// G
+	    	                		map.add(1f - intensity/200f);	// B
+	    	                		jsonelement2.getAsJsonObject().add("values", gson.toJsonTree(map));
+	    	                    }
+	    	                }
+	                    }
+	                }
+	            }
+	            FileOutputStream fout = null, foutArea = null;
+	            try {
+	    			File dir = new File("..\\src\\main\\resources\\assets\\polycraft\\shaders\\temp");
+	    			if(!dir.exists())
+	    				dir.mkdir();
+	    			File file = new File("..\\src\\main\\resources\\assets\\polycraft\\shaders\\temp\\custom.json");
+	    			fout = new FileOutputStream(file);
+	    			if (!file.exists()) {
+	    				file.createNewFile();
+	    			}
+	    			//format the Json to be readable
+	    			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	    			JsonElement je = jsonparser.parse(jsonobject.toString());
+	    			String prettyJsonString = gson.toJson(je);
+	    			//write pretty print json to file
+	    			fout.write(prettyJsonString.getBytes());
+	    			fout.flush();
+	    			fout.close();
+	    			
+	    			Minecraft.getMinecraft().entityRenderer.loadShader(PolycraftMod.getAssetName("shaders/temp/custom.json"));
+	    		}catch (FileNotFoundException e1) {
+	    			e1.printStackTrace();
+	    		}catch (IOException e) {
+	    				e.printStackTrace();
+	    		}catch (NullPointerException e) {
+	    			e.printStackTrace();
+	    		}
+	        }
+	        catch (Exception e)
+	        {
+	            PolycraftMod.logger.error("Error processing TutorialFeatureShaders json");
+	            e.printStackTrace();
+	        }
+	        finally
+	        {
+	            IOUtils.closeQuietly(inputstream);
+	        }
+		}else {
+			Minecraft.getMinecraft().entityRenderer.loadShader(shaderType.resource);
+		}
+		
 		canProceed = true;
 		this.complete(exp);
 	}
@@ -140,7 +241,7 @@ public class TutorialFeatureShader extends TutorialFeature{
 	{
 		super.save();
 		nbt.setString("shaderType", shaderType.name());
-		
+		nbt.setInteger("intensity", intensity);
 		return nbt;
 	}
 	
@@ -149,6 +250,7 @@ public class TutorialFeatureShader extends TutorialFeature{
 	{
 		super.load(nbtFeat);
 		this.shaderType = Shader.valueOf(nbtFeat.getString("shaderType"));
+		intensity = nbtFeat.getInteger("intensity");
 	}
 	
 	@Override
@@ -156,7 +258,7 @@ public class TutorialFeatureShader extends TutorialFeature{
 	{
 		super.saveJson();
 		jobj.addProperty("shaderType", shaderType.name());
-		
+		jobj.addProperty("intensity", intensity);
 		return jobj;
 	}
 	
@@ -165,6 +267,7 @@ public class TutorialFeatureShader extends TutorialFeature{
 	{
 		super.loadJson(featJson);
 		this.shaderType = Shader.valueOf(featJson.get("shaderType").getAsString());
+		intensity = featJson.get("intensity").getAsInt();
 	}
 	
 	
