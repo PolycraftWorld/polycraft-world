@@ -57,11 +57,11 @@ public class TutorialFeatureData extends TutorialFeature{
 				exp.posOffset.yCoord,
 				exp.posOffset.zCoord);
 
-		if(this.name.startsWith("dest")) {
-			if(exp.world.getBlockState(pos.add(0,-1,0)).getBlock() != Blocks.lapis_block) {
-				exp.world.setBlockState(pos.add(0,-1,0), Blocks.lapis_block.getDefaultState());
-			}
-		}
+//		if(this.name.startsWith("dest")) {
+//			if(exp.world.getBlockState(pos.add(0,-1,0)).getBlock() != Blocks.lapis_block) {
+//				exp.world.setBlockState(pos.add(0,-1,0), Blocks.lapis_block.getDefaultState());
+//			}
+//		}
 		}
 	
 	@Override

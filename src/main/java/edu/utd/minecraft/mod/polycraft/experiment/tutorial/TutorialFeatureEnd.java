@@ -40,7 +40,7 @@ public class TutorialFeatureEnd extends TutorialFeature{
 	private String blockToPlace;
 	public BlockPos locationToReach;
 	private float endTime, endStepCost;
-	public boolean isFinished;
+	public boolean isFinished, placedLapis;
 	
 	public TutorialFeatureEnd() {}
 	
@@ -48,6 +48,7 @@ public class TutorialFeatureEnd extends TutorialFeature{
 		super(name, pos, Color.YELLOW);
 		super.featureType = TutorialFeatureType.END;
 		isFinished = false;
+		placedLapis = false;
 	}
 	
 	@Override
@@ -57,6 +58,16 @@ public class TutorialFeatureEnd extends TutorialFeature{
 	
 	@Override
 	public void onServerTickUpdate(ExperimentTutorial exp) {
+		
+		if(!placedLapis) {
+			if(this.endCondition == EndCondition.BLOCK_TO_LOCATION) {
+				if(exp.world.getBlockState(locationToReach.add(0,-1,0)).getBlock() != Blocks.lapis_block) {
+					exp.world.setBlockState(locationToReach.add(0,-1,0), Blocks.lapis_block.getDefaultState());
+				}
+			}else { // set placedLapis to true so we don't keep testing this
+				placedLapis = true;
+			}
+		}
 		
 		for(String playerName : exp.getPlayersInExperiment()) {
 			EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(playerName);
