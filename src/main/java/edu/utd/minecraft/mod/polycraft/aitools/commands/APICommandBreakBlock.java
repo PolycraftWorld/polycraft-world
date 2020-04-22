@@ -12,6 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -32,6 +33,10 @@ public class APICommandBreakBlock extends APICommandBase{
 		
 		if(player.worldObj.isAirBlock(breakPos)) {
     		return new APICommandResult(args, APICommandResult.Result.FAIL, "Cannot break air block", this.stepCost);
+    	}
+		
+		if(player.worldObj.getBlockState(breakPos).getBlock() == Blocks.bedrock) {
+    		return new APICommandResult(args, APICommandResult.Result.FAIL, "Cannot break bedrock block", this.stepCost);
     	}
 		
 		// attempt to break the block
