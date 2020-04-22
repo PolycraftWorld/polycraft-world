@@ -22,6 +22,7 @@ public abstract class ElementTransform {
 		GenericTransform(ElementTransform.class.getName()),
 		RecipeTransform(RecipeTransform.class.getName()),
 		RoomTransform(RoomTransform.class.getName()),
+		ShaderTransform(ShaderTransform.class.getName()),
 		TargetDestTransform(TargetDestTransform.class.getName()),
 		WorldGenTransform(WorldGenTransform.class.getName());
 		public String className;

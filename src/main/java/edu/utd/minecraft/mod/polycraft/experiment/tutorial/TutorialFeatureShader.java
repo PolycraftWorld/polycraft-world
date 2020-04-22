@@ -69,7 +69,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TutorialFeatureShader extends TutorialFeature{
 	
-	private enum Shader{
+	public enum ShaderType{
 		ANTIALIAS(new ResourceLocation("shaders/post/antialias.json")),
 		ART(new ResourceLocation("shaders/post/art.json")),
 		BITS(new ResourceLocation("shaders/post/bits.json")),
@@ -101,7 +101,7 @@ public class TutorialFeatureShader extends TutorialFeature{
 		
 		private ResourceLocation resource;
 		
-		Shader(ResourceLocation resourceLocation){
+		ShaderType(ResourceLocation resourceLocation){
 			resource = resourceLocation;
 		}
 		
@@ -110,7 +110,7 @@ public class TutorialFeatureShader extends TutorialFeature{
 		}
 	}
 	
-	private Shader shaderType;
+	private ShaderType shaderType;
 	public int intensity;
 		
 	public TutorialFeatureShader() {}
@@ -132,7 +132,7 @@ public class TutorialFeatureShader extends TutorialFeature{
 	
 	@Override
 	public void onClientTickUpdate(ExperimentTutorial exp) {
-		if(shaderType == Shader.CUSTOM) {
+		if(shaderType == ShaderType.CUSTOM) {
 			JsonParser jsonparser = new JsonParser();
 	        InputStream inputstream = null;
 	        if(intensity < 0)
@@ -141,7 +141,7 @@ public class TutorialFeatureShader extends TutorialFeature{
 	        	intensity = 100;
 			try
 	        {
-	            IResource iresource = Minecraft.getMinecraft().getResourceManager().getResource(Shader.CUSTOM.resource);
+	            IResource iresource = Minecraft.getMinecraft().getResourceManager().getResource(ShaderType.CUSTOM.resource);
 	            inputstream = iresource.getInputStream();
 	            JsonObject jsonobject = jsonparser.parse(IOUtils.toString(inputstream, Charsets.UTF_8)).getAsJsonObject();
 
@@ -197,6 +197,8 @@ public class TutorialFeatureShader extends TutorialFeature{
 	    			fout.flush();
 	    			fout.close();
 	    			
+	    			Thread.sleep(5000);
+	    			
 	    			Minecraft.getMinecraft().entityRenderer.loadShader(PolycraftMod.getAssetName("shaders/temp/custom.json"));
 	    		}catch (FileNotFoundException e1) {
 	    			e1.printStackTrace();
@@ -233,7 +235,15 @@ public class TutorialFeatureShader extends TutorialFeature{
 	public void updateValues() {
 		super.updateValues();
 		
-		this.shaderType = Shader.NONE;
+		this.shaderType = ShaderType.NONE;
+	}
+	
+	public void setIntensity(int intensity) {
+		this.intensity = intensity;
+	}
+	
+	public void setShaderType(ShaderType shaderType) {
+		this.shaderType = shaderType;
 	}
 	
 	@Override
@@ -249,7 +259,7 @@ public class TutorialFeatureShader extends TutorialFeature{
 	public void load(NBTTagCompound nbtFeat)
 	{
 		super.load(nbtFeat);
-		this.shaderType = Shader.valueOf(nbtFeat.getString("shaderType"));
+		this.shaderType = ShaderType.valueOf(nbtFeat.getString("shaderType"));
 		intensity = nbtFeat.getInteger("intensity");
 	}
 	
@@ -266,7 +276,7 @@ public class TutorialFeatureShader extends TutorialFeature{
 	public void loadJson(JsonObject featJson)
 	{
 		super.loadJson(featJson);
-		this.shaderType = Shader.valueOf(featJson.get("shaderType").getAsString());
+		this.shaderType = ShaderType.valueOf(featJson.get("shaderType").getAsString());
 		intensity = featJson.get("intensity").getAsInt();
 	}
 	
