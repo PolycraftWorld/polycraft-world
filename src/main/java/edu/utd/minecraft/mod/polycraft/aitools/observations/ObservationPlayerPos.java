@@ -29,9 +29,15 @@ public class ObservationPlayerPos implements IObservation{
 		
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		ArrayList<Integer> playerPos = new ArrayList<Integer>();
-		playerPos.add((int) (player.posX - posOffset.getX()));
-		playerPos.add((int) (player.posY - posOffset.getY()));
-		playerPos.add((int) (player.posZ - posOffset.getZ()));
+		// Player offset
+//		playerPos.add((int) (player.posX - posOffset.getX()));
+//		playerPos.add((int) (player.posY - posOffset.getY()));
+//		playerPos.add((int) (player.posZ - posOffset.getZ()));
+		
+		//removed offsets
+		playerPos.add((int) (player.posX));
+		playerPos.add((int) (player.posY));
+		playerPos.add((int) (player.posZ));
 		
 		jobject.add("pos", gson.toJsonTree(playerPos));
 		
