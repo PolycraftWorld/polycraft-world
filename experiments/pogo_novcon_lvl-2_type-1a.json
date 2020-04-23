@@ -1,0 +1,13 @@
+{
+	"seed":0,
+	"templatePath":"../experiments/pogo.json",
+	"novelties":[
+		{
+			"blockName": "treeJungle",
+			"type": "WorldGenTransform",
+			"seedOverride":-1,
+			"intensity":20,
+			"transformType":"TREE_TYPE"
+		}
+	]
+}

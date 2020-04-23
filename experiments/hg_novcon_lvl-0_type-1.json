@@ -1,0 +1,13 @@
+{
+	"seed":6,
+	"templatePath":"../experiments/hgv1_1.json",
+	"novelties":[
+		{
+			"blockName": "polycraft:macguffin",
+			"type": "WorldGenTransform",
+			"seedOverride":-1,
+			"intensity":20,
+			"transformType":"BLOCK_LOCATION"
+		}
+	]
+}

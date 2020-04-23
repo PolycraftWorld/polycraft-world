@@ -28,7 +28,7 @@
       "spawnedInClient": false,
       "spawnRand": false
     },
-	{
+    {
       "pos": [
         0,
         3,
@@ -79,7 +79,7 @@
       ],
       "data": " "
     },
-	{
+    {
       "pos": [
         5,
         4,
@@ -92,8 +92,8 @@
       "isDone": false,
       "completionTime": 0,
       "uuid": "4ff16194-9889-43a6-8e40-9fa6e687f157",
-      "shaderType": "CUSTOM",
-	  "intensity": 0
+      "shaderType": "FLIP",
+      "intensity": 75
     },
     {
       "pos": [
@@ -612,5 +612,17 @@
     "hideGui": false,
     "outputScreen": false
   },
-  "novelty_config": {}
+  "novelty_config": {
+    "seed": 0,
+    "templatePath": "../experiments/hgv1_1.json",
+    "novelties": [
+      {
+        "type": "ShaderTransform",
+        "seedOverride": 5,
+        "intensity": 75
+      }
+    ],
+    "seedOverride": 0,
+    "generatedTimeStamp": "2020-04-22 20:11:41.661"
+  }
 }

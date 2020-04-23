@@ -218,7 +218,7 @@ public class ClientEnforcer extends Enforcer {
 		if(keyBindingAIAPI.isPressed()) {
 			//restart AI API
 			//BotAPI.toggleAPIThread();
-			Minecraft.getMinecraft().entityRenderer.loadShader(PolycraftMod.getAssetName("shaders/green.json"));
+			Minecraft.getMinecraft().entityRenderer.loadShader(PolycraftMod.getAssetName("shaders/reset.json"));
 //			client.displayGuiScreen(new GuiExpDesigner(client.thePlayer));
 			
 //			BotAPI.breakList.add(new Vec3(170.5, 4.5, 24.5));

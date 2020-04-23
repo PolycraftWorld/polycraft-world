@@ -1,0 +1,11 @@
+{
+	"seed":0,
+	"templatePath":"../experiments/hgv1_1.json",
+	"novelties":[
+		{
+			"type": "RoomTransform",
+			"seedOverride":5,
+			"intensity":20
+		}
+	]
+}

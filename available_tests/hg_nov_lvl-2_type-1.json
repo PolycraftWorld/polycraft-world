@@ -28,7 +28,7 @@
       "spawnedInClient": false,
       "spawnRand": false
     },
-	{
+    {
       "pos": [
         0,
         3,
@@ -46,13 +46,13 @@
         7,
         31
       ],
-      "blockFloorMeta": 5,
+      "blockFloorMeta": 4,
       "blockFloorName": "minecraft:stained_hardened_clay",
-      "blockWallMeta": 4,
+      "blockWallMeta": 3,
       "blockWallName": "minecraft:stained_hardened_clay",
       "blockCeilMeta": 0,
       "blockCeilName": "minecraft:air",
-      "blockRefMeta": 9,
+      "blockRefMeta": 8,
       "blockRefName": "minecraft:stained_hardened_clay",
       "spawnRefBlocks": true,
       "recycleRefSeed": false,
@@ -78,22 +78,6 @@
         31
       ],
       "data": " "
-    },
-	{
-      "pos": [
-        5,
-        4,
-        3
-      ],
-      "name": "Shader 12",
-      "color": -16711936,
-      "type": "SHADER",
-      "canProceed": false,
-      "isDone": false,
-      "completionTime": 0,
-      "uuid": "4ff16194-9889-43a6-8e40-9fa6e687f157",
-      "shaderType": "CUSTOM",
-	  "intensity": 0
     },
     {
       "pos": [
@@ -134,7 +118,7 @@
         16
       ],
       "wallBlockName": "minecraft:stained_hardened_clay",
-      "wallBlockMeta": 0,
+      "wallBlockMeta": 3,
       "doorBlockName": "minecraft:wooden_door",
       "doorBlockMeta": 0,
       "buttonBlockName": "minecraft:wooden_button",
@@ -219,7 +203,7 @@
         14
       ],
       "wallBlockName": "minecraft:stained_hardened_clay",
-      "wallBlockMeta": 0,
+      "wallBlockMeta": 3,
       "doorBlockName": "minecraft:wooden_door",
       "doorBlockMeta": 0,
       "buttonBlockName": "minecraft:wooden_button",
@@ -304,7 +288,7 @@
         30
       ],
       "wallBlockName": "minecraft:stained_hardened_clay",
-      "wallBlockMeta": 0,
+      "wallBlockMeta": 3,
       "doorBlockName": "minecraft:wooden_door",
       "doorBlockMeta": 0,
       "buttonBlockName": "minecraft:wooden_button",
@@ -389,7 +373,7 @@
         16
       ],
       "wallBlockName": "minecraft:stained_hardened_clay",
-      "wallBlockMeta": 0,
+      "wallBlockMeta": 3,
       "doorBlockName": "minecraft:wooden_door",
       "doorBlockMeta": 0,
       "buttonBlockName": "minecraft:wooden_button",
@@ -612,5 +596,17 @@
     "hideGui": false,
     "outputScreen": false
   },
-  "novelty_config": {}
+  "novelty_config": {
+    "seed": 0,
+    "templatePath": "../experiments/hgv1_1.json",
+    "novelties": [
+      {
+        "type": "RoomTransform",
+        "seedOverride": 5,
+        "intensity": 20
+      }
+    ],
+    "seedOverride": 0,
+    "generatedTimeStamp": "2020-04-22 20:00:19.959"
+  }
 }

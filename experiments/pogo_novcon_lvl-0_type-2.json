@@ -1,0 +1,13 @@
+{
+	"seed":6,
+	"templatePath":"../experiments/pogo.json",
+	"novelties":[
+		{
+			"blockName": "tree",
+			"type": "WorldGenTransform",
+			"seedOverride":-1,
+			"intensity":20,
+			"transformType":"BLOCK_LOCATION"
+		}
+	]
+}

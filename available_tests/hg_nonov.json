@@ -28,37 +28,6 @@
       "spawnedInClient": false,
       "spawnRand": false
     },
-	{
-      "pos": [
-        0,
-        3,
-        0
-      ],
-      "name": "Room 11",
-      "color": -16711936,
-      "type": "ROOM",
-      "canProceed": false,
-      "isDone": false,
-      "completionTime": 0,
-      "uuid": "f98ed78d-b998-430b-9deb-a54168771d0a",
-      "pos2": [
-        31,
-        7,
-        31
-      ],
-      "blockFloorMeta": 5,
-      "blockFloorName": "minecraft:stained_hardened_clay",
-      "blockWallMeta": 4,
-      "blockWallName": "minecraft:stained_hardened_clay",
-      "blockCeilMeta": 0,
-      "blockCeilName": "minecraft:air",
-      "blockRefMeta": 9,
-      "blockRefName": "minecraft:stained_hardened_clay",
-      "spawnRefBlocks": true,
-      "recycleRefSeed": false,
-      "refSeed": 0,
-      "refSpawnChance": 0.05
-    },
     {
       "pos": [
         0,
@@ -78,22 +47,6 @@
         31
       ],
       "data": " "
-    },
-	{
-      "pos": [
-        5,
-        4,
-        3
-      ],
-      "name": "Shader 12",
-      "color": -16711936,
-      "type": "SHADER",
-      "canProceed": false,
-      "isDone": false,
-      "completionTime": 0,
-      "uuid": "4ff16194-9889-43a6-8e40-9fa6e687f157",
-      "shaderType": "CUSTOM",
-	  "intensity": 0
     },
     {
       "pos": [

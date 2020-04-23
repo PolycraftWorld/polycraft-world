@@ -3,7 +3,8 @@
 	"templatePath":"experiments/pogo.json",
 	"novelties":[
 		{
-			"transformType": "RecipeTransform",
+			"transformType":"ADD_RECIPE",
+			"type": "RecipeTransform",
 			"seedOverride":-1,
 			"intensity":20
 		}

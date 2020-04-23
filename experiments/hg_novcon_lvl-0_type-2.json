@@ -1,0 +1,13 @@
+{
+	"seed":6,
+	"templatePath":"../experiments/hgv1_1.json",
+	"novelties":[
+		{
+			"blockName": "minecraft:lapis_block",
+			"type": "TargetDestTransform",
+			"seedOverride":-1,
+			"intensity":20,
+			"transformType":"BLOCK_LOCATION"
+		}
+	]
+}
