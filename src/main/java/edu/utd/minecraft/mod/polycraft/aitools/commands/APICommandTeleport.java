@@ -1,14 +1,8 @@
 package edu.utd.minecraft.mod.polycraft.aitools.commands;
 
-import org.apache.commons.lang3.math.NumberUtils;
-
-import com.sun.javafx.geom.Vec3f;
-
-import edu.utd.minecraft.mod.polycraft.PolycraftMod;
 import edu.utd.minecraft.mod.polycraft.aitools.APICommandResult;
 import edu.utd.minecraft.mod.polycraft.aitools.APICommandResult.Result;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
-import edu.utd.minecraft.mod.polycraft.privateproperty.network.TeleportMessage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.AxisAlignedBB;

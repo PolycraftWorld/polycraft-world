@@ -1,25 +1,15 @@
 package edu.utd.minecraft.mod.polycraft.aitools.commands;
 
-import org.apache.commons.lang3.math.NumberUtils;
-
-import com.sun.javafx.geom.Vec3f;
-
-import edu.utd.minecraft.mod.polycraft.PolycraftMod;
-import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.aitools.APICommandResult;
 import edu.utd.minecraft.mod.polycraft.aitools.APICommandResult.Result;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
-import edu.utd.minecraft.mod.polycraft.privateproperty.network.TeleportMessage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class APICommandCollect extends APICommandBase{
