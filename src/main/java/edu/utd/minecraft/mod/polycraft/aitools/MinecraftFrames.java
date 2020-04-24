@@ -1,10 +1,6 @@
 package edu.utd.minecraft.mod.polycraft.aitools;
 
-import java.awt.Image;
-import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-
-import javax.imageio.ImageIO;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -13,17 +9,11 @@ import org.lwjgl.opengl.GL12;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.sun.javafx.image.AlphaType;
-import com.sun.javafx.image.PixelGetter;
-import com.sun.javafx.image.PixelUtils;
 
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentTutorial;
-import javafx.scene.image.PixelFormat;
-import javafx.scene.image.WritableImage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
-import sun.awt.image.PixelConverter;
 
 public class MinecraftFrames {
 
