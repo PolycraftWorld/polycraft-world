@@ -67,6 +67,7 @@ public class TutorialFeatureWall extends TutorialFeature{
 	private String leverBlockName;	// lever type
 	private int leverBlockMeta;
 	private HashMap<Integer, PathConfiguration> wallConfiguration;	// <slot (x or z value), pathtype> store pathway type per block length on wall
+	private int intensity;
 	
 	//Gui Parameters
 	@SideOnly(Side.CLIENT)
@@ -97,6 +98,8 @@ public class TutorialFeatureWall extends TutorialFeature{
 		int yMin = Math.min(pos.getY(), pos2.getY());
 		int yMax = Math.max(pos.getY(), pos2.getY());
 		
+		Random rand2 = new Random(intensity);
+		
 		// definitions for testing 
 		//wallConfiguration = new HashMap<Integer, PathConfiguration>();
 //		wallConfiguration.put(0, new PathConfiguration(PathType.OPEN_FULL_HEIGHT, false));
@@ -125,7 +128,11 @@ public class TutorialFeatureWall extends TutorialFeature{
 				int x = xAxis? v1:v2;
 				int z = !xAxis? v1:v2;
 				for(int y = yMin; y < yMax; y++) {
-					exp.world.setBlockState(new BlockPos(x, y, z), Block.getBlockFromName(wallBlockName).getStateFromMeta(wallBlockMeta), 2);
+					if(exp.world.isAirBlock(new BlockPos(x, y, z)))	// if there is an air block, fill the gap, otherwise chance to fill gap based on intensity
+						exp.world.setBlockState(new BlockPos(x, y, z), Block.getBlockFromName(wallBlockName).getStateFromMeta(wallBlockMeta), 2);
+					else
+						if(rand2.nextInt(100) < intensity)
+							exp.world.setBlockState(new BlockPos(x, y, z), Block.getBlockFromName(wallBlockName).getStateFromMeta(wallBlockMeta), 2);
 				}
 			}
 			
@@ -458,8 +465,11 @@ public class TutorialFeatureWall extends TutorialFeature{
 	public BlockPos getPos2() {
 		return pos2;
 	}
-
 	
+	public void setIntensity(int intensity) {
+		this.intensity = intensity;
+	}
+
 	@Override
 	public NBTTagCompound save()
 	{
@@ -476,6 +486,9 @@ public class TutorialFeatureWall extends TutorialFeature{
 		nbt.setInteger("pressurePlateBlockMeta", pressurePlateBlockMeta);
 		nbt.setString("leverBlockName", leverBlockName);
 		nbt.setInteger("leverBlockMeta", leverBlockMeta);
+		
+		nbt.setInteger("intensity", intensity);
+		
 		NBTTagList wallConfig = new NBTTagList();
 		for(int slot: wallConfiguration.keySet()) {
 			NBTTagCompound slotConfig = new NBTTagCompound();	// define slot config to store data
@@ -506,6 +519,12 @@ public class TutorialFeatureWall extends TutorialFeature{
 		leverBlockName = nbtFeat.getString("leverBlockName");
 		leverBlockMeta = nbtFeat.getInteger("leverBlockMeta");
 		
+		//load intensity. Use default for backwards compatibility 
+		if(nbtFeat.hasKey("intensity"))
+			intensity = nbtFeat.getInteger("intensity");
+		else
+			intensity = 100;	// default to spawn all blocks
+		
 		wallConfiguration = new HashMap<Integer, PathConfiguration>();
 		NBTTagList wallConfig = nbtFeat.getTagList("wallConfiguration", 10);
 		for(int i = 0; i < wallConfig.tagCount(); i++) {
@@ -531,6 +550,9 @@ public class TutorialFeatureWall extends TutorialFeature{
 		jobj.addProperty("pressurePlateBlockMeta", pressurePlateBlockMeta);
 		jobj.addProperty("leverBlockName", leverBlockName);
 		jobj.addProperty("leverBlockMeta", leverBlockMeta);
+		
+		jobj.addProperty("intensity", intensity);
+		
 		JsonArray wallConfig = new JsonArray();
 		for(int slot: wallConfiguration.keySet()) {
 			JsonObject slotConfig = new JsonObject();	// define slot config to store data
@@ -558,6 +580,12 @@ public class TutorialFeatureWall extends TutorialFeature{
 		pressurePlateBlockMeta = featJson.get("pressurePlateBlockMeta").getAsInt();
 		leverBlockName = featJson.get("leverBlockName").getAsString();
 		leverBlockMeta = featJson.get("leverBlockMeta").getAsInt();
+		
+		//load intensity. Use default for backwards compatibility 
+		if(featJson.has("intensity"))
+			intensity = featJson.get("intensity").getAsInt();
+		else
+			intensity = 100;	// default to spawn all blocks
 		
 		wallConfiguration = new HashMap<Integer, PathConfiguration>();
 		JsonArray wallConfig = featJson.get("wallConfiguration").getAsJsonArray();

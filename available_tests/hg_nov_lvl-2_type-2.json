@@ -28,7 +28,7 @@
       "spawnedInClient": false,
       "spawnRand": false
     },
-	{
+    {
       "pos": [
         0,
         3,
@@ -46,18 +46,19 @@
         7,
         31
       ],
-      "blockFloorMeta": 5,
+      "blockFloorMeta": 4,
       "blockFloorName": "minecraft:stained_hardened_clay",
-      "blockWallMeta": 4,
+      "blockWallMeta": 3,
       "blockWallName": "minecraft:stained_hardened_clay",
       "blockCeilMeta": 0,
       "blockCeilName": "minecraft:air",
-      "blockRefMeta": 9,
+      "blockRefMeta": 8,
       "blockRefName": "minecraft:stained_hardened_clay",
       "spawnRefBlocks": true,
       "recycleRefSeed": false,
       "refSeed": 0,
-      "refSpawnChance": 0.05
+      "refSpawnChance": 0.05,
+      "intensity": 50
     },
     {
       "pos": [
@@ -79,7 +80,7 @@
       ],
       "data": " "
     },
-	{
+    {
       "pos": [
         5,
         4,
@@ -93,7 +94,7 @@
       "completionTime": 0,
       "uuid": "4ff16194-9889-43a6-8e40-9fa6e687f157",
       "shaderType": "NONE",
-	  "intensity": 0
+      "intensity": 0
     },
     {
       "pos": [
@@ -134,7 +135,7 @@
         16
       ],
       "wallBlockName": "minecraft:stained_hardened_clay",
-      "wallBlockMeta": 0,
+      "wallBlockMeta": 3,
       "doorBlockName": "minecraft:wooden_door",
       "doorBlockMeta": 0,
       "buttonBlockName": "minecraft:wooden_button",
@@ -143,6 +144,7 @@
       "pressurePlateBlockMeta": 0,
       "leverBlockName": "minecraft:lever",
       "leverBlockMeta": 0,
+      "intensity": 50,
       "wallConfiguration": [
         {
           "slot": 1,
@@ -219,7 +221,7 @@
         14
       ],
       "wallBlockName": "minecraft:stained_hardened_clay",
-      "wallBlockMeta": 0,
+      "wallBlockMeta": 3,
       "doorBlockName": "minecraft:wooden_door",
       "doorBlockMeta": 0,
       "buttonBlockName": "minecraft:wooden_button",
@@ -228,6 +230,7 @@
       "pressurePlateBlockMeta": 0,
       "leverBlockName": "minecraft:lever",
       "leverBlockMeta": 0,
+      "intensity": 50,
       "wallConfiguration": [
         {
           "slot": 1,
@@ -304,7 +307,7 @@
         30
       ],
       "wallBlockName": "minecraft:stained_hardened_clay",
-      "wallBlockMeta": 0,
+      "wallBlockMeta": 3,
       "doorBlockName": "minecraft:wooden_door",
       "doorBlockMeta": 0,
       "buttonBlockName": "minecraft:wooden_button",
@@ -313,6 +316,7 @@
       "pressurePlateBlockMeta": 0,
       "leverBlockName": "minecraft:lever",
       "leverBlockMeta": 0,
+      "intensity": 50,
       "wallConfiguration": [
         {
           "slot": 1,
@@ -389,7 +393,7 @@
         16
       ],
       "wallBlockName": "minecraft:stained_hardened_clay",
-      "wallBlockMeta": 0,
+      "wallBlockMeta": 3,
       "doorBlockName": "minecraft:wooden_door",
       "doorBlockMeta": 0,
       "buttonBlockName": "minecraft:wooden_button",
@@ -398,6 +402,7 @@
       "pressurePlateBlockMeta": 0,
       "leverBlockName": "minecraft:lever",
       "leverBlockMeta": 0,
+      "intensity": 50,
       "wallConfiguration": [
         {
           "slot": 1,
@@ -612,5 +617,17 @@
     "hideGui": false,
     "outputScreen": false
   },
-  "novelty_config": {}
+  "novelty_config": {
+    "seed": 0,
+    "templatePath": "../experiments/hgv1_1.json",
+    "novelties": [
+      {
+        "type": "RoomTransform",
+        "seedOverride": 5,
+        "intensity": 50
+      }
+    ],
+    "seedOverride": 0,
+    "generatedTimeStamp": "2020-04-24 04:01:28.905"
+  }
 }

@@ -33,9 +33,11 @@ public class RoomTransform extends ElementTransform{
 				((TutorialFeatureRoom)feature).setBlockFloorMeta(4);
 				((TutorialFeatureRoom)feature).setBlockWallMeta(3);
 				((TutorialFeatureRoom)feature).setBlockRefMeta(8);
+				((TutorialFeatureRoom)feature).setIntensity(intensity);
 			}
 			if(feature instanceof TutorialFeatureWall) {
 				((TutorialFeatureWall)feature).setWallBlockMeta(3);
+				((TutorialFeatureWall)feature).setIntensity(intensity);
 			}
 			
 		}

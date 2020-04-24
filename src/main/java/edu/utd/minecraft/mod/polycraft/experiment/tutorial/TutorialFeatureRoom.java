@@ -57,6 +57,7 @@ public class TutorialFeatureRoom extends TutorialFeature{
 	private int refSeed;
 	private float refSpawnChance;
 	private HashMap<EnumFacing, RoomSide> walls;
+	private int intensity;
 	
 	//Gui Parameters
 	@SideOnly(Side.CLIENT)
@@ -88,12 +89,21 @@ public class TutorialFeatureRoom extends TutorialFeature{
 		int yMax = Math.max(pos.getY(), pos2.getY());
 		
 		Random rand = new Random(refSeed);
+		Random rand2 = new Random(intensity);
 		
 		// build floor and ceiling
 		for(int x = xMin; x <= xMax; x++) {
 			for(int z = zMin; z <= zMax; z++) {
-				exp.world.setBlockState(new BlockPos(x,yMin,z), Block.getBlockFromName(blockFloorName).getStateFromMeta(blockFloorMeta), 2);
-				exp.world.setBlockState(new BlockPos(x,yMax,z), Block.getBlockFromName(blockCeilName).getStateFromMeta(blockCeilMeta), 2);
+				if(exp.world.isAirBlock(new BlockPos(x, yMin, z)))	// if there is an air block, fill the gap, otherwise chance to fill gap based on intensity
+					exp.world.setBlockState(new BlockPos(x,yMin,z), Block.getBlockFromName(blockFloorName).getStateFromMeta(blockFloorMeta), 2);
+				else
+					if(rand2.nextInt(100) < intensity)
+						exp.world.setBlockState(new BlockPos(x,yMin,z), Block.getBlockFromName(blockFloorName).getStateFromMeta(blockFloorMeta), 2);
+				if(exp.world.isAirBlock(new BlockPos(x, yMax, z)))	// if there is an air block, fill the gap, otherwise chance to fill gap based on intensity
+					exp.world.setBlockState(new BlockPos(x,yMax,z), Block.getBlockFromName(blockCeilName).getStateFromMeta(blockCeilMeta), 2);
+				else
+					if(rand2.nextInt(100) < intensity)
+						exp.world.setBlockState(new BlockPos(x,yMax,z), Block.getBlockFromName(blockCeilName).getStateFromMeta(blockCeilMeta), 2);
 			}
 		}
 		
@@ -104,16 +114,26 @@ public class TutorialFeatureRoom extends TutorialFeature{
 					if(rand.nextDouble() < refSpawnChance) {	// spawn ref block
 						exp.world.setBlockState(new BlockPos(x,y,zMin), Block.getBlockFromName(blockRefName).getStateFromMeta(blockRefMeta), 2);
 					}else {
-						exp.world.setBlockState(new BlockPos(x,y,zMin), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+						if(exp.world.isAirBlock(new BlockPos(x,y,zMin)) || rand2.nextInt(100) < intensity)	// if there is an air block, fill the gap, otherwise chance to fill gap based on intensity
+							exp.world.setBlockState(new BlockPos(x,y,zMin), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
 					}
 					if(rand.nextDouble() < refSpawnChance) {	// spawn ref block
 						exp.world.setBlockState(new BlockPos(x,y,zMax), Block.getBlockFromName(blockRefName).getStateFromMeta(blockRefMeta), 2);
 					}else {
-						exp.world.setBlockState(new BlockPos(x,y,zMax), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+						if(exp.world.isAirBlock(new BlockPos(x,y,zMax)) || rand2.nextInt(100) < intensity)	// if there is an air block, fill the gap, otherwise chance to fill gap based on intensity
+							exp.world.setBlockState(new BlockPos(x,y,zMax), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
 					}
 				}else {
-					exp.world.setBlockState(new BlockPos(x,y,zMin), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
-					exp.world.setBlockState(new BlockPos(x,y,zMax), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+					if(exp.world.isAirBlock(new BlockPos(x,y,zMin)))	// if there is an air block, fill the gap, otherwise chance to fill gap based on intensity
+						exp.world.setBlockState(new BlockPos(x,y,zMin), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+					else
+						if(rand2.nextInt(100) < intensity)
+							exp.world.setBlockState(new BlockPos(x,y,zMin), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+					if(exp.world.isAirBlock(new BlockPos(x,y,zMax)))	// if there is an air block, fill the gap, otherwise chance to fill gap based on intensity
+						exp.world.setBlockState(new BlockPos(x,y,zMax), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+					else
+						if(rand2.nextInt(100) < intensity)
+							exp.world.setBlockState(new BlockPos(x,y,zMax), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
 				}
 					
 			}
@@ -122,16 +142,26 @@ public class TutorialFeatureRoom extends TutorialFeature{
 					if(rand.nextDouble() < refSpawnChance) {	// spawn ref block
 						exp.world.setBlockState(new BlockPos(xMin,y,z), Block.getBlockFromName(blockRefName).getStateFromMeta(blockRefMeta), 2);
 					}else {
-						exp.world.setBlockState(new BlockPos(xMin,y,z), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+						if(exp.world.isAirBlock(new BlockPos(xMin,y,z)) || rand2.nextInt(100) < intensity)	// if there is an air block, fill the gap, otherwise chance to fill gap based on intensity
+							exp.world.setBlockState(new BlockPos(xMin,y,z), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
 					}
 					if(rand.nextDouble() < refSpawnChance) {	// spawn ref block
 						exp.world.setBlockState(new BlockPos(xMax,y,z), Block.getBlockFromName(blockRefName).getStateFromMeta(blockRefMeta), 2);
 					}else {
-						exp.world.setBlockState(new BlockPos(xMax,y,z), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+						if(exp.world.isAirBlock(new BlockPos(xMax,y,z)) || rand2.nextInt(100) < intensity)	// if there is an air block, fill the gap, otherwise chance to fill gap based on intensity
+							exp.world.setBlockState(new BlockPos(xMax,y,z), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
 					}
 				}else {
-					exp.world.setBlockState(new BlockPos(xMin,y,z), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
-					exp.world.setBlockState(new BlockPos(xMax,y,z), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+					if(exp.world.isAirBlock(new BlockPos(xMin,y,z)))	// if there is an air block, fill the gap, otherwise chance to fill gap based on intensity
+						exp.world.setBlockState(new BlockPos(xMin,y,z), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+					else
+						if(rand2.nextInt(100) < intensity)
+							exp.world.setBlockState(new BlockPos(xMin,y,z), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+					if(exp.world.isAirBlock(new BlockPos(xMax,y,z)))	// if there is an air block, fill the gap, otherwise chance to fill gap based on intensity
+						exp.world.setBlockState(new BlockPos(xMax,y,z), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
+					else
+						if(rand2.nextInt(100) < intensity)
+							exp.world.setBlockState(new BlockPos(xMax,y,z), Block.getBlockFromName(blockWallName).getStateFromMeta(blockWallMeta), 2);
 				}
 			}
 		}
@@ -320,6 +350,10 @@ public class TutorialFeatureRoom extends TutorialFeature{
 	public void setBlockNameField(GuiTextField blockNameField) {
 		this.blockNameField = blockNameField;
 	}
+	
+	public void setIntensity(int intensity) {
+		this.intensity = intensity;
+	}
 
 	@Override
 	public NBTTagCompound save()
@@ -339,6 +373,7 @@ public class TutorialFeatureRoom extends TutorialFeature{
 		nbt.setBoolean("recycleRefSeed", recycleRefSeed);
 		nbt.setInteger("refSeed", refSeed);
 		nbt.setFloat("refSpawnChance", refSpawnChance);
+		nbt.setInteger("intensity", intensity);
 		return nbt;
 	}
 	
@@ -362,6 +397,12 @@ public class TutorialFeatureRoom extends TutorialFeature{
 		this.recycleRefSeed = nbtFeat.getBoolean("recycleRefSeed");
 		this.refSeed = nbtFeat.getInteger("refSeed");
 		this.refSpawnChance = nbtFeat.getFloat("refSpawnChance");
+		
+		//load intensity. Use default for backwards compatibility 
+		if(nbtFeat.hasKey("intensity"))
+			intensity = nbtFeat.getInteger("intensity");
+		else
+			intensity = 100;	// default to spawn all blocks
 	}
 	
 	@Override
@@ -381,6 +422,7 @@ public class TutorialFeatureRoom extends TutorialFeature{
 		jobj.addProperty("recycleRefSeed", recycleRefSeed);
 		jobj.addProperty("refSeed", refSeed);
 		jobj.addProperty("refSpawnChance", refSpawnChance);
+		jobj.addProperty("intensity", intensity);
 		
 		return jobj;
 	}
@@ -402,6 +444,12 @@ public class TutorialFeatureRoom extends TutorialFeature{
 		this.recycleRefSeed = featJson.get("recycleRefSeed").getAsBoolean();
 		this.refSeed = featJson.get("refSeed").getAsInt();
 		this.refSpawnChance = featJson.get("refSpawnChance").getAsFloat();
+		
+		//load intensity. Use default for backwards compatibility 
+		if(featJson.has("intensity"))
+			intensity = featJson.get("intensity").getAsInt();
+		else
+			intensity = 100;	// default to spawn all blocks
 	}
 	
 	// replaced by TutorialFeatureWall
