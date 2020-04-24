@@ -1,0 +1,12 @@
+{
+	"seed":6,
+	"templatePath":"../experiments/hgv1_1.json",
+	"novelties":[
+		{
+			"type": "WallTransform",
+			"seedOverride":5,
+			"intensity":60,
+			"transformType":"ADD_DOORS"
+		}
+	]
+}

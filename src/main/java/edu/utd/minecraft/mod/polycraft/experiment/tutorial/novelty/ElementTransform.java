@@ -1,6 +1,7 @@
 package edu.utd.minecraft.mod.polycraft.experiment.tutorial.novelty;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Set;
 
 import com.google.gson.JsonObject;
@@ -16,6 +17,7 @@ public abstract class ElementTransform {
 	protected long seedOverride;
 
 	protected JsonObject jobj = new JsonObject();
+	protected Random rand;
 	
 	public enum TransformType{
 		DetritusTransform(DetritusTransform.class.getName()),
@@ -24,6 +26,7 @@ public abstract class ElementTransform {
 		RoomTransform(RoomTransform.class.getName()),
 		ShaderTransform(ShaderTransform.class.getName()),
 		TargetDestTransform(TargetDestTransform.class.getName()),
+		WallTransform(WallTransform.class.getName()),
 		WorldGenTransform(WorldGenTransform.class.getName());
 		public String className;
 		
@@ -69,6 +72,9 @@ public abstract class ElementTransform {
 			this.seedOverride = transformJson.get("seedOverride").getAsLong();
 		else
 			this.seedOverride = -1; // -1 means we don't override seed
+		
+		// set rand var here so we don't have similar behavior among different features
+		rand = new Random(seedOverride);
 	}
 	
 }

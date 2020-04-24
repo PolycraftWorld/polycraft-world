@@ -449,6 +449,10 @@ public class TutorialFeatureWall extends TutorialFeature{
 	public void setBlockNameField(GuiTextField blockNameField) {
 		this.blockNameField = blockNameField;
 	}
+	
+	public Map<Integer, PathConfiguration> getWallConfiguration(){
+		return this.wallConfiguration;
+	}
 
 	@Override
 	public BlockPos getPos2() {
