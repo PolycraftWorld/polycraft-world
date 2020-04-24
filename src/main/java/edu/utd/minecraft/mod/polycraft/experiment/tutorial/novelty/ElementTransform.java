@@ -64,7 +64,7 @@ public abstract class ElementTransform {
 		return jobj;
 	}
 	
-	public void loadJson(JsonObject transformJson)
+	public void loadJson(JsonObject transformJson, long seed, int intensity)
 	{
 		this.type = TransformType.valueOf(transformJson.get("type").getAsString());
 		this.intensity = transformJson.get("intensity").getAsInt();
@@ -72,6 +72,11 @@ public abstract class ElementTransform {
 			this.seedOverride = transformJson.get("seedOverride").getAsLong();
 		else
 			this.seedOverride = -1; // -1 means we don't override seed
+		
+		if(seed != -1)
+			this.seedOverride = seed;
+		if(intensity != -1)
+			this.intensity = intensity;
 		
 		// set rand var here so we don't have similar behavior among different features
 		rand = new Random(seedOverride);

@@ -55,8 +55,8 @@ public class TargetDestTransform extends ElementTransform{
 	}
 	
 	@Override
-	public void loadJson(JsonObject transformJson) {
-		super.loadJson(transformJson);
+	public void loadJson(JsonObject transformJson, long seed, int intensity) {
+		super.loadJson(transformJson, seed, intensity);
 		this.blockName = transformJson.get("blockName").getAsString();
 	}
 	

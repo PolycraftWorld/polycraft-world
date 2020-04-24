@@ -24,12 +24,12 @@ public class NoveltyParser {
 	}
 	
 	public ExperimentDefinition transform(String path) {
-		loadJson(path);
-		return transform(path, seed);
+		loadJson(path, -1, -1);
+		return transform(path, seed, -1);
 	}
 	
-	public ExperimentDefinition transform(String path, long seed) {
-		loadJson(path);
+	public ExperimentDefinition transform(String path, long seed, int intensity) {
+		loadJson(path, seed, intensity);
 		novCon.addProperty("seedOverride", seed);
 		novCon.addProperty("generatedTimeStamp", (new Timestamp(System.currentTimeMillis())).toString());
 		this.seed = seed;	// override seed when we call from commandRESET
@@ -51,7 +51,7 @@ public class NoveltyParser {
 	}
 	
 	
-	public void loadJson(String path) {
+	public void loadJson(String path, long seed, int intensity) {
 		try {
         	transforms.clear();
 
@@ -66,7 +66,7 @@ public class NoveltyParser {
 				JsonObject transformJobj=transformListJson.get(i).getAsJsonObject();
 				ElementTransform transform = (ElementTransform)Class.forName(ElementTransform.TransformType.valueOf(transformJobj.get("type").getAsString()).className).newInstance();
 				System.out.println(ElementTransform.TransformType.valueOf(transformJobj.get("type").getAsString()).className);
-				transform.loadJson(transformJobj);
+				transform.loadJson(transformJobj, seed, intensity);
 				transforms.add(transform);
 			}
         } catch (Exception e) {

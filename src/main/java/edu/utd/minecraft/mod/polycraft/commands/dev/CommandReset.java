@@ -73,6 +73,7 @@ public class CommandReset extends CommandBase{
 	private static final String chatCommandInv = "inv";
 	private static final String chatCommandDomain = "domain";
 	private static final String chatCommandNovel = "novel";
+	private static final String chatCommandBatch = "batch";
 	private static final String chatCommandHills = "hills";
 	
 	static ArrayList<TutorialFeature> features = new ArrayList<TutorialFeature>();
@@ -224,12 +225,34 @@ public class CommandReset extends CommandBase{
 					NoveltyParser parser = new NoveltyParser();
 					ExperimentDefinition expDef = new ExperimentDefinition();
 					if(args.length == 3 && NumberUtils.isNumber(args[2])) // check if seed override is included
-						expDef = parser.transform(args[1], Long.parseLong(args[2]));
+						expDef = parser.transform(args[1], Long.parseLong(args[2]), -1);
 					else
 						expDef = parser.transform(args[1]);
 					String newPath = (new Timestamp(System.currentTimeMillis())).toString().replace(":", ".") + ".json";
 					expDef.saveJson("experimentsLog/", newPath);
 					registerNewExperiment(player, true, "experimentsLog/" + newPath);
+					break;
+				case chatCommandBatch:
+					NoveltyParser parser2 = new NoveltyParser();
+					ExperimentDefinition expDef2 = new ExperimentDefinition();
+					int seed = -1;
+					int intensity = -1;
+					
+					//search for parameters
+					for(int i = 0; i < (args.length - 1); i++) {
+						switch(args[i]) {
+						case "-s":
+							seed = Integer.parseInt(args[i+1]);
+							continue;
+						case "-i":
+							intensity = Integer.parseInt(args[i+1]);
+							continue;
+						}
+					}
+					
+					expDef = parser2.transform(args[1], seed, intensity);
+					String newPath2 = args[1].replace(".json", "") + (seed == -1?"":"_s-" + seed) + (intensity == -1?"":"_s-" + intensity) + ".json";
+					expDef.saveJson("../available_tests/", newPath2);
 					break;
 				default:
 					player.setPosition(x + Math.random() * 15, y, z + Math.random() * 15);

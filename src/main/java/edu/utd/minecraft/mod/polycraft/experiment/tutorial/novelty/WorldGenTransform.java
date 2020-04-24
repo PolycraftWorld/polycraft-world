@@ -98,8 +98,8 @@ public class WorldGenTransform extends ElementTransform{
 	}
 	
 	@Override
-	public void loadJson(JsonObject transformJson) {
-		super.loadJson(transformJson);
+	public void loadJson(JsonObject transformJson, long seed, int intensity) {
+		super.loadJson(transformJson, seed, intensity);
 		this.blockName = transformJson.get("blockName").getAsString();
 		this.transformType = TransformType.valueOf(transformJson.get("transformType").getAsString());
 		//check if blockMeta was provided for backwards compatibility 
