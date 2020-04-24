@@ -251,7 +251,7 @@ public class CommandReset extends CommandBase{
 					}
 					
 					expDef = parser2.transform(args[1], seed, intensity);
-					String newPath2 = args[1].replace(".json", "") + (seed == -1?"":"_s-" + seed) + (intensity == -1?"":"_s-" + intensity) + ".json";
+					String newPath2 = args[1].replace(".json", "") + (seed == -1?"":"_s-" + seed) + (intensity == -1?"":"_i-" + intensity) + ".json";
 					expDef.saveJson("../available_tests/", newPath2);
 					break;
 				default:
