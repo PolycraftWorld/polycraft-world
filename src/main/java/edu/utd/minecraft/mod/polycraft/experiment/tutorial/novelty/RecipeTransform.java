@@ -28,6 +28,8 @@ public class RecipeTransform extends ElementTransform{
 	
 	private enum TransformType{
 		ADD_RECIPE,
+		ADD_RECIPE_2,
+		ADD_RECIPE_3,
 		ROTATE_PERCEPTION,
 		FLIP_HORIZONTAL_PERCEPTION,
 		FLIP_VERTICAL_PERCEPTION,
@@ -49,6 +51,12 @@ public class RecipeTransform extends ElementTransform{
 			Random rand1 = new Random(seedOverride);
 			List<PolycraftRecipe> recipes = ((TutorialFeatureRecipeOverride)feature).getRecipes();
 			
+			// working veriables
+			ContainerSlot[][] slotMatrix;
+			List<ContainerSlot> outputSlots;
+			List inputs;
+			List outputs;
+			
 			switch(transformType) {
 			case ADD_PERCEIVED_INPUT_ITEM:
 				recipes = ((TutorialFeatureRecipeOverride)feature).getRecipesForClient();
@@ -63,17 +71,81 @@ public class RecipeTransform extends ElementTransform{
 				break;
 			case ADD_RECIPE:
 				// add new recipe to feature
-				ContainerSlot[][] slotMatrix = PolycraftContainerType.CRAFTING_TABLE.getContainerSlotGrid(SlotType.INPUT);
-				List<ContainerSlot> outputSlots = ImmutableList.copyOf(PolycraftContainerType.CRAFTING_TABLE.getSlots(SlotType.OUTPUT));
+				slotMatrix = PolycraftContainerType.CRAFTING_TABLE.getContainerSlotGrid(SlotType.INPUT);
+				outputSlots = ImmutableList.copyOf(PolycraftContainerType.CRAFTING_TABLE.getSlots(SlotType.OUTPUT));
 				// add default reciepes here
-				List inputs = new LinkedList<RecipeInput>();
-				List outputs = new LinkedList<RecipeComponent>();
+				inputs = new LinkedList<RecipeInput>();
+				outputs = new LinkedList<RecipeComponent>();
 				inputs.add(RecipeInput.shapedInput(slotMatrix[0][0], new ItemStack(Item.getByNameOrId("minecraft:planks"), 1).copy()));
 				inputs.add(RecipeInput.shapedInput(slotMatrix[1][0], new ItemStack(Item.getByNameOrId("minecraft:planks"), 1).copy()));
 				inputs.add(RecipeInput.shapedInput(slotMatrix[0][1], new ItemStack(Item.getByNameOrId("minecraft:planks"), 1).copy()));
 				inputs.add(RecipeInput.shapedInput(slotMatrix[1][1], new ItemStack(Item.getByNameOrId("minecraft:stick"), 1).copy()));
 				inputs.add(RecipeInput.shapedInput(slotMatrix[1][2], new ItemStack(Item.getByNameOrId("minecraft:stick"), 1).copy()));
 				outputs.add(new RecipeComponent(outputSlots.get(0), new ItemStack(Item.getByNameOrId("minecraft:wooden_axe"), 1).copy()));
+				
+				((TutorialFeatureRecipeOverride)feature).addRecipe(true, PolycraftContainerType.CRAFTING_TABLE, inputs, outputs);
+				break;
+			case ADD_RECIPE_2:
+				// add new recipe to feature
+				slotMatrix = PolycraftContainerType.CRAFTING_TABLE.getContainerSlotGrid(SlotType.INPUT);
+				outputSlots = ImmutableList.copyOf(PolycraftContainerType.CRAFTING_TABLE.getSlots(SlotType.OUTPUT));
+				// add wooden axe recipe
+				inputs = new LinkedList<RecipeInput>();
+				outputs = new LinkedList<RecipeComponent>();
+				inputs.add(RecipeInput.shapedInput(slotMatrix[0][0], new ItemStack(Item.getByNameOrId("minecraft:planks"), 1).copy()));
+				inputs.add(RecipeInput.shapedInput(slotMatrix[1][0], new ItemStack(Item.getByNameOrId("minecraft:planks"), 1).copy()));
+				inputs.add(RecipeInput.shapedInput(slotMatrix[0][1], new ItemStack(Item.getByNameOrId("minecraft:planks"), 1).copy()));
+				inputs.add(RecipeInput.shapedInput(slotMatrix[1][1], new ItemStack(Item.getByNameOrId("minecraft:stick"), 1).copy()));
+				inputs.add(RecipeInput.shapedInput(slotMatrix[1][2], new ItemStack(Item.getByNameOrId("minecraft:stick"), 1).copy()));
+				outputs.add(new RecipeComponent(outputSlots.get(0), new ItemStack(Item.getByNameOrId("minecraft:wooden_axe"), 1).copy()));
+				
+				((TutorialFeatureRecipeOverride)feature).addRecipe(true, PolycraftContainerType.CRAFTING_TABLE, inputs, outputs);
+				
+				// add wooden sword recipe
+				inputs = new LinkedList<RecipeInput>();
+				outputs = new LinkedList<RecipeComponent>();
+				inputs.add(RecipeInput.shapedInput(slotMatrix[1][0], new ItemStack(Item.getByNameOrId("minecraft:planks"), 1).copy()));
+				inputs.add(RecipeInput.shapedInput(slotMatrix[1][1], new ItemStack(Item.getByNameOrId("minecraft:planks"), 1).copy()));
+				inputs.add(RecipeInput.shapedInput(slotMatrix[1][2], new ItemStack(Item.getByNameOrId("minecraft:stick"), 1).copy()));
+				outputs.add(new RecipeComponent(outputSlots.get(0), new ItemStack(Item.getByNameOrId("minecraft:wooden_sword"), 1).copy()));
+				
+				((TutorialFeatureRecipeOverride)feature).addRecipe(true, PolycraftContainerType.CRAFTING_TABLE, inputs, outputs);
+				break;
+			case ADD_RECIPE_3:
+				// add new recipe to feature
+				slotMatrix = PolycraftContainerType.CRAFTING_TABLE.getContainerSlotGrid(SlotType.INPUT);
+				outputSlots = ImmutableList.copyOf(PolycraftContainerType.CRAFTING_TABLE.getSlots(SlotType.OUTPUT));
+				// add wooden axe recipe
+				inputs = new LinkedList<RecipeInput>();
+				outputs = new LinkedList<RecipeComponent>();
+				inputs.add(RecipeInput.shapedInput(slotMatrix[0][0], new ItemStack(Item.getByNameOrId("minecraft:planks"), 1).copy()));
+				inputs.add(RecipeInput.shapedInput(slotMatrix[1][0], new ItemStack(Item.getByNameOrId("minecraft:planks"), 1).copy()));
+				inputs.add(RecipeInput.shapedInput(slotMatrix[0][1], new ItemStack(Item.getByNameOrId("minecraft:planks"), 1).copy()));
+				inputs.add(RecipeInput.shapedInput(slotMatrix[1][1], new ItemStack(Item.getByNameOrId("minecraft:stick"), 1).copy()));
+				inputs.add(RecipeInput.shapedInput(slotMatrix[1][2], new ItemStack(Item.getByNameOrId("minecraft:stick"), 1).copy()));
+				outputs.add(new RecipeComponent(outputSlots.get(0), new ItemStack(Item.getByNameOrId("minecraft:wooden_axe"), 1).copy()));
+				
+				((TutorialFeatureRecipeOverride)feature).addRecipe(true, PolycraftContainerType.CRAFTING_TABLE, inputs, outputs);
+				
+				// add wooden sword recipe
+				inputs = new LinkedList<RecipeInput>();
+				outputs = new LinkedList<RecipeComponent>();
+				inputs.add(RecipeInput.shapedInput(slotMatrix[1][0], new ItemStack(Item.getByNameOrId("minecraft:planks"), 1).copy()));
+				inputs.add(RecipeInput.shapedInput(slotMatrix[1][1], new ItemStack(Item.getByNameOrId("minecraft:planks"), 1).copy()));
+				inputs.add(RecipeInput.shapedInput(slotMatrix[1][2], new ItemStack(Item.getByNameOrId("minecraft:stick"), 1).copy()));
+				outputs.add(new RecipeComponent(outputSlots.get(0), new ItemStack(Item.getByNameOrId("minecraft:wooden_sword"), 1).copy()));
+				
+				((TutorialFeatureRecipeOverride)feature).addRecipe(true, PolycraftContainerType.CRAFTING_TABLE, inputs, outputs);
+				
+				// add wooden pick axe recipe
+				inputs = new LinkedList<RecipeInput>();
+				outputs = new LinkedList<RecipeComponent>();
+				inputs.add(RecipeInput.shapedInput(slotMatrix[0][0], new ItemStack(Item.getByNameOrId("minecraft:planks"), 1).copy()));
+				inputs.add(RecipeInput.shapedInput(slotMatrix[1][0], new ItemStack(Item.getByNameOrId("minecraft:planks"), 1).copy()));
+				inputs.add(RecipeInput.shapedInput(slotMatrix[2][0], new ItemStack(Item.getByNameOrId("minecraft:planks"), 1).copy()));
+				inputs.add(RecipeInput.shapedInput(slotMatrix[1][1], new ItemStack(Item.getByNameOrId("minecraft:stick"), 1).copy()));
+				inputs.add(RecipeInput.shapedInput(slotMatrix[1][2], new ItemStack(Item.getByNameOrId("minecraft:stick"), 1).copy()));
+				outputs.add(new RecipeComponent(outputSlots.get(0), new ItemStack(Item.getByNameOrId("minecraft:wooden_pickaxe"), 1).copy()));
 				
 				((TutorialFeatureRecipeOverride)feature).addRecipe(true, PolycraftContainerType.CRAFTING_TABLE, inputs, outputs);
 				break;
