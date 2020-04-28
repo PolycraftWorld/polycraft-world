@@ -40,6 +40,7 @@ import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandPlaceBlock;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandSelectItem;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandTeleport;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandTilt;
+import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandUseItem;
 import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentDefinition;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
@@ -323,6 +324,7 @@ public class BotAPI {
 				availableCommands.put("CRAFT_CRAFTING_TABLE", new APICommandCraft(craftCostPerItem, "CRAFT 1 minecraft:planks minecraft:planks minecraft:planks minecraft:planks"));
 				
 				availableCommands.put("SELECT_ITEM", new APICommandSelectItem(guiActionCost, ""));
+				availableCommands.put("USE_HAND", new APICommandUseItem(blockPlaceCost, true));
 				
 				availableCommands.put("PLACE_BLOCK", new APICommandPlaceBlock(blockPlaceCost, ""));
 				availableCommands.put("PLACE_MACGUFFIN", new APICommandPlaceBlock(blockPlaceCost, "PLACE_MACGUFFIN polycraft:macguffin MacGuffin"));

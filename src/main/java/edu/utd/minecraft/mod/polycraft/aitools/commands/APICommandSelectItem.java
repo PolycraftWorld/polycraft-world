@@ -55,6 +55,9 @@ public class APICommandSelectItem extends APICommandBase{
 		if(!argsOverride.isEmpty())
 			args = argsOverride.split(" ");
 		
+		if(args.length < 2)
+			return new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Syntax", this.stepCost);
+		
 		//check that player has the item in inventory
 		String itemID = args[1];
     	int slotToTransfer = -1;
