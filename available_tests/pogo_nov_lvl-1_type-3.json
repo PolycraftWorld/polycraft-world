@@ -445,7 +445,7 @@
         {
           "inputs": [
             {
-              "slotIndex": 3,
+              "slotIndex": 1,
               "itemStacks": [
                 {
                   "name": "minecraft:planks",
@@ -454,7 +454,7 @@
               ]
             },
             {
-              "slotIndex": 4,
+              "slotIndex": 7,
               "itemStacks": [
                 {
                   "name": "minecraft:stick",
@@ -472,7 +472,7 @@
               ]
             },
             {
-              "slotIndex": 1,
+              "slotIndex": 3,
               "itemStacks": [
                 {
                   "name": "minecraft:planks",
@@ -481,7 +481,7 @@
               ]
             },
             {
-              "slotIndex": 7,
+              "slotIndex": 4,
               "itemStacks": [
                 {
                   "name": "minecraft:stick",
@@ -504,15 +504,6 @@
         {
           "inputs": [
             {
-              "slotIndex": 4,
-              "itemStacks": [
-                {
-                  "name": "minecraft:planks",
-                  "stackSize": 1
-                }
-              ]
-            },
-            {
               "slotIndex": 1,
               "itemStacks": [
                 {
@@ -526,6 +517,15 @@
               "itemStacks": [
                 {
                   "name": "minecraft:stick",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 4,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
                   "stackSize": 1
                 }
               ]
@@ -545,7 +545,16 @@
         {
           "inputs": [
             {
-              "slotIndex": 4,
+              "slotIndex": 1,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 7,
               "itemStacks": [
                 {
                   "name": "minecraft:stick",
@@ -563,15 +572,6 @@
               ]
             },
             {
-              "slotIndex": 1,
-              "itemStacks": [
-                {
-                  "name": "minecraft:planks",
-                  "stackSize": 1
-                }
-              ]
-            },
-            {
               "slotIndex": 2,
               "itemStacks": [
                 {
@@ -581,7 +581,7 @@
               ]
             },
             {
-              "slotIndex": 7,
+              "slotIndex": 4,
               "itemStacks": [
                 {
                   "name": "minecraft:stick",
@@ -893,6 +893,165 @@
             }
           ],
           "containerType": "CRAFTING_TABLE"
+        },
+        {
+          "inputs": [
+            {
+              "slotIndex": 1,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 7,
+              "itemStacks": [
+                {
+                  "name": "minecraft:stick",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 0,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 3,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 4,
+              "itemStacks": [
+                {
+                  "name": "minecraft:stick",
+                  "stackSize": 1
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "slotIndex": 9,
+              "itemStack": {
+                "name": "minecraft:wooden_axe",
+                "stackSize": 1
+              }
+            }
+          ],
+          "containerType": "CRAFTING_TABLE"
+        },
+        {
+          "inputs": [
+            {
+              "slotIndex": 1,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 7,
+              "itemStacks": [
+                {
+                  "name": "minecraft:stick",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 4,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "slotIndex": 9,
+              "itemStack": {
+                "name": "minecraft:wooden_sword",
+                "stackSize": 1
+              }
+            }
+          ],
+          "containerType": "CRAFTING_TABLE"
+        },
+        {
+          "inputs": [
+            {
+              "slotIndex": 1,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 7,
+              "itemStacks": [
+                {
+                  "name": "minecraft:stick",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 0,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 2,
+              "itemStacks": [
+                {
+                  "name": "minecraft:planks",
+                  "stackSize": 1
+                }
+              ]
+            },
+            {
+              "slotIndex": 4,
+              "itemStacks": [
+                {
+                  "name": "minecraft:stick",
+                  "stackSize": 1
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "slotIndex": 9,
+              "itemStack": {
+                "name": "minecraft:wooden_pickaxe",
+                "stackSize": 1
+              }
+            }
+          ],
+          "containerType": "CRAFTING_TABLE"
         }
       ]
     },
@@ -971,6 +1130,6 @@
       }
     ],
     "seedOverride": 6,
-    "generatedTimeStamp": "2020-04-23 19:22:28.753"
+    "generatedTimeStamp": "2020-05-01 18:30:28.029"
   }
 }

@@ -167,6 +167,7 @@ public class TutorialFeatureRecipeOverride extends TutorialFeature{
 	public void addRecipe(boolean isShaped, PolycraftContainerType containerType, List<RecipeInput> inputList, List<RecipeComponent> outputList) {
 		PolycraftRecipe recipeToAdd = new PolycraftRecipe(PolycraftContainerType.CRAFTING_TABLE, inputList, outputList);
 		recipeList.add(recipeToAdd);
+		perceivedRecipeList.add(recipeToAdd);
 	}
 	
 	public List<PolycraftRecipe> getRecipes(){
