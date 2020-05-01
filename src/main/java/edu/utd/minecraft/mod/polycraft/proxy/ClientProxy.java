@@ -108,6 +108,7 @@ import net.minecraft.block.BlockWorkbench;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelIronGolem;
@@ -136,6 +137,7 @@ public class ClientProxy extends CommonProxy {
 	private static final int statusOverlayDistanceBetweenY = 10;
 	private static final int swapCooldownTime = 1200; //60 seconds x 20 ticks per sec
 	private static long lastTickTime = 0, tickms = 0;
+	private static boolean sentLoadingCompleteMessage = false;
 
 	private Minecraft client;
 	private GameSettings gameSettings;
@@ -436,6 +438,13 @@ public class ClientProxy extends CommonProxy {
 		        		tickms = 1;
 		        	lastTickTime = System.currentTimeMillis();
 		        }
+			}
+		}
+		
+		if(!sentLoadingCompleteMessage) {
+			if(client.currentScreen instanceof GuiMainMenu) {
+				PolycraftMod.logger.info("Minecraft finished loading");
+				sentLoadingCompleteMessage = true;
 			}
 		}
 	}
