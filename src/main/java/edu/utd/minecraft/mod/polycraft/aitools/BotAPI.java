@@ -461,8 +461,9 @@ public class BotAPI {
 		                        			setResult(new APICommandResult(fromClientSplit, Result.ACTION_TIMEOUT, "Action timed out on server side", -1337));
 		                        		if(fromClient.startsWith("RESET")) {
 		                        			totalCostIncurred.set(0F);
-		                        			JsonObject jobj = new JsonObject();
-		                        			jobj.add("recipes", PolycraftMod.recipeManagerRuntime.getRecipesJsonByContainerType(PolycraftContainerType.POLYCRAFTING_TABLE));
+		                        			setResult(new APICommandResult(fromClientSplit, Result.SUCCESS, "Attempting Reset", 0));
+		                        			JsonObject jobj = commandResult.get().getJobject();
+		                        	        jobj.add("command_result", commandResult.get().toJson());
 		                        			toClient = jobj.toString();
 		                        			out.println(toClient);
 		                        	        client.getOutputStream().flush();
