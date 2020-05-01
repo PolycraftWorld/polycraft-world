@@ -38,7 +38,7 @@ public class APICommandBreakBlock extends APICommandBase{
 		
 		// adjust the step cost before we harvest the block
     	float adjustedStepCost = stepCost;
-    	if(player.getHeldItem().getItem() instanceof ItemTool) {
+    	if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemTool) {
     		ItemTool tool = (ItemTool) player.getHeldItem().getItem();
     		System.out.println("Tool efficiency: " + player.getHeldItem().getItem().getStrVsBlock(player.getHeldItem(), player.worldObj.getBlockState(breakPos).getBlock()));
     		adjustedStepCost = stepCost / tool.getStrVsBlock(player.getHeldItem(), player.worldObj.getBlockState(breakPos).getBlock());
