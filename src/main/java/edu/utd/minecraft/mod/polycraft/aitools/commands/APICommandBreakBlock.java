@@ -36,6 +36,10 @@ public class APICommandBreakBlock extends APICommandBase{
     		return new APICommandResult(args, APICommandResult.Result.FAIL, "Cannot break air block", this.stepCost);
     	}
 		
+		if(player.worldObj.getBlockState(breakPos).getBlock() == Blocks.bedrock) {
+    		return new APICommandResult(args, APICommandResult.Result.FAIL, "Cannot break bedrock block", this.stepCost);
+    	}
+		
 		// adjust the step cost before we harvest the block
     	float adjustedStepCost = stepCost;
     	if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemTool) {
