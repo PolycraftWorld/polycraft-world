@@ -120,6 +120,7 @@ public class BotAPI {
     private static boolean breakingBlocks = false;
     private static boolean waitOnResult = false;	// wait for this command to process.  Includes actions done on server side
     private static int waitTimeout = TIMEOUT_TICKS;	// we should only wait about a second for a result
+    private static int stepCount = 0;
     static int delay = 0;
     static String tempQ = null;
 
@@ -480,11 +481,13 @@ public class BotAPI {
 		                        	}
 	                        		if(!stepEnd.get() && Duration.between(time, Instant.now()).getSeconds() >= 10)
 	                        			setResult(new APICommandResult(fromClientSplit, Result.ACTION_TIMEOUT, "Action timed out on server side", -1337));
-	                        		if(fromClient.startsWith("RESET")) {
+	                        		if(fromClient.toUpperCase().startsWith("RESET")) {
 	                        			totalCostIncurred.set(0F);
 	                        			setResult(new APICommandResult(fromClientSplit, Result.SUCCESS, "Attempting Reset", 0));
 	                        			JsonObject jobj = commandResult.get().getJobject();
 	                        	        jobj.add("command_result", commandResult.get().toJson());
+	                        	        stepCount = 0;
+	                        	        jobj.addProperty("step", stepCount++);
 	                        			toClient = jobj.toString();
 	                        			out.println(toClient);
 	                        	        client.getOutputStream().flush();
@@ -494,8 +497,9 @@ public class BotAPI {
 	                        			totalCostIncurred.set(totalCostIncurred.get() + commandResult.get().getCost());
 	                        			JsonObject jobj = commandResult.get().getJobject();
 	                        	        jobj.add("command_result", commandResult.get().toJson());
-	                        	        if(fromClient.startsWith("START"))
+	                        	        if(fromClient.toUpperCase().startsWith("START"))
 	                        	        	jobj.addProperty("version", PolycraftMod.VERSION);
+	                        	        jobj.addProperty("step", stepCount++);
 	                        			toClient = jobj.toString();
 	                        			out.println(toClient);
 	                        	        client.getOutputStream().flush();
