@@ -55,6 +55,22 @@ public class ObservationPlayerInventory implements IObservation{
 			
 			jobject.add(String.valueOf(i), itemObj);
 		}
+		
+		JsonObject heldSlot = new JsonObject();
+		heldSlot.addProperty("slot", player.inventory.currentItem);
+		heldSlot.addProperty("item", player.getHeldItem().getItem().getRegistryName());
+		heldSlot.addProperty("count", player.getHeldItem().stackSize);
+		heldSlot.addProperty("damage", player.getHeldItem().getItemDamage());
+		heldSlot.addProperty("maxdamage", player.getHeldItem().getMaxDamage());
+		
+		if(Block.getBlockFromItem(player.getHeldItem().getItem()) != null) {
+			for(IProperty prop: Block.getBlockFromItem(player.getHeldItem().getItem()).getStateFromMeta(player.getHeldItem().getItemDamage()).getProperties().keySet()) {
+				heldSlot.addProperty(prop.getName(), Block.getBlockFromItem(player.getHeldItem().getItem()).getStateFromMeta(player.getHeldItem().getItemDamage()).getProperties().get(prop).toString());;
+			}
+		}
+		
+		jobject.add("selectedItem", heldSlot);
+		
 		return jobject;
 	}
 
