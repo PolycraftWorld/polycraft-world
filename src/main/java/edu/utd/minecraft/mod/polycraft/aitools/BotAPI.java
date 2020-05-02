@@ -311,9 +311,13 @@ public class BotAPI {
 				availableCommands.put("SMOOTH_TURN", new APICommandLook(unitLookCost, true, true));
 				availableCommands.put("SMOOTH_TILT", new APICommandTilt(unitLookCost));	// TODO: use Look command for tilt
 				
-				availableCommands.put("TELEPORT", new APICommandTeleport(unitMovementCost, teleportCost, false));
 				availableCommands.put("TP_TO", new APICommandTeleport(unitMovementCost, teleportCost, true));
-				availableCommands.put("CHAT", new APICommandChat(chatCost));
+				
+				// dev commands
+				if(System.getProperty("dev") != null) {
+					availableCommands.put("TELEPORT", new APICommandTeleport(unitMovementCost, teleportCost, false));
+					availableCommands.put("CHAT", new APICommandChat(chatCost));
+				}
 				
 				availableCommands.put("CRAFT", new APICommandCraft(craftCostPerItem, ""));
 				availableCommands.put("CRAFT_AXE", new APICommandCraft(craftCostPerItem, "CRAFT 1 minecraft:planks minecraft:planks 0 minecraft:planks minecraft:stick 0 0 minecraft:stick 0"));
