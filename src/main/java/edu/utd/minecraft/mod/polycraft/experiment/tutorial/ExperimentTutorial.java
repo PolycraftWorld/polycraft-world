@@ -340,7 +340,8 @@ public class ExperimentTutorial{
 					obs.init(this);
 				}
 				clientInit = true;
-				if(options.outputScreen) {
+//				if(options.outputScreen) {
+				if(System.getProperty("dev") == null || System.getProperty("dev") == "false") {
 					try {
 						//Change client resolution
 						Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);

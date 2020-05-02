@@ -445,6 +445,9 @@ public class ClientProxy extends CommonProxy {
 			if(client.currentScreen instanceof GuiMainMenu) {
 				PolycraftMod.logger.info("Minecraft finished loading");
 				sentLoadingCompleteMessage = true;
+				if(System.getProperty("dev") != null) {
+					PolycraftMod.logger.info("dev mode enabled");
+				}
 			}
 		}
 	}
