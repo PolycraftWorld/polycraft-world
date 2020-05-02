@@ -1,5 +1,8 @@
 package edu.utd.minecraft.mod.polycraft.aitools.commands;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.lang3.math.NumberUtils;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
@@ -36,9 +39,21 @@ public class APICommandBreakBlock extends APICommandBase{
     		return new APICommandResult(args, APICommandResult.Result.FAIL, "Cannot break air block", this.stepCost);
     	}
 		
-		if(player.worldObj.getBlockState(breakPos).getBlock() == Blocks.bedrock) {
-    		return new APICommandResult(args, APICommandResult.Result.FAIL, "Cannot break bedrock block", this.stepCost);
-    	}
+		List<String> blackList = new LinkedList<String>();
+		blackList.add("minecraft:bedrock");
+		blackList.add("minecraft:stained_hardened_clay");
+		blackList.add("minecraft:wooden_door");
+		blackList.add("minecraft:iron_door");
+		blackList.add("minecraft:wooden_button");
+		blackList.add("minecraft:stone_button");
+		blackList.add("minecraft:wooden_pressure_plate");
+		blackList.add("minecraft:stone_pressure_plate");
+		System.out.println(player.worldObj.getBlockState(breakPos).getBlock().getRegistryName());
+		
+		for(String blockName: blackList) {
+			if(player.worldObj.getBlockState(breakPos).getBlock().getRegistryName().contentEquals(blockName))
+	    		return new APICommandResult(args, APICommandResult.Result.FAIL, "Cannot break " + blockName, this.stepCost);
+		}
 		
 		// adjust the step cost before we harvest the block
     	float adjustedStepCost = stepCost;
