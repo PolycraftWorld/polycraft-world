@@ -338,7 +338,7 @@ public class BotAPI {
 				availableCommands.put("SENSE_INVENTORY", new APICommandObservation(senseInventoryCost, ObsType.INVENTORY));
 				availableCommands.put("SENSE_LOCATIONS", new APICommandObservation(senseLocationsCost, ObsType.LOCATIONS));
 				availableCommands.put("SENSE_SCREEN", new APICommandObservation(senseScreenCost, ObsType.SCREEN));
-				availableCommands.put("SENSE_RECIPE", new APICommandObservation(senseRecipeCost, ObsType.RECIPES));
+				availableCommands.put("SENSE_RECIPES", new APICommandObservation(senseRecipeCost, ObsType.RECIPES));
 				// TODO: add command to retrieve
 			} 
 			
