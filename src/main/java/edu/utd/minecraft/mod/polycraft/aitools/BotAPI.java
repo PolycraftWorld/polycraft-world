@@ -494,6 +494,8 @@ public class BotAPI {
 	                        			totalCostIncurred.set(totalCostIncurred.get() + commandResult.get().getCost());
 	                        			JsonObject jobj = commandResult.get().getJobject();
 	                        	        jobj.add("command_result", commandResult.get().toJson());
+	                        	        if(fromClient.startsWith("START"))
+	                        	        	jobj.addProperty("version", PolycraftMod.VERSION);
 	                        			toClient = jobj.toString();
 	                        			out.println(toClient);
 	                        	        client.getOutputStream().flush();
