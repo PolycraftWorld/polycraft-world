@@ -557,7 +557,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@SubscribeEvent
 	public void onRenderGuiPre(RenderGameOverlayEvent.Pre event) {
-		if(TutorialManager.INSTANCE.getOptions().hideGui) {
+		if(TutorialManager.INSTANCE.getOptions().hideGui || (System.getProperty("dev") == null && TutorialManager.INSTANCE.clientCurrentExperiment != 0)) {
 			if(event.type == ElementType.HEALTH) {
 				event.setCanceled(true);
 			}
@@ -578,7 +578,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@SubscribeEvent
 	public void onRenderHand(RenderHandEvent event) {
-		if(TutorialManager.INSTANCE.getOptions().hideGui)
+		if(TutorialManager.INSTANCE.getOptions().hideGui || (System.getProperty("dev") == null && TutorialManager.INSTANCE.clientCurrentExperiment != 0))
 			event.setCanceled(true);
 	}
 	 
