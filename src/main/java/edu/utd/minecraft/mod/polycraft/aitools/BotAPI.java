@@ -38,6 +38,7 @@ import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandObservation;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandObservation.ObsType;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandPlaceBlock;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandSelectItem;
+import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandStart;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandTeleport;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandTilt;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandUseItem;
@@ -156,12 +157,14 @@ public class BotAPI {
 	}
 	
 	private static void printResult() {
-		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command " + commandResult.get().getResult() + ": " + commandResult.get().getCommand()));
-		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Message: " + commandResult.get().getMessage()));
-		int counter = 0;
-		if(commandResult.get().getArgs() != null)
-				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Args: " + String.join(" ", commandResult.get().getArgs())));
-		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Action Cost: " + commandResult.get().getCost()));
+		if(Minecraft.getMinecraft().thePlayer != null) {
+			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Command " + commandResult.get().getResult() + ": " + commandResult.get().getCommand()));
+			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Message: " + commandResult.get().getMessage()));
+			int counter = 0;
+			if(commandResult.get().getArgs() != null)
+					Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Args: " + String.join(" ", commandResult.get().getArgs())));
+			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Action Cost: " + commandResult.get().getCost()));
+		}
 	}
 	
 	public static void placeStoneBlock(String args[]) {
@@ -286,7 +289,6 @@ public class BotAPI {
 			delay--;
 		}else {
 			boolean usingTempQ = false;
-			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 			if(tempQ == null)
 				fromClient = commandQ.poll();
 			else {
@@ -296,6 +298,8 @@ public class BotAPI {
 			}
 			
 			if(availableCommands.size() == 0) {
+				availableCommands.put("START", new APICommandStart(0));
+				
 				availableCommands.put("MOVE_NORTH", new APICommandMoveDir(unitMovementCost, EnumFacing.NORTH));
 				availableCommands.put("MOVE_SOUTH", new APICommandMoveDir(unitMovementCost, EnumFacing.SOUTH));
 				availableCommands.put("MOVE_EAST", new APICommandMoveDir(unitMovementCost, EnumFacing.EAST));
@@ -437,51 +441,64 @@ public class BotAPI {
 	                        	final String fromClientFinal = fromClient;
 		                        try {
 		                        	IThreadListener mainThread;
-		                        	
-		                        	if(fromClient.startsWith("START")) {
+//		                        	
+//		                        	if(fromClient.startsWith("START")) {
+//		                        		mainThread = Minecraft.getMinecraft();
+//			                            mainThread.addScheduledTask(new Runnable()
+//			                            {
+//			                                @Override
+//			                                public void run()
+//			                                {
+////			                                	APIHelper.start(fromClientFinal.split(" "));
+//			                                	BotAPI.onClientTick();
+//			                                }
+//			                            });
+//			                        }else if(fromClient.equals("LL")) {
+//			                        	System.out.println("TEST");
+//			                        	mainThread = Minecraft.getMinecraft();
+//			                            mainThread.addScheduledTask(new APITask(out, client, fromClient.split(" ")));
+//			                        }
+//		                        	else {
+	                        		commandQ.put(fromClient);
+	                        		stepEnd.set(false);
+	                        		Instant time = Instant.now();
+	                        		
+	                        		if(fromClient.startsWith("START")) {
 		                        		mainThread = Minecraft.getMinecraft();
 			                            mainThread.addScheduledTask(new Runnable()
 			                            {
 			                                @Override
 			                                public void run()
 			                                {
-			                                	APIHelper.start(fromClientFinal.split(" "));
+	//			                                	APIHelper.start(fromClientFinal.split(" "));
+			                                	BotAPI.onClientTick();
 			                                }
 			                            });
-			                        }else if(fromClient.equals("LL")) {
-			                        	System.out.println("TEST");
-			                        	mainThread = Minecraft.getMinecraft();
-			                            mainThread.addScheduledTask(new APITask(out, client, fromClient.split(" ")));
-			                        }
-		                        	else {
-		                        		commandQ.put(fromClient);
-		                        		stepEnd.set(false);
-		                        		Instant time = Instant.now();
-		                        		
-		                        		while(!stepEnd.get() && Duration.between(time, Instant.now()).getSeconds() < 3) {
-			                        		//do nothing until the step is complete
-			                        	}
-		                        		if(!stepEnd.get() && Duration.between(time, Instant.now()).getSeconds() >= 3)
-		                        			setResult(new APICommandResult(fromClientSplit, Result.ACTION_TIMEOUT, "Action timed out on server side", -1337));
-		                        		if(fromClient.startsWith("RESET")) {
-		                        			totalCostIncurred.set(0F);
-		                        			setResult(new APICommandResult(fromClientSplit, Result.SUCCESS, "Attempting Reset", 0));
-		                        			JsonObject jobj = commandResult.get().getJobject();
-		                        	        jobj.add("command_result", commandResult.get().toJson());
-		                        			toClient = jobj.toString();
-		                        			out.println(toClient);
-		                        	        client.getOutputStream().flush();
-		                        		}else {
-		                        			// print command result instead of observations
-		                        			//toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations().toString();
-		                        			totalCostIncurred.set(totalCostIncurred.get() + commandResult.get().getCost());
-		                        			JsonObject jobj = commandResult.get().getJobject();
-		                        	        jobj.add("command_result", commandResult.get().toJson());
-		                        			toClient = jobj.toString();
-		                        			out.println(toClient);
-		                        	        client.getOutputStream().flush();
-		                        		}
+	                        		}
+	                        		while(!stepEnd.get() && Duration.between(time, Instant.now()).getSeconds() < 3) {
+		                        		//do nothing until the step is complete
 		                        	}
+	                        		if(!stepEnd.get() && Duration.between(time, Instant.now()).getSeconds() >= 10)
+	                        			setResult(new APICommandResult(fromClientSplit, Result.ACTION_TIMEOUT, "Action timed out on server side", -1337));
+	                        		if(fromClient.startsWith("RESET")) {
+	                        			totalCostIncurred.set(0F);
+	                        			setResult(new APICommandResult(fromClientSplit, Result.SUCCESS, "Attempting Reset", 0));
+	                        			JsonObject jobj = commandResult.get().getJobject();
+	                        	        jobj.add("command_result", commandResult.get().toJson());
+	                        			toClient = jobj.toString();
+	                        			out.println(toClient);
+	                        	        client.getOutputStream().flush();
+	                        		}else {
+	                        			// print command result instead of observations
+	                        			//toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations().toString();
+	                        			totalCostIncurred.set(totalCostIncurred.get() + commandResult.get().getCost());
+	                        			JsonObject jobj = commandResult.get().getJobject();
+	                        	        jobj.add("command_result", commandResult.get().toJson());
+	                        			toClient = jobj.toString();
+	                        			out.println(toClient);
+	                        	        client.getOutputStream().flush();
+	                        		}
+//		                        	}
 								} catch (InterruptedException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
