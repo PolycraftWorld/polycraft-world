@@ -322,8 +322,9 @@ public class ExperimentTutorial{
 					observations.add(new ObservationDestinationPos());
 					observations.add(new ObservationEntities());
 					observations.add(new ObservationMap());
-					if(options.outputScreen)
-						observations.add(new ObservationScreen());
+					observations.add(new ObservationScreen());
+//					if(options.outputScreen)
+//						observations.add(new ObservationScreen());
 					search: for(int x = (int)pos.xCoord; x < (int)pos2.xCoord; x++) {
 						for(int y = (int)pos.yCoord; y < (int)pos2.yCoord; y++) {
 							for(int z = (int)pos.zCoord; z < (int)pos2.zCoord; z++) {
