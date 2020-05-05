@@ -71,6 +71,7 @@ public class CommandReset extends CommandBase{
 	private static final String chatCommandSetup = "setup";
 	private static final String chatCommandTrees = "trees";
 	private static final String chatCommandInv = "inv";
+	private static final String chatCommandDomain2 = "-d";
 	private static final String chatCommandDomain = "domain";
 	private static final String chatCommandNovel = "novel";
 	private static final String chatCommandBatch = "batch";
@@ -207,6 +208,7 @@ public class CommandReset extends CommandBase{
 						}
 					}
 					break;
+				case chatCommandDomain2:
 				case chatCommandDomain:
 					//player.setPositionAndUpdate(1, 4, 1);
 					if(TutorialManager.INSTANCE.clientCurrentExperiment != -1)	// Why is this here. This is a client only variable
