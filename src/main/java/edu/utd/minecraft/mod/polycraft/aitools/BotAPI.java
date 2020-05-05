@@ -566,7 +566,7 @@ public class BotAPI {
 	        		}
 	            }
 
-	        	if(!fromClient.startsWith("START")) {
+	        	if(!fromClient.toUpperCase().startsWith("START")) {
 	        		scoreChecks();
 	        	}
 	        	
@@ -651,7 +651,7 @@ public class BotAPI {
 	                        		
 	                        		PolycraftMod.logger.info("[AGENT]" + fromClient);
 	                        		
-	                        		if(fromClient.startsWith("START")) {
+	                        		if(fromClient.toUpperCase().startsWith("START")) {
 		                        		mainThread = Minecraft.getMinecraft();
 			                            mainThread.addScheduledTask(new Runnable()
 			                            {
