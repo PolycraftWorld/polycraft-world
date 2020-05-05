@@ -65,18 +65,33 @@ public class APICommandResult {
 	}
 	
 	public JsonObject toJson() {
-		JsonObject jobject = new JsonObject();
-		jobject.addProperty("command", command);
+		JsonObject jobj = new JsonObject();
+		jobj.addProperty("command", command);
 		if(args != null)
-			jobject.addProperty("argument", String.join(" ", args));
+			jobj.addProperty("argument", String.join(" ", args));
 		else
-			jobject.addProperty("argument", "");
-		jobject.addProperty("result", result.name());
-		jobject.addProperty("message", message);
-		jobject.addProperty("stepCost", stepCost);
-		jobject.addProperty("rewardScore", rewardScore);
-		return jobject;
+			jobj.addProperty("argument", "");
+		jobj.addProperty("result", result.name());
+		jobj.addProperty("message", message);
+		jobj.addProperty("stepCost", stepCost);
+		jobj.addProperty("rewardScore", rewardScore);
+		return jobj;
 	}
+    
+	// don't include reward score when printing
+    public JsonObject getPrintJObject()
+    {
+    	JsonObject jobj = new JsonObject();
+		jobj.addProperty("command", command);
+		if(args != null)
+			jobj.addProperty("argument", String.join(" ", args));
+		else
+			jobj.addProperty("argument", "");
+		jobj.addProperty("result", result.name());
+		jobj.addProperty("message", message);
+		jobj.addProperty("stepCost", stepCost);
+		return jobj;
+    }
 	
 	/**
 	 * Function to get Both command result and jobj in one json
