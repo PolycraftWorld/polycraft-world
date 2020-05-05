@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -38,7 +37,6 @@ import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandMoveDir;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandMoveEgo;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandObservation;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandObservation.ObsType;
-import edu.utd.minecraft.mod.polycraft.block.BlockMacGuffin;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandPlaceBlock;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandReportBlock;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandReportNovelty;
@@ -47,12 +45,10 @@ import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandStart;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandTeleport;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandTilt;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandUseItem;
-import edu.utd.minecraft.mod.polycraft.crafting.PolycraftContainerType;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.ExperimentDefinition;
+import edu.utd.minecraft.mod.polycraft.block.BlockMacGuffin;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureEnd;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
-import edu.utd.minecraft.mod.polycraft.experiment.tutorial.novelty.NoveltyParser;
 import edu.utd.minecraft.mod.polycraft.privateproperty.ClientEnforcer;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.APICommandMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.InventoryMessage;
@@ -63,6 +59,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.launchwrapper.Launch;
@@ -111,10 +108,10 @@ public class BotAPI {
     public static AtomicBoolean obtainedMacguffin = new AtomicBoolean(false);
     public static AtomicBoolean nearTarget = new AtomicBoolean(false);
     public static AtomicBoolean placedMacguffinOnTarget = new AtomicBoolean(false);
-    public static AtomicInteger harvestedLogs = new AtomicInteger(3);
-    public static AtomicInteger craftedPlanks = new AtomicInteger(3);
-    public static AtomicInteger craftedSticks = new AtomicInteger(2);
-    public static AtomicInteger craftedTreeTap = new AtomicInteger(1);
+    public static AtomicBoolean harvestedLogs = new AtomicBoolean(false);
+    public static AtomicBoolean craftedPlanks = new AtomicBoolean(false);
+    public static AtomicBoolean craftedSticks = new AtomicBoolean(false);
+    public static AtomicBoolean craftedTreeTap = new AtomicBoolean(false);
     public static AtomicBoolean placedTreeTap = new AtomicBoolean(false);
     public static AtomicBoolean harvestedRubber = new AtomicBoolean(false);
     public static AtomicBoolean craftedPogoStick = new AtomicBoolean(false);
@@ -140,6 +137,7 @@ public class BotAPI {
     private static boolean breakingBlocks = false;
     private static boolean waitOnResult = false;	// wait for this command to process.  Includes actions done on server side
     private static int waitTimeout = TIMEOUT_TICKS;	// we should only wait about a second for a result
+    private static int resetCounter = 0;
     private static int stepCount = 0;
     static int delay = 0;
     static String tempQ = null;
@@ -268,9 +266,29 @@ public class BotAPI {
 	}
 	
 	public static void reset(String args[]){
+		resetCounter = 20;
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		
 		player.sendChatMessage("/reset " + String.join(" ", (String[])Arrays.copyOfRange(args, 1, args.length)));
+		player.inventory.clear();
+		
+		//reset working veriables
+		totalCostIncurred.set(0F);
+		totalRewardScore.set(0F);
+		nearMacguffin.set(false);
+	    obtainedMacguffin.set(false);
+	    nearTarget.set(false);
+	    placedMacguffinOnTarget.set(false);
+	    harvestedLogs.set(false);
+	    craftedPlanks.set(false);
+	    craftedSticks.set(false);
+	    craftedTreeTap.set(false);
+	    placedTreeTap.set(false);
+	    harvestedRubber.set(false);
+	    craftedPogoStick.set(false);
+	    ((APICommandReportBlock)availableCommands.get("REPORT_BLOCK")).targetReported = false;
+	    ((APICommandReportBlock)availableCommands.get("REPORT_BLOCK")).macguffinReported = false;
+	    ((APICommandReportBlock)availableCommands.get("REPORT_BLOCK")).blockPosCalled.clear();
 		
 		setResult(new APICommandResult(args, Result.ATTEMPT, "Attempting to start new experiment"));
 	}
@@ -307,6 +325,13 @@ public class BotAPI {
 					if(player.worldObj.getBlockState(new BlockPos(x, (int)player.posY, z)).getBlock() instanceof BlockMacGuffin) {
 						totalRewardScore.set(totalRewardScore.get() + 16000);
 						nearMacguffin.set(true);
+						if(!((APICommandReportBlock)availableCommands.get("REPORT_BLOCK")).macguffinReported) {
+							if(((APICommandReportBlock)availableCommands.get("REPORT_BLOCK")).targetReported)
+								totalRewardScore.set(totalRewardScore.get() + 16640 + (1024-((APICommandReportBlock)availableCommands.get("REPORT_BLOCK")).blockPosCalled.keySet().size())*30);
+							else
+								totalRewardScore.set(totalRewardScore.get() + 16640);
+							((APICommandReportBlock)availableCommands.get("REPORT_BLOCK")).macguffinReported = true;
+						}
 						break search;
 					}
 				}
@@ -317,8 +342,17 @@ public class BotAPI {
 			search: for(int x = (int)player.posX - 5; x < (int)player.posX + 5; x++) {
 				for(int z = (int)player.posZ - 5; z < (int)player.posZ + 5; z++) {
 					if(player.worldObj.getBlockState(new BlockPos(x, (int)player.posY - 1, z)).getBlock() == Blocks.lapis_block) {
-						totalRewardScore.set(totalRewardScore.get() + 32000);
-						nearTarget.set(true);
+						if(player.inventory.hasItem(Item.getItemFromBlock(PolycraftRegistry.getBlock("MacGuffin")))) {
+							totalRewardScore.set(totalRewardScore.get() + 32000);
+							nearTarget.set(true);
+						}
+						if(!((APICommandReportBlock)availableCommands.get("REPORT_BLOCK")).targetReported) {
+							if(((APICommandReportBlock)availableCommands.get("REPORT_BLOCK")).macguffinReported)
+								totalRewardScore.set(totalRewardScore.get() + 16640 + (1024-((APICommandReportBlock)availableCommands.get("REPORT_BLOCK")).blockPosCalled.keySet().size())*30);
+							else
+								totalRewardScore.set(totalRewardScore.get() + 16640);
+							((APICommandReportBlock)availableCommands.get("REPORT_BLOCK")).targetReported = true;
+						}
 						break search;
 					}
 				}
@@ -326,9 +360,72 @@ public class BotAPI {
 		}
 		
 		if(!obtainedMacguffin.get()) {
-			if(player.inventory.hasItem(PolycraftRegistry.getItem("polycraft:macguffin"))) {
+			if(player.inventory.hasItem(Item.getItemFromBlock(PolycraftRegistry.getBlock("MacGuffin")))) {
 				totalRewardScore.set(totalRewardScore.get() + 48000);
 				obtainedMacguffin.set(true);
+			}
+		}
+		
+
+//	    public static AtomicInteger harvestedLogs = new AtomicInteger(3);
+//	    public static AtomicInteger craftedPlanks = new AtomicInteger(3);
+//	    public static AtomicInteger craftedSticks = new AtomicInteger(2);
+//	    public static AtomicInteger craftedTreeTap = new AtomicInteger(1);
+//	    public static AtomicBoolean placedTreeTap = new AtomicBoolean(false);
+//	    public static AtomicBoolean harvestedRubber = new AtomicBoolean(false);
+//	    public static AtomicBoolean craftedPogoStick = new AtomicBoolean(false);
+		
+		if(!harvestedLogs.get()) {
+			if(player.inventory.hasItem(Item.getItemFromBlock(Blocks.log)) || player.inventory.hasItem(Item.getItemFromBlock(Blocks.log2))) {
+				totalRewardScore.set(totalRewardScore.get() + 4000);
+				harvestedLogs.set(true);
+			}
+		}
+		
+		if(!craftedPlanks.get()) {
+			if(player.inventory.hasItem(Item.getItemFromBlock(Blocks.planks))) {
+				totalRewardScore.set(totalRewardScore.get() + 8000);
+				craftedPlanks.set(true);
+			}
+		}
+		
+		if(!craftedSticks.get()) {
+			if(player.inventory.hasItem(Items.stick)) {
+				totalRewardScore.set(totalRewardScore.get() + 4000);
+				craftedSticks.set(true);
+			}
+		}
+		
+		if(!craftedTreeTap.get()) {
+			if(player.inventory.hasItem(Item.getItemFromBlock(PolycraftRegistry.getBlock("Tree Tap")))) {
+				totalRewardScore.set(totalRewardScore.get() + 16000);
+				craftedTreeTap.set(true);
+			}
+		}
+		
+		if(!placedTreeTap.get()) {
+			search: for(int x = (int)player.posX - 5; x < (int)player.posX + 5; x++) {
+				for(int z = (int)player.posZ - 5; z < (int)player.posZ + 5; z++) {
+					if(player.worldObj.getBlockState(new BlockPos(x, (int)player.posY, z)).getBlock() == PolycraftRegistry.getBlock("Tree Tap")) {
+						totalRewardScore.set(totalRewardScore.get() + 32000);
+						placedTreeTap.set(true);
+						break search;
+					}
+				}
+			}
+		}
+		
+		if(!harvestedRubber.get()) {
+			if(player.inventory.hasItem(PolycraftRegistry.getItem("Sack (PolyIsoPrene Pellets)"))) {
+				totalRewardScore.set(totalRewardScore.get() + 64000);
+				harvestedRubber.set(true);
+			}
+		}
+		
+		if(!craftedPogoStick.get()) {
+			if(player.inventory.hasItem(PolycraftRegistry.getItem("Wooden Pogo Stick"))) {
+				totalRewardScore.set(totalRewardScore.get() + 128000);
+				craftedPogoStick.set(true);
 			}
 		}
 		
@@ -342,6 +439,12 @@ public class BotAPI {
 			Minecraft.getMinecraft().gameSettings.saveOptions();
 		}
 		
+		if(resetCounter > 0) {
+			resetCounter--;
+			if(resetCounter == 0)
+				scoreChecks();
+			return;
+		}
 		
 		if(waitOnResult) {
 			if(serverResult != null) {
@@ -428,13 +531,12 @@ public class BotAPI {
 				
 			if(fromClient != null) {
 
-				if(!fromClient.startsWith("START"))
-					scoreChecks();
 				
 				Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
 				Minecraft.getMinecraft().setIngameFocus();
 	        	System.out.println(fromClient);
 	        	String args[] =  fromClient.split("\\s+");
+	        	
 	        	
 	        	boolean stepEndValue = true; //true for everything except multi-tick functions. ex. breakblock
 	        	if(!usingTempQ)	//don't set this when using a tempQ command.  We want to report the original command result
@@ -448,6 +550,7 @@ public class BotAPI {
 	        		}else {
 	        			PolycraftMod.logger.info("Sending Command to SERVER side: " + command.getClass().getName());
 	        			PolycraftMod.SChannel.sendToServer(new APICommandMessage(command, fromClient));
+	        			resetCounter = 1;
 	        			stepEndValue = false;	// TODO: we should only need one of these - SG
 	        			waitOnResult = true;
 	        		}
@@ -462,6 +565,11 @@ public class BotAPI {
 	        			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(argument));
 	        		}
 	            }
+
+	        	if(!fromClient.startsWith("START")) {
+	        		scoreChecks();
+	        	}
+	        	
 	            stepEnd.set(stepEndValue);	//set stepEnd value to update python wrapper with current observations
 	        }
 		}
@@ -561,11 +669,9 @@ public class BotAPI {
 	                        		if(!stepEnd.get() && Duration.between(time, Instant.now()).getSeconds() >= 10)
 	                        			setResult(new APICommandResult(fromClientSplit, Result.ACTION_TIMEOUT, "Action timed out on server side", -1337));
 	                        		if(fromClient.toUpperCase().startsWith("RESET")) {
-	                        			totalCostIncurred.set(0F);
-	                        			totalRewardScore.set(0F);
 	                        			setResult(new APICommandResult(fromClientSplit, Result.SUCCESS, "Attempting Reset", 0));
 	                        			JsonObject jobj = commandResult.get().getJobject();
-	                        	        jobj.add("command_result", commandResult.get().toJson());
+	                        	        jobj.add("command_result", commandResult.get().getPrintJObject());
 	                        	        stepCount = 0;
 	                        	        jobj.addProperty("step", stepCount++);
 	                        	        jobj.addProperty("score", totalRewardScore.get());
@@ -578,13 +684,14 @@ public class BotAPI {
 	                        			totalCostIncurred.set(totalCostIncurred.get() + commandResult.get().getCost());
 	                        			totalRewardScore.set(totalRewardScore.get() + commandResult.get().getScore());
 	                        			JsonObject jobj = commandResult.get().getJobject();
-	                        	        jobj.add("command_result", commandResult.get().toJson());
+	                        	        jobj.add("command_result", commandResult.get().getPrintJObject());
 	                        	        if(fromClient.toUpperCase().startsWith("START"))
 	                        	        	jobj.addProperty("version", PolycraftMod.VERSION);
 	                        	        jobj.addProperty("step", stepCount++);
-	                        	        jobj.addProperty("score", totalRewardScore.get());
+	                        	        jobj.addProperty("score", totalRewardScore.get() - totalCostIncurred.get());
 	                        			toClient = jobj.toString();
 	                        			PolycraftMod.logger.info("[CLIENT]" + toClient);
+	                        			PolycraftMod.logger.info("[SCORE]" + "step:" + stepCount + ",totalCost:" + totalCostIncurred + ",totalReward:" + totalRewardScore + ",adjustedReward:" + (totalRewardScore.get() - totalCostIncurred.get()));
 	                        			out.println(toClient);
 	                        	        client.getOutputStream().flush();
 	                        		}
