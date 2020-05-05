@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import com.google.gson.JsonObject;
 
+import edu.utd.minecraft.mod.polycraft.aitools.BotAPI;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyLabel;
 import edu.utd.minecraft.mod.polycraft.client.gui.api.GuiPolyNumField;
 import edu.utd.minecraft.mod.polycraft.client.gui.exp.creation.GuiExpCreator;
@@ -87,8 +88,13 @@ public class TutorialFeatureEnd extends TutorialFeature{
 				return true;
 			break;
 		case BLOCK_TO_LOCATION:
-			if(player.worldObj.getBlockState(locationToReach).getBlock() == Block.getBlockFromName(blockToPlace))
+			if(player.worldObj.getBlockState(locationToReach).getBlock() == Block.getBlockFromName(blockToPlace)) {
+				if(!BotAPI.placedMacguffinOnTarget.get()) {
+					BotAPI.placedMacguffinOnTarget.set(true);
+					BotAPI.totalRewardScore.set(BotAPI.totalRewardScore.get() + 96000);
+				}
 				return true;
+			}
 			break;
 		case LOCATION:
 			break;

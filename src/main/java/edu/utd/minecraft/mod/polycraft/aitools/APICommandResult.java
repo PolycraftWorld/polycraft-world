@@ -23,6 +23,7 @@ public class APICommandResult {
 	private Result result;
 	private String message;
 	private float stepCost;
+	private float rewardScore = 0;
 	private JsonObject jobject;
 	
 	/**
@@ -73,6 +74,7 @@ public class APICommandResult {
 		jobject.addProperty("result", result.name());
 		jobject.addProperty("message", message);
 		jobject.addProperty("stepCost", stepCost);
+		jobject.addProperty("rewardScore", rewardScore);
 		return jobject;
 	}
 	
@@ -91,11 +93,14 @@ public class APICommandResult {
 	
     public static APICommandResult fromJson(JsonObject jobject)
     {
-    	return new APICommandResult(jobject.get("command").getAsString(),
+    	APICommandResult result = new APICommandResult(jobject.get("command").getAsString(),
     			jobject.get("argument").getAsString().split(" "),
     			Result.valueOf(jobject.get("result").getAsString()),
     			jobject.get("message").getAsString(),
     			jobject.get("stepCost").getAsFloat());
+    	result.setScore(jobject.get("rewardScore").getAsFloat());
+    	
+    	return result;
     }
 
 	public String getCommand() {
@@ -112,6 +117,14 @@ public class APICommandResult {
 	
 	public float getCost() {
 		return stepCost;
+	}
+	
+	public void setScore(float score) {
+		this.rewardScore = score;
+	}
+	
+	public float getScore() {
+		return rewardScore;
 	}
 
 	public void setArgs(String[] args) {

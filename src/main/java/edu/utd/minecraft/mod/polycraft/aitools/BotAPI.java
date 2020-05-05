@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -25,6 +26,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import edu.utd.minecraft.mod.polycraft.PolycraftMod;
+import edu.utd.minecraft.mod.polycraft.PolycraftRegistry;
 import edu.utd.minecraft.mod.polycraft.aitools.APICommandResult.Result;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandBase;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandBreakBlock;
@@ -36,7 +38,9 @@ import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandMoveDir;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandMoveEgo;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandObservation;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandObservation.ObsType;
+import edu.utd.minecraft.mod.polycraft.block.BlockMacGuffin;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandPlaceBlock;
+import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandReportBlock;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandSelectItem;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandStart;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandTeleport;
@@ -57,6 +61,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.launchwrapper.Launch;
@@ -98,6 +103,20 @@ public class BotAPI {
 	public static float senseAllCost = senseInventoryCost + senseLocationsCost + senseMapCost;	
 
 	public static AtomicReference<Float> totalCostIncurred = new AtomicReference<Float>(new Float(0));
+	public static AtomicReference<Float> totalRewardScore = new AtomicReference<Float>(new Float(0));
+	
+	//Score tracking
+    public static AtomicBoolean nearMacguffin = new AtomicBoolean(false);
+    public static AtomicBoolean obtainedMacguffin = new AtomicBoolean(false);
+    public static AtomicBoolean nearTarget = new AtomicBoolean(false);
+    public static AtomicBoolean placedMacguffinOnTarget = new AtomicBoolean(false);
+    public static AtomicInteger harvestedLogs = new AtomicInteger(3);
+    public static AtomicInteger craftedPlanks = new AtomicInteger(3);
+    public static AtomicInteger craftedSticks = new AtomicInteger(2);
+    public static AtomicInteger craftedTreeTap = new AtomicInteger(1);
+    public static AtomicBoolean placedTreeTap = new AtomicBoolean(false);
+    public static AtomicBoolean harvestedRubber = new AtomicBoolean(false);
+    public static AtomicBoolean craftedPogoStick = new AtomicBoolean(false);
 	
 	public static BotAPI INSTANCE= new BotAPI();
 	static String fromClient;
@@ -123,6 +142,7 @@ public class BotAPI {
     private static int stepCount = 0;
     static int delay = 0;
     static String tempQ = null;
+    
 
     // this is set from the client .. I think
 	public static void setResult(APICommandResult result) {
@@ -165,6 +185,7 @@ public class BotAPI {
 			if(commandResult.get().getArgs() != null)
 					Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Args: " + String.join(" ", commandResult.get().getArgs())));
 			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Action Cost: " + commandResult.get().getCost()));
+			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Reward Score: " + commandResult.get().getScore()));
 		}
 	}
 	
@@ -264,6 +285,54 @@ public class BotAPI {
 		}
 	}
 	
+	private static void scoreChecks() {
+//		public static AtomicBoolean nearMacguffin = new AtomicBoolean(false);
+//	    public static AtomicBoolean obtainedMacguffin = new AtomicBoolean(false);
+//	    public static AtomicBoolean nearTarget = new AtomicBoolean(false);
+//	    public static AtomicBoolean placedMacguffinOnTarget = new AtomicBoolean(false);
+//	    public static AtomicInteger harvestedLogs = new AtomicInteger(3);
+//	    public static AtomicInteger craftedPlanks = new AtomicInteger(3);
+//	    public static AtomicInteger craftedSticks = new AtomicInteger(2);
+//	    public static AtomicInteger craftedTreeTap = new AtomicInteger(1);
+//	    public static AtomicBoolean placedTreeTap = new AtomicBoolean(false);
+//	    public static AtomicBoolean harvestedRubber = new AtomicBoolean(false);
+//	    public static AtomicBoolean craftedPogoStick = new AtomicBoolean(false);
+		
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		
+		if(!nearMacguffin.get()) {
+			search: for(int x = (int)player.posX - 5; x < (int)player.posX + 5; x++) {
+				for(int z = (int)player.posZ - 5; z < (int)player.posZ + 5; z++) {
+					if(player.worldObj.getBlockState(new BlockPos(x, (int)player.posY, z)).getBlock() instanceof BlockMacGuffin) {
+						totalRewardScore.set(totalRewardScore.get() + 16000);
+						nearMacguffin.set(true);
+						break search;
+					}
+				}
+			}
+		}
+		
+		if(!nearTarget.get()) {
+			search: for(int x = (int)player.posX - 5; x < (int)player.posX + 5; x++) {
+				for(int z = (int)player.posZ - 5; z < (int)player.posZ + 5; z++) {
+					if(player.worldObj.getBlockState(new BlockPos(x, (int)player.posY - 1, z)).getBlock() == Blocks.lapis_block) {
+						totalRewardScore.set(totalRewardScore.get() + 32000);
+						nearTarget.set(true);
+						break search;
+					}
+				}
+			}
+		}
+		
+		if(!obtainedMacguffin.get()) {
+			if(player.inventory.hasItem(PolycraftRegistry.getItem("polycraft:macguffin"))) {
+				totalRewardScore.set(totalRewardScore.get() + 48000);
+				obtainedMacguffin.set(true);
+			}
+		}
+		
+	}
+	
 	public static void onClientTick() {
 		//we don't want the game to pause
 		if(Minecraft.getMinecraft().gameSettings.pauseOnLostFocus)
@@ -271,6 +340,7 @@ public class BotAPI {
 			Minecraft.getMinecraft().gameSettings.pauseOnLostFocus = false;
 			Minecraft.getMinecraft().gameSettings.saveOptions();
 		}
+		
 		
 		if(waitOnResult) {
 			if(serverResult != null) {
@@ -343,6 +413,9 @@ public class BotAPI {
 				availableCommands.put("BREAK_BLOCK", new APICommandBreakBlock(blockBreakCost));
 				availableCommands.put("EXTRACT_RUBBER", new APICommandCollect(blockBreakCost));
 				
+				availableCommands.put("REPORT_BLOCK", new APICommandReportBlock(0));
+				availableCommands.put("REPORT_NOVELTY", new APICommandReportBlock(0));
+				
 				availableCommands.put("SENSE_ALL", new APICommandObservation(senseAllCost, ObsType.ALL));
 				availableCommands.put("SENSE_INVENTORY", new APICommandObservation(senseInventoryCost, ObsType.INVENTORY));
 				availableCommands.put("SENSE_LOCATIONS", new APICommandObservation(senseLocationsCost, ObsType.LOCATIONS));
@@ -354,6 +427,9 @@ public class BotAPI {
 				
 			if(fromClient != null) {
 
+				if(!fromClient.startsWith("START"))
+					scoreChecks();
+				
 				Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
 				Minecraft.getMinecraft().setIngameFocus();
 	        	System.out.println(fromClient);
@@ -483,11 +559,13 @@ public class BotAPI {
 	                        			setResult(new APICommandResult(fromClientSplit, Result.ACTION_TIMEOUT, "Action timed out on server side", -1337));
 	                        		if(fromClient.toUpperCase().startsWith("RESET")) {
 	                        			totalCostIncurred.set(0F);
+	                        			totalRewardScore.set(0F);
 	                        			setResult(new APICommandResult(fromClientSplit, Result.SUCCESS, "Attempting Reset", 0));
 	                        			JsonObject jobj = commandResult.get().getJobject();
 	                        	        jobj.add("command_result", commandResult.get().toJson());
 	                        	        stepCount = 0;
 	                        	        jobj.addProperty("step", stepCount++);
+	                        	        jobj.addProperty("score", totalRewardScore.get());
 	                        			toClient = jobj.toString();
 	                        			out.println(toClient);
 	                        	        client.getOutputStream().flush();
@@ -495,11 +573,13 @@ public class BotAPI {
 	                        			// print command result instead of observations
 	                        			//toClient = TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getObservations().toString();
 	                        			totalCostIncurred.set(totalCostIncurred.get() + commandResult.get().getCost());
+	                        			totalRewardScore.set(totalRewardScore.get() + commandResult.get().getScore());
 	                        			JsonObject jobj = commandResult.get().getJobject();
 	                        	        jobj.add("command_result", commandResult.get().toJson());
 	                        	        if(fromClient.toUpperCase().startsWith("START"))
 	                        	        	jobj.addProperty("version", PolycraftMod.VERSION);
 	                        	        jobj.addProperty("step", stepCount++);
+	                        	        jobj.addProperty("score", totalRewardScore.get());
 	                        			toClient = jobj.toString();
 	                        			out.println(toClient);
 	                        	        client.getOutputStream().flush();
