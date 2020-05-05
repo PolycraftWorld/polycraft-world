@@ -109,7 +109,7 @@ public class APICommandReportBlock extends APICommandBase{
 			if(player.worldObj.getBlockState(new BlockPos(x, player.getPosition().getY() - 1, z)).getBlock() == Blocks.lapis_block) {	// TODO: make this more general
 				targetReported = true;
 				APICommandResult result = new APICommandResult(args, APICommandResult.Result.SUCCESS, "Report Accurate", this.stepCost);
-				result.setScore(16670);
+				result.setScore(16670 + (1024-blockPosCalled.keySet().size())*30);
 				return result;
 			}else {
 				APICommandResult result = new APICommandResult(args, APICommandResult.Result.FAIL, "Report Inaccurate", this.stepCost);
