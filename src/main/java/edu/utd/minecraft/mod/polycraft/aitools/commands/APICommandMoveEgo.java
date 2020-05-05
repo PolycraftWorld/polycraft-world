@@ -69,16 +69,19 @@ public class APICommandMoveEgo extends APICommandBase{
 			if(CheckIfBlockCollide(player.worldObj, player.getPosition().add(x, 0, z)))
 				return new APICommandResult(args, APICommandResult.Result.FAIL, "Block in path", this.stepCost);
 			
+			boolean isDiagonal = false;
+			
 			if(!(x == 0 || z == 0)) {	//check if path is free of collisions
 				if(CheckIfBlockCollide(player.worldObj, player.getPosition().add(x, 0, 0)) ||
 						CheckIfBlockCollide(player.worldObj, player.getPosition().add(0, 0, z))) {
 					return new APICommandResult(args, APICommandResult.Result.FAIL, "Block in path", (float) (this.stepCost * Math.sqrt(2))); // Diagonals should be multiplied by sqrt(2)
 				}
+				isDiagonal = true;
 			}
 			double newX = player.posX - Math.round(Math.sin(Math.toRadians(player.rotationYaw + angle)));
 			double newZ = player.posZ + Math.round(Math.cos(Math.toRadians(player.rotationYaw + angle)));
 			player.setPositionAndRotation(newX, player.posY, newZ,player.rotationYaw, player.rotationPitch);
-			return new APICommandResult(args, APICommandResult.Result.SUCCESS, "", this.stepCost);
+			return new APICommandResult(args, APICommandResult.Result.SUCCESS, "", (float) (this.stepCost * (isDiagonal? Math.sqrt(2):1)));
 		}else
 			return new APICommandResult(args, APICommandResult.Result.FAIL, "Invalid Syntax", this.stepCost);
 	}
