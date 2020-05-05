@@ -41,6 +41,7 @@ import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandObservation.Ob
 import edu.utd.minecraft.mod.polycraft.block.BlockMacGuffin;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandPlaceBlock;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandReportBlock;
+import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandReportNovelty;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandSelectItem;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandStart;
 import edu.utd.minecraft.mod.polycraft.aitools.commands.APICommandTeleport;
@@ -158,7 +159,7 @@ public class BotAPI {
 		}
 		commandResult.set(result);
 		serverResult = null;
-		printResult();
+		//printResult();
 		waitOnResult = false;
 	}
 	
@@ -352,7 +353,7 @@ public class BotAPI {
 			else {
 				commandResult.get().setResult(APICommandResult.Result.ACTION_TIMEOUT);
 				commandResult.get().setMessage("Action Timed out. Unknown Result");;
-				printResult();
+				//printResult();
 				stepEnd.set(true);
 				waitOnResult = false;
 			}
@@ -414,7 +415,7 @@ public class BotAPI {
 				availableCommands.put("EXTRACT_RUBBER", new APICommandCollect(blockBreakCost));
 				
 				availableCommands.put("REPORT_BLOCK", new APICommandReportBlock(0));
-				availableCommands.put("REPORT_NOVELTY", new APICommandReportBlock(0));
+				availableCommands.put("REPORT_NOVELTY", new APICommandReportNovelty(0));
 				
 				availableCommands.put("SENSE_ALL", new APICommandObservation(senseAllCost, ObsType.ALL));
 				availableCommands.put("SENSE_INVENTORY", new APICommandObservation(senseInventoryCost, ObsType.INVENTORY));
@@ -540,6 +541,8 @@ public class BotAPI {
 	                        		stepEnd.set(false);
 	                        		Instant time = Instant.now();
 	                        		
+	                        		PolycraftMod.logger.info("[AGENT]" + fromClient);
+	                        		
 	                        		if(fromClient.startsWith("START")) {
 		                        		mainThread = Minecraft.getMinecraft();
 			                            mainThread.addScheduledTask(new Runnable()
@@ -581,6 +584,7 @@ public class BotAPI {
 	                        	        jobj.addProperty("step", stepCount++);
 	                        	        jobj.addProperty("score", totalRewardScore.get());
 	                        			toClient = jobj.toString();
+	                        			PolycraftMod.logger.info("[CLIENT]" + toClient);
 	                        			out.println(toClient);
 	                        	        client.getOutputStream().flush();
 	                        		}
