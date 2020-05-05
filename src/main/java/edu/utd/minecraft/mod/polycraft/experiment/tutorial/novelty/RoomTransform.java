@@ -29,14 +29,15 @@ public class RoomTransform extends ElementTransform{
 			if(this.seedOverride == -1)
 				seedOverride = seed;
 			Random rand = new Random(seedOverride);
+			int wallMeta = rand.nextInt(15);
 			if(feature instanceof TutorialFeatureRoom) {
-				((TutorialFeatureRoom)feature).setBlockFloorMeta(4);
-				((TutorialFeatureRoom)feature).setBlockWallMeta(3);
-				((TutorialFeatureRoom)feature).setBlockRefMeta(8);
+				((TutorialFeatureRoom)feature).setBlockFloorMeta(rand.nextInt(15));
+				((TutorialFeatureRoom)feature).setBlockWallMeta(wallMeta);
+				((TutorialFeatureRoom)feature).setBlockRefMeta(rand.nextInt(15));
 				((TutorialFeatureRoom)feature).setIntensity(intensity);
 			}
 			if(feature instanceof TutorialFeatureWall) {
-				((TutorialFeatureWall)feature).setWallBlockMeta(3);
+				((TutorialFeatureWall)feature).setWallBlockMeta(wallMeta);
 				((TutorialFeatureWall)feature).setIntensity(intensity);
 			}
 			
