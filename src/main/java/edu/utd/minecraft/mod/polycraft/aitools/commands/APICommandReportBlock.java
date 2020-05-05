@@ -11,6 +11,9 @@ import edu.utd.minecraft.mod.polycraft.aitools.APICommandResult;
 import edu.utd.minecraft.mod.polycraft.aitools.APICommandResult.Result;
 import edu.utd.minecraft.mod.polycraft.aitools.APIHelper.CommandResult;
 import edu.utd.minecraft.mod.polycraft.block.BlockMacGuffin;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeature;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureEnd;
+import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialFeatureEnd.EndCondition;
 import edu.utd.minecraft.mod.polycraft.experiment.tutorial.TutorialManager;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.InventoryMessage;
 import edu.utd.minecraft.mod.polycraft.privateproperty.network.TeleportMessage;
@@ -38,7 +41,7 @@ public class APICommandReportBlock extends APICommandBase{
 		TARGET
 	}
 	
-	HashMap<BlockPos, Boolean> blockPosCalled = new HashMap<BlockPos, Boolean>();
+	public HashMap<BlockPos, Boolean> blockPosCalled = new HashMap<BlockPos, Boolean>();
 	public boolean macguffinReported = false;
 	public boolean targetReported = false;
 	
@@ -55,6 +58,16 @@ public class APICommandReportBlock extends APICommandBase{
 	@Override
 	public APICommandResult clientExecute(String[] args) {
 		// Process on client side
+		//check to make sure we are in hunter gatherer experiment
+		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {	//can only get these values if there is a running experiment
+			for(TutorialFeature feature: TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).getFeatures()) {
+				if(feature instanceof TutorialFeatureEnd) {
+					if(((TutorialFeatureEnd)feature).endCondition == EndCondition.ITEM)
+						return new APICommandResult(args, APICommandResult.Result.FAIL, "Would you like to try the hunter gatherer?", this.stepCost);
+				}
+			}
+		}
+		
 		
 		//Initialize some vars
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
@@ -72,6 +85,19 @@ public class APICommandReportBlock extends APICommandBase{
 		if(blockPosCalled.containsKey(blockPos)) {
 			return new APICommandResult(args, APICommandResult.Result.FAIL, "Block already reported", this.stepCost);
 		}
+		
+		//Check if target position is inside our working area
+		AxisAlignedBB area = null;
+		if(TutorialManager.INSTANCE.clientCurrentExperiment != -1) {	//can only get these values if there is a running experiment
+			BlockPos posOffset = new BlockPos(TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).posOffset);
+			area = new AxisAlignedBB(posOffset,
+					new BlockPos(TutorialManager.INSTANCE.getExperiment(TutorialManager.INSTANCE.clientCurrentExperiment).pos2).add(posOffset.add(1,0,1)));
+			area = area.offset(-0.5, 0, -0.5);
+			if(!area.isVecInside(new Vec3(blockPos))) {
+				return new APICommandResult(args, APICommandResult.Result.FAIL, "Block outside experiment area", this.stepCost);
+			}
+		}
+		
 		blockPosCalled.put(blockPos, true);
 		
 		switch(type) {
