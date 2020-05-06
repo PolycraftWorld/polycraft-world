@@ -3,12 +3,12 @@ import sys
 
 
 def execute(command):
-    process = subprocess.Popen(command, shell=True, cwd='../', stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    pal_client_process = subprocess.Popen(command, shell=True, cwd='../', stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     count = 0
     # Poll process for new output until finished
     while True:
-        nextline = process.stdout.readline()
-        if nextline == '' and process.poll() is not None:
+        nextline = pal_client_process.stdout.readline()
+        if nextline == '' and pal_client_process.poll() is not None:
             break
         if len(str(nextline)) > 3:
             sys.stdout.write(str(nextline) + '\n')
@@ -17,8 +17,8 @@ def execute(command):
         # if count > 25:
         #     break
 
-    output = process.communicate()[0]
-    exitCode = process.returncode
+    output = pal_client_process.communicate()[0]
+    exitCode = pal_client_process.returncode
 
     if (exitCode == 0):
         return output
