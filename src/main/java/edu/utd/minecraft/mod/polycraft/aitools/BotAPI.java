@@ -674,7 +674,7 @@ public class BotAPI {
 	                        	        jobj.add("command_result", commandResult.get().getPrintJObject());
 	                        	        stepCount = 0;
 	                        	        jobj.addProperty("step", stepCount++);
-	                        	        jobj.addProperty("score", totalRewardScore.get());
+//	                        	        jobj.addProperty("score", totalRewardScore.get());
 	                        			toClient = jobj.toString();
 	                        			out.println(toClient);
 	                        	        client.getOutputStream().flush();
@@ -688,7 +688,7 @@ public class BotAPI {
 	                        	        if(fromClient.toUpperCase().startsWith("START"))
 	                        	        	jobj.addProperty("version", PolycraftMod.VERSION);
 	                        	        jobj.addProperty("step", stepCount++);
-	                        	        jobj.addProperty("score", totalRewardScore.get() - totalCostIncurred.get());
+//	                        	        jobj.addProperty("score", totalRewardScore.get() - totalCostIncurred.get());
 	                        			toClient = jobj.toString();
 	                        			PolycraftMod.logger.info("[CLIENT]" + toClient);
 	                        			PolycraftMod.logger.info("[SCORE]" + "step:" + stepCount + ",totalCost:" + totalCostIncurred + ",totalReward:" + totalRewardScore + ",adjustedReward:" + (totalRewardScore.get() - totalCostIncurred.get()));
