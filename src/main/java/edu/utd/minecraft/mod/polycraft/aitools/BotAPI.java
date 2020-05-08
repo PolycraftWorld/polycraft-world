@@ -266,7 +266,7 @@ public class BotAPI {
 	}
 	
 	public static void reset(String args[]){
-		resetCounter = 20;
+//		resetCounter = 20;
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		
 		player.sendChatMessage("/reset " + String.join(" ", (String[])Arrays.copyOfRange(args, 1, args.length)));
@@ -550,7 +550,7 @@ public class BotAPI {
 	        		}else {
 	        			PolycraftMod.logger.info("Sending Command to SERVER side: " + command.getClass().getName());
 	        			PolycraftMod.SChannel.sendToServer(new APICommandMessage(command, fromClient));
-	        			resetCounter = 1;
+//	        			resetCounter = 1;
 	        			stepEndValue = false;	// TODO: we should only need one of these - SG
 	        			waitOnResult = true;
 	        		}
